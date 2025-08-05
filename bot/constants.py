@@ -1,6 +1,6 @@
 # bot/constants.py
 
-prefix = "."
+prefix = "-"
 
 # EXTENSIONS
 

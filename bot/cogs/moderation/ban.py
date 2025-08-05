@@ -3,7 +3,6 @@
 # LIBRARIES AND MODULES
 
 ## pycord
-
 import discord
 from discord.ext import commands
 
@@ -18,7 +17,7 @@ class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def ban_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
+  async def ban_member(self, ctx, member: discord.Member, reason="reason", is_slash=False):
     user = ctx.author
 
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
@@ -26,7 +25,7 @@ class Ban(commands.Cog):
       if reason is None:
         await member.ban(reason="None provided.")
       else:
-        await member.ban(reason=reason)
+        await member.ban(reason="reason")
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       if is_slash:
@@ -48,13 +47,13 @@ class Ban(commands.Cog):
       await ctx.send(message)
 
   @commands.command()
-  async def ban(self, ctx, member, reason):
-    await self.ban_member(ctx, member, reason)
+  async def ban(self, ctx, member, reason = "reason"):
+    await self.ban_member(ctx, member,reason = "reason")
 
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
-  async def slash_ban(self, ctx, member, reason):
-    await self.ban_member(ctx, member, reason, is_slash=True)
+  async def slash_ban(self, ctx, member, reason ="reason"):
+    await self.ban_member(ctx, member, reason ="reason", is_slash=True)
 
 # FUNCTIONS
 
