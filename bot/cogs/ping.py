@@ -25,7 +25,7 @@ class Ping(commands.Cog):
   @commands.command()
   async def ping(self, ctx):
     latency = round(self.bot.latency * 1000)
-    user = ctx.user
+    user = ctx.author
 
     console.log(f"Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}", "LOG")
@@ -36,7 +36,7 @@ class Ping(commands.Cog):
   @commands.slash_command(name="ping", description="ping the bot!")
   async def slash_ping(self, ctx: discord.ApplicationContext):
     latency = round(self.bot.latency * 1000)
-    user = ctx.user
+    user = ctx.author
 
     console.log(f"[SLASH] Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}", "LOG")
