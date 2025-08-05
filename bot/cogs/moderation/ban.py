@@ -17,7 +17,7 @@ import bot.console as console
 class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  
+
   async def ban_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
@@ -50,7 +50,7 @@ class Ban(commands.Cog):
   @commands.command()
   async def ban(self, ctx, member, reason):
     await self.ban_member(ctx, member, reason)
-  
+
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
   async def slash_ban(self, ctx, member, reason):
