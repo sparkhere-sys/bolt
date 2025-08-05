@@ -28,6 +28,7 @@ if token is None:
 # INIT
 
 intents = discord.Intents.default()
+intents.message_content = True
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 # FUNCTIONS
