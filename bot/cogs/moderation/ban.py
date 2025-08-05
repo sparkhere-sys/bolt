@@ -23,6 +23,7 @@ class Ban(commands.Cog):
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
         await member.ban(reason=reason)
+        await ctx.send("Offender bannished")
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       await ctx.send("I don't have permission to ban that user.")

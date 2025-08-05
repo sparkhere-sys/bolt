@@ -15,12 +15,13 @@ class Kick(commands.Cog):
   async def Kick_member(self,ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     user = ctx.author
     assert ctx.guild
-    console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
+    console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
     try:
         await member.kick(reason=reason)
+        await ctx.send("Offender removed.")
     except discord.Forbidden:
-      console.log(f"Failed to ban {member}, permission denied.", "ERROR")
-      await ctx.send("I don't have permission to ban that user.")
+      console.log(f"Failed to Kick {member}, permission denied.", "ERROR")
+      await ctx.send("I don't have permission to Kick that user.")
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       await ctx.send("Something went wrong, try again later.")
