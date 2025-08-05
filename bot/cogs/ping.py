@@ -15,11 +15,24 @@ import bot.console as console
 # CLASSES
 
 class Ping(commands.Cog):
-  # TODO: make this DRY
-
   def __init__(self, bot):
     self.bot = bot
   
+  async def send_message(self, ctx, is_slash=False):
+    latency = round(self.bot.latency * 1000)
+    user = ctx.author
+
+    console.log(f"{'[SLASH]' if is_slash else ''} Ping requested by {user} ({user.id})", "LOG")
+    console.log(f"Latency: {latency}ms", "INFO")
+
+    message = f"Pong! \n{latency}ms"
+
+    if is_slash:
+      await ctx.respond(message)
+    else:
+      await ctx.send(message)
+
+
   # prefix command
 
   @commands.command()

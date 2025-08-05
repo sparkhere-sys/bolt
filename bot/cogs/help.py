@@ -26,8 +26,14 @@ class Help(commands.Cog):
     _help = f"""
 ## Available Commands
 
-{prefix}help: This message
-{prefix}ping: Ping the bot.
+### Uncategorized
+
+`{prefix}help`: This message
+`{prefix}ping`: Ping the bot.
+
+### Moderation
+
+`{prefix}ban`: Ban a member.
 
 ## Support Server
 Join the support server:
@@ -43,7 +49,7 @@ https://discord.gg/hF6mgCE3gT
   # slash commands
   @commands.slash_command(name="help", description="send the help message.")
   async def slash_help(self, ctx):
-    await self.send_message(ctx)
+    await self.send_message(ctx, is_slash=True)
 
 # FUNCTIONS
 def setup(bot):

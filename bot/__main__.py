@@ -8,5 +8,3 @@ if __name__ == "__main__":
     bot.run()
   except Exception as e:
     console.log(f"Something happened. exception: {e}", "FATAL")
-  except KeyboardInterrupt:
-    console.log("Shutting down...", "LOG")

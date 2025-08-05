@@ -1,3 +1,11 @@
 # bot/constants.py
 
 prefix = "."
+
+# EXTENSIONS
+
+extensions = (
+  "bot.cogs.ping",
+  "bot.cogs.help",
+  "bot.cogs.ban"
+)

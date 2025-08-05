@@ -39,8 +39,9 @@ async def on_ready():
   console.log(f"Bolt is online as {bot.user}", "LOG")
 
 def load_cogs():
-  bot.load_extension("bot.cogs.ping")
-  bot.load_extension("bot.cogs.help")
+  # TODO: use pathlib.Path and iterdir()
+  for ext in extensions:
+    bot.load_extension(ext)
 
 def run():
   load_cogs()
