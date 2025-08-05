@@ -18,7 +18,7 @@ class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def ban_member(self, ctx, member: discord.Member, *, reason=None, is_slash=False):
+  async def ban_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
