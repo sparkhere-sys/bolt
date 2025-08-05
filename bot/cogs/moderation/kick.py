@@ -14,11 +14,15 @@ class Kick(commands.Cog):
 
   async def Kick_member(self,ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     user = ctx.author
+
     assert ctx.guild
     console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
     try:
-        await member.kick(reason=reason)
-        await ctx.send("Offender removed.")
+        if user==member:
+            await ctx.send("No IDIOT")
+        else:
+            await member.kick(reason=reason)
+            await ctx.send("Offender removed.")
     except discord.Forbidden:
       console.log(f"Failed to Kick {member}, permission denied.", "ERROR")
       await ctx.send("I don't have permission to Kick that user.")

@@ -23,8 +23,11 @@ class Ban(commands.Cog):
     assert ctx.guild
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
-        await member.ban(reason=reason)
-        await ctx.send("Offender bannished")
+        if user==member:
+            await ctx.send("Wow you are stupid")
+        else:
+            await member.ban(reason=reason)
+            await ctx.send("Offender BANISHED!")
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       await ctx.send("I don't have permission to ban that user.")
