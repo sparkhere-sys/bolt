@@ -40,10 +40,7 @@ class Ban(commands.Cog):
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     await self.ban_member(ctx, member,reason)
-  @commands.command()
-  @commands.has_permissions(ban_members=True)
-  async def Ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
-      await self.ban_member(ctx, member,reason)
+
 # FUNCTIONS
 
 def setup(bot):
