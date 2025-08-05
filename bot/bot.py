@@ -40,6 +40,7 @@ async def on_ready():
 
 def load_cogs():
   bot.load_extension("bot.cogs.ping")
+  bot.load_extension("bot.cogs.help")
 
 def run():
   load_cogs()
