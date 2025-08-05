@@ -29,7 +29,7 @@ if token is None:
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix=prefix, intents=intents)
+bot = commands.Bot(command_prefix=prefix, intents=discord.Intents.all())
 bot.remove_command("help") # remove the built-in help command
 
 # FUNCTIONS

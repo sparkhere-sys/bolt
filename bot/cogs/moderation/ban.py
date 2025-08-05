@@ -17,44 +17,31 @@ class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def ban_member(self, ctx, member: discord.Member, reason="reason", is_slash=False):
+  async def ban_member(self,ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     user = ctx.author
-
+    assert ctx.guild
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
-      if reason is None:
-        await member.ban(reason="None provided.")
-      else:
-        await member.ban(reason="reason")
+        await member.ban(reason=reason)
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
-      if is_slash:
-        await ctx.send("I don't have permission to ban that user.")
-      else:
-        await ctx.send("I don't have permission to ban that user.")
+      await ctx.send("I don't have permission to ban that user.")
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
-      if is_slash:
-        await ctx.send("Something went wrong, try again later.")
-      else:
-        await ctx.send("Something went wrong, try again later.")
+      await ctx.send("Something went wrong, try again later.")
 
     message = f"Banned {member}. \nReason: {reason if reason else 'None provided.'}"
 
-    if is_slash:
-      await ctx.send(message)
-    else:
-      await ctx.send(message)
+
 
   @commands.command()
-  async def ban(self, ctx, member, reason = "reason"):
-    await self.ban_member(ctx, member,reason = "reason")
-
-  @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
-  async def slash_ban(self, ctx, member, reason ="reason"):
-    await self.ban_member(ctx, member, reason ="reason", is_slash=True)
-
+  async def ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
+    await self.ban_member(ctx, member,reason)
+  @commands.command()
+  @commands.has_permissions(ban_members=True)
+  async def Ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
+      await self.ban_member(ctx, member,reason)
 # FUNCTIONS
 
 def setup(bot):
