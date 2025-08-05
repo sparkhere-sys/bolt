@@ -23,7 +23,10 @@ class Ban(commands.Cog):
 
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
-      await member.ban(reason=reason)
+      if reason is None:
+        await member.ban(reason="None provided.")
+      else:
+        await member.ban(reason=reason)
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       if is_slash:
