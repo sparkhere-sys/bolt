@@ -17,10 +17,10 @@ from bot.constants import *
 class Help(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  
+
   async def send_message(self, ctx):
     user = ctx.author
-    
+
     console.log(f"Help requested by {user} ({user.id})", "LOG")
 
     _help = f"""
@@ -34,18 +34,19 @@ class Help(commands.Cog):
 ### Moderation
 
 `{prefix}ban`: Ban a member.
+`{prefix}kick`: kick a member.
 
 ## Support Server
 Join the support server:
 https://discord.gg/hF6mgCE3gT
 """
     await ctx.send(_help)
-  
+
   # prefix command
   @commands.command()
   async def help(self, ctx):
     await self.send_message(ctx)
-  
+
   # slash commands
   @commands.slash_command(name="help", description="send the help message.")
   async def slash_help(self, ctx):
