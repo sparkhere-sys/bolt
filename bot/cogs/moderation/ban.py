@@ -29,7 +29,7 @@ class Ban(commands.Cog):
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       if is_slash:
-        await ctx.respond("I don't have permission to ban that user.")
+        await ctx.send("I don't have permission to ban that user.")
       else:
         await ctx.send("I don't have permission to ban that user.")
     except Exception as e:
@@ -37,12 +37,12 @@ class Ban(commands.Cog):
       if is_slash:
         await ctx.send("Something went wrong, try again later.")
       else:
-        await ctx.respond("Something went wrong, try again later.")
+        await ctx.send("Something went wrong, try again later.")
 
     message = f"Banned {member.mention}. \nReason: {reason if reason else 'None provided.'}"
 
     if is_slash:
-      await ctx.respond(message)
+      await ctx.send(message)
     else:
       await ctx.send(message)
 
