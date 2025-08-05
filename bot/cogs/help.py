@@ -43,3 +43,7 @@ Join the support server at [https://discord.gg/hF6mgCE3gT](https://discord.gg/hF
   @commands.slash_command(name="help", description="send the help message.")
   async def slash_help(self):
     await self.send_message()
+
+# FUNCTIONS
+def setup(bot):
+  bot.add_cog(Help(bot))
