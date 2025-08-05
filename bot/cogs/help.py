@@ -36,13 +36,13 @@ Join the support server at [https://discord.gg/hF6mgCE3gT](https://discord.gg/hF
   
   # prefix command
   @commands.command()
-  async def help(self):
-    await self.send_message()
+  async def help(self, ctx):
+    await self.send_message(ctx)
   
   # slash commands
   @commands.slash_command(name="help", description="send the help message.")
-  async def slash_help(self):
-    await self.send_message()
+  async def slash_help(self, ctx):
+    await self.send_message(ctx)
 
 # FUNCTIONS
 def setup(bot):
