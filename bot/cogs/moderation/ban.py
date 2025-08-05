@@ -38,9 +38,9 @@ class Ban(commands.Cog):
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       if is_slash:
-        ctx.send("Something went wrong, try again later.")
-      else:
         ctx.respond("Something went wrong, try again later.")
+      else:
+        ctx.send("Something went wrong, try again later.")
       
       return False
 
