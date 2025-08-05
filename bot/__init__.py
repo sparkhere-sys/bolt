@@ -14,4 +14,6 @@ bot/
 * cogs/
 ** __init__.py
 ** ping.py
+**ban.py
+**kick.py
 '''
