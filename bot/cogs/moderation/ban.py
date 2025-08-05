@@ -39,7 +39,7 @@ class Ban(commands.Cog):
       else:
         await ctx.send("Something went wrong, try again later.")
 
-    message = f"Banned {member.mention}. \nReason: {reason if reason else 'None provided.'}"
+    message = f"Banned {member}. \nReason: {reason if reason else 'None provided.'}"
 
     if is_slash:
       await ctx.send(message)
