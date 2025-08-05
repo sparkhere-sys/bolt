@@ -24,7 +24,7 @@ class Ban(commands.Cog):
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
         if user==member:
-            await ctx.send("Wow you are stupid")
+            await ctx.send(f"Wow {user} is stupid")
         else:
             await member.ban(reason=reason)
             await ctx.send("Offender BANISHED!")

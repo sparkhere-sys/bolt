@@ -19,7 +19,7 @@ class Kick(commands.Cog):
     console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
     try:
         if user==member:
-            await ctx.send("No IDIOT")
+            await ctx.send(f"{user} is a IDIOT")
         else:
             await member.kick(reason=reason)
             await ctx.send("Offender removed.")
