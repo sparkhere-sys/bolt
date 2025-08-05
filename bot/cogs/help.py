@@ -30,7 +30,8 @@ class Help(commands.Cog):
 {prefix}ping: Ping the bot.
 
 ## Support Server
-Join the support server at [https://discord.gg/hF6mgCE3gT](https://discord.gg/hF6mgCE3gT)!
+Join the support server:
+https://discord.gg/hF6mgCE3gT
 """
     await ctx.send(_help)
   
