@@ -1,0 +1,3 @@
+# bot/constants.py
+
+prefix = "."
