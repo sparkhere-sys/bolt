@@ -43,9 +43,3 @@ def load_cogs():
 def run():
   load_cogs()
   bot.run(token)
-
-if __name__ == "__main__":
-  try:
-    run()
-  except Exception as e:
-    console.log(f"Something happened. exception: {e}", "FATAL")
