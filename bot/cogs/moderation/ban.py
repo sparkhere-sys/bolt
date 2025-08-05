@@ -18,18 +18,24 @@ class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def ban_member(self, ctx, member, reason=None, is_slash=False):
+  async def ban_member(self, ctx, member: discord.Member, *, reason=None, is_slash=False):
     user = ctx.author
 
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
       await member.ban(reason=reason)
-    except discord.HTTPException as e:
-      console.log(f"discord.HTTPException raised: {e}", "ERROR")
-      await ctx.send("Something went wrong, try again later.")
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
-      await ctx.send("I don't have permission to ban that user.")
+      if is_slash:
+        await ctx.respond("I don't have permission to ban that user.")
+      else:
+        await ctx.send("I don't have permission to ban that user.")
+    except Exception as e:
+      console.log(f"Exception raised: {e}", "ERROR")
+      if is_slash:
+        await ctx.send("Something went wrong, try again later.")
+      else:
+        await ctx.respond("Something went wrong, try again later.")
 
     message = f"Banned {member.mention}. \nReason: {reason if reason else 'None provided.'}"
 
