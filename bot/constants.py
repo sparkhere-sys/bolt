@@ -7,5 +7,5 @@ prefix = "."
 extensions = (
   "bot.cogs.ping",
   "bot.cogs.help",
-  "bot.cogs.ban"
+  "bot.cogs.moderation.ban"
 )
