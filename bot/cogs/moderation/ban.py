@@ -18,36 +18,41 @@ class Ban(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def ban_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
+  def ban_member(self, ctx, member: discord.Member, *, reason: str = None, is_slash=False):
     user = ctx.author
 
     console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
     try:
       if reason is None:
-        await member.ban(reason="None provided.")
+        member.ban(reason="None provided.")
       else:
-        await member.ban(reason=reason)
+        member.ban(reason=reason)
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
       if is_slash:
-        await ctx.respond("I don't have permission to ban that user.")
+        ctx.respond("I don't have permission to ban that user.")
       else:
-        await ctx.send("I don't have permission to ban that user.")
+        ctx.send("I don't have permission to ban that user.")
+      
+      return False
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       if is_slash:
-        await ctx.send("Something went wrong, try again later.")
+        ctx.send("Something went wrong, try again later.")
       else:
-        await ctx.respond("Something went wrong, try again later.")
+        ctx.respond("Something went wrong, try again later.")
+      
+      return False
 
     message = f"Banned {member.mention}. \nReason: {reason if reason else 'None provided.'}"
 
     if is_slash:
-      await ctx.respond(message)
+      ctx.respond(message)
     else:
-      await ctx.send(message)
+      ctx.send(message)
 
   @commands.command()
+  @commands.has_permissions(ban_members=True)
   async def ban(self, ctx, member, reason):
     await self.ban_member(ctx, member, reason)
   
