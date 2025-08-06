@@ -26,7 +26,7 @@ class Echo(commands.Cog):
 
     if msg is None:
       console.log("There is nothing to echo, returning.", "INFO")
-      await utils.say("There's nothing to echo.")
+      await utils.say(ctx, "There's nothing to echo.", is_slash=True, ephemeral=True)
       return
     
     console.log(f"To be echoed: {msg}", "INFO")
