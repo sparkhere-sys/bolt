@@ -32,29 +32,15 @@ class Ping(commands.Cog):
     else:
       await ctx.send(message)
 
-
   # prefix command
-
   @commands.command()
   async def ping(self, ctx):
-    latency = round(self.bot.latency * 1000)
-    user = ctx.author
-
-    console.log(f"Ping requested by {user} ({user.id})", "LOG")
-    console.log(f"Latency: {latency}", "LOG")
-
-    await ctx.send(f"Pong! \n{latency}ms")
+    await self.send_message(ctx)
   
   # slash command
   @commands.slash_command(name="ping", description="ping the bot!")
   async def slash_ping(self, ctx: discord.ApplicationContext):
-    latency = round(self.bot.latency * 1000)
-    user = ctx.author
-
-    console.log(f"[SLASH] Ping requested by {user} ({user.id})", "LOG")
-    console.log(f"Latency: {latency}", "LOG")
-
-    await ctx.respond(f"Pong! \n{latency}ms")
+    await self.send_message(ctx, is_slash=True)
 
 # FUNCTIONS
 
