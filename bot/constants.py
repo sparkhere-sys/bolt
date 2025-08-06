@@ -20,7 +20,8 @@ extensions = (
   "bot.cogs.help",
   "bot.cogs.echo",
   "bot.cogs.moderation.ban",
-  "bot.cogs.moderation.kick"
+  "bot.cogs.moderation.kick",
+  "bot.cogs.moderation.timeout"
 )
 
 # CONSOLE
