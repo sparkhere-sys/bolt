@@ -15,6 +15,10 @@ join the support server: https://discord.gg/hF6mgCE3gT
 * If using Python 3.13, also install `audioop-lts`
 * A Discord bot (go to https://discord.dev)
 
+___
+
+### Instructions
+
 First, clone the repo:
 
 ```bash
