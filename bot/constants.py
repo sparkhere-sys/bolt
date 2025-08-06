@@ -30,7 +30,9 @@ else:
 
 log_colors = {
   "LOG": Fore.WHITE if not no_color else '',
+  "DEBUG": Fore.CYAN if not no_color else '',
   "INFO": Fore.BLUE if not no_color else '',
-  "ERROR": Fore.YELLOW if not no_color else '',
-  "FATAL": Fore.RED if not no_color else ''
+  "WARN": Fore.YELLOW if not no_color else '',
+  "ERROR": Fore.RED if not no_color else '',
+  "FATAL": (Fore.RED + Style.BRIGHT) if not no_color else ''
 }
