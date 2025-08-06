@@ -23,6 +23,7 @@ class Help(commands.Cog):
 
     console.log(f"Help requested by {user} ({user.id})", "LOG")
 
+    # use markdown for that
     _help = f"""
 ## Available Commands
 

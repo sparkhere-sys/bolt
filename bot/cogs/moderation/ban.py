@@ -38,7 +38,7 @@ class Ban(commands.Cog):
         await ctx.respond("I don't have permission to ban that user.")
       else:
         await ctx.send("I don't have permission to ban that user.")
-        
+
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       if is_slash:
@@ -54,12 +54,13 @@ class Ban(commands.Cog):
       await ctx.send(message)
 
   @commands.command()
-  async def ban(self, ctx, member, reason):
+  @commands.has_permissions(ban_members=True)
+  async def ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     await self.ban_member(ctx, member, reason)
   
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
+  async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     await self.ban_member(ctx, member,reason)
 
 # FUNCTIONS
