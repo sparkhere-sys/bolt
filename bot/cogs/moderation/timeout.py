@@ -49,8 +49,9 @@ class Timeout(commands.Cog):
     
     return total_seconds if total_seconds > 0 else False
 
-  async def _mute(self, ctx, member: discord.member, duration="30m", reason=None, is_slash=False):
+  async def _mute(self, ctx, member: discord.Member, duration="30m", reason=None, is_slash=False):
     user = ctx.author
+    assert ctx.guild
 
     seconds = self.parse_duration(duration)
 
@@ -61,7 +62,7 @@ class Timeout(commands.Cog):
     try:
       if user == member:
         console.log(f"{user} was an idiot and tried to mute themselves.")
-        await utils.say(ctx, "You can't mute yourself!", is_slash=is_slash, ephmeral=True)
+        await utils.say(ctx, "You can't mute yourself!", is_slash=is_slash, ephemeral=True)
         return
       
       await member.timeout_for(timedelta(seconds=seconds), reason=reason or 'None provided.')
@@ -75,16 +76,46 @@ class Timeout(commands.Cog):
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       await utils.say(ctx, "Something went wrong, try again later.", is_slash=is_slash, ephemeral=True)
-    
+  
+  async def _unmute(self, ctx, member: discord.Member, is_slash=False):
+    user = ctx.author
+    assert ctx.guild
+
+    try:
+      if user == member:
+        console.log(f"{user} was an idiot and tried to unmute themself despite being unmuted anyway", "LOG")
+        await utils.say(ctx, "You're already unmuted.", is_slash=is_slash, ephemeral=True)
+        return
+      
+      member.remove_timeout(reason="you're not getting a reason my friend")
+      console.log(f"{user} unmuted {member}.", "LOG")
+      await utils.say(ctx, f"Unmuted {member}.", is_slash=is_slash)
+    except discord.Forbidden:
+      console.log(f"Failed to unmute {member}, permission denied.", "LOG")
+      await utils.say(ctx, "I don't have permission to unmute that user.", is_slash=is_slash, ephemeral=True)
+    except Exception as e:
+      console.log(f"Exception raised: {e}", "ERROR")
+      await utils.say(ctx, "Something went wrong, try again later.", is_slash=is_slash, ephemeral=True)
+
   @commands.command()
   @commands.has_permissions(moderate_members=True)
-  async def mute(self, ctx: commands.Context, member: discord.member, duration="30m", reason=None):
+  async def mute(self, ctx: commands.Context, member: discord.Member, duration="30m", reason=None):
     await self._mute(ctx, member, duration, reason)
   
   @commands.slash_command(name="mute", description="[moderation] mute a member.")
   @commands.has_permissions(moderate_members=True)
-  async def slash_mute(self, ctx: discord.ApplicationContext, member: discord.member, duration="30m", reason=None):
+  async def slash_mute(self, ctx: discord.ApplicationContext, member: discord.Member, duration="30m", reason=None):
     await self._mute(ctx, member, duration, reason, is_slash=True)
+  
+  @commands.command()
+  @commands.has_permissions(moderate_members=True)
+  async def unmute(self, ctx: commands.Context, member: discord.Member):
+    await self._unmute(ctx, member)
+
+  @commands.slash_command(name="unmute", description="unmute a member")
+  @commands.has_permissions(moderate_members=True)
+  async def slash_unmute(self, ctx: discord.ApplicationContext, member: discord.Member):
+    await self._unmute(ctx, member, is_slash=True)
 
 # FUNCTIONS
 
