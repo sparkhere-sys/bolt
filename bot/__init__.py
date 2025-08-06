@@ -11,7 +11,4 @@ bot/
 * bot.py
 * console.py
 * constants.py
-* cogs/
-** __init__.py
-** ping.py
 '''
