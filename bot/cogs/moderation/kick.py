@@ -1,3 +1,9 @@
+# bot/cogs/moderation/kick.py
+
+# LIBRARIES AND MODULES
+
+## pycord
+
 import discord
 from discord.ext import commands
 
@@ -16,16 +22,20 @@ class Kick(commands.Cog):
     user = ctx.author
 
     assert ctx.guild
-    console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
 
     try:
       if user == member:
+        console.log(f"{user} was an idiot and tried to ban themselves.", "LOG")
         if is_slash:
           await ctx.send("You can't kick yourself! \nThere's a 'leave server' button, you know.")
         else:
           await ctx.respond("You can't kick yourself! \nThere's a 'leave server' button, you know.")
       else:
-        await member.kick(reason=reason)
+        console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
+        if reason is None:
+          await member.kick(reason="None provided.")
+        else:
+          await member.kick(reason=reason)
 
     except discord.Forbidden:
       console.log(f"Failed to kick {member}, permission denied.", "ERROR")
@@ -36,7 +46,7 @@ class Kick(commands.Cog):
       await ctx.send("Something went wrong, try again later.")
 
     message = f"Kicked {member}. \nReason: {reason if reason else 'None provided.'}"
-    
+
     if is_slash:
        await ctx.respond(message)
     else:

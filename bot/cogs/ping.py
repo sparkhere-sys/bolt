@@ -22,7 +22,7 @@ class Ping(commands.Cog):
     latency = round(self.bot.latency * 1000)
     user = ctx.author
 
-    console.log(f"{'[SLASH]' if is_slash else ''} Ping requested by {user} ({user.id})", "LOG")
+    console.log(f"{'[SLASH] ' if is_slash else ' '}Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}ms", "INFO")
 
     message = f"Pong! \n{latency}ms"

@@ -20,13 +20,21 @@ class Ban(commands.Cog):
   
   async def ban_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
+
     assert ctx.guild
-    console.log(f"{user} banned {member} {'for ' + reason if reason else ''}", "LOG")
+
     try:
       if user == member:
+        console.log(f"{user} was an idiot and tried to ban themselves.", "LOG")
+
         if is_slash:
           await ctx.respond("You can't ban yourself! \nThere's a 'leave server' button, you know.")
+        else:
+          await ctx.send("You can't ban yourself! \nThere's a 'leave server' button, you know.")
+        
+        return
       else:
+        console.log(f"{user} banned {member} {'for ' + reason or ''}", "LOG")
         if reason is None:
           await member.ban(reason="None provided.")
         else:
@@ -42,11 +50,11 @@ class Ban(commands.Cog):
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       if is_slash:
-        await ctx.send("Something went wrong, try again later.")
-      else:
         await ctx.respond("Something went wrong, try again later.")
+      else:
+        await ctx.send("Something went wrong, try again later.")
 
-    message = f"Banned {member.mention}. \nReason: {reason if reason else 'None provided.'}"
+    message = f"Banned {member.mention}. \nReason: {reason or 'None provided.'}"
 
     if is_slash:
       await ctx.respond(message)
@@ -55,7 +63,7 @@ class Ban(commands.Cog):
 
   @commands.command()
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
+  async def ban(self, ctx: commands.Context, member: discord.Member, reason=None):
     await self.ban_member(ctx, member, reason)
   
   @commands.slash_command(name="ban", description="ban a user")
