@@ -45,7 +45,8 @@ def load_cogs():
       console.log(f"Loaded extension: {ext}", "DEBUG")
     except Exception as e:
       console.log(f"Failed to load extension: {ext}", "DEBUG")
-      raise ValueError("you idiot.")
+      console.log(f"Exception: {e}", "DEBUG")
+      raise
 
 def run():
   load_cogs()
