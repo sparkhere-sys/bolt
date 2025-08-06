@@ -18,14 +18,14 @@ class Kick(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def kick_member(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None, is_slash=False):
+  async def kick_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
     assert ctx.guild
 
     try:
       if user == member:
-        console.log(f"{user} was an idiot and tried to ban themselves.", "LOG")
+        console.log(f"{user} was an idiot and tried to kick themselves.", "LOG")
         if is_slash:
           await ctx.send("You can't kick yourself! \nThere's a 'leave server' button, you know.")
         else:

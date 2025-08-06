@@ -18,13 +18,16 @@ class Echo(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def echo_message(self, ctx, msg=None, is_slash=False):
+  async def echo_message(self, ctx: commands.Context, msg=None, is_slash=False):
     user = ctx.author
     console.log(f"{user} requested an echo.", "LOG")
 
     if msg is None:
       console.log("There is nothing to echo, returning.", "INFO")
-      await ctx.send("There's nothing to echo.")
+      if is_slash:
+        await ctx.respond("There's nothing to echo.")
+      else:
+        await ctx.send("There's nothing to echo.")
       return
     
     console.log(f"To be echoed: {msg}", "INFO")
@@ -41,6 +44,7 @@ class Echo(commands.Cog):
   
   # slash command
   @commands.slash_command(name="echo", description="make the bot say something!")
+  @discord.option("what to say", type=str)
   async def slash_echo(self, ctx: discord.ApplicationContext, msg=None):
     await self.echo_message(ctx, msg, is_slash=True)
 
