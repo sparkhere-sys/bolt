@@ -18,7 +18,7 @@ class Help(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def send_message(self, ctx):
+  async def send_message(self, ctx, is_slash=False):
     user = ctx.author
 
     console.log(f"Help requested by {user} ({user.id})", "LOG")
@@ -44,7 +44,11 @@ https://discord.gg/hF6mgCE3gT
 
 Bolt is open source! You can find the code at https://github.com/sparkhere-sys/bolt
 """
-    await ctx.send(_help)
+    
+    if is_slash:
+      await ctx.respond(_help)
+    else:
+      await ctx.send(_help)
 
   # prefix command
   @commands.command()
