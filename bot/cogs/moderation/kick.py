@@ -40,12 +40,12 @@ class Kick(commands.Cog):
        ctx.send(message)
 
   @commands.command()
-  @commands.has_permissions(kick_member=True)
+  @commands.has_permissions(kick_members=True)
   async def kick(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     await self.kick_member(ctx, member, reason)
   
   @commands.slash_command(name="kick", description="kick a member.")
-  @commands.has_permissions(kick_member=True)
+  @commands.has_permissions(kick_members=True)
   async def slash_kick(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
      await self.kick_member(ctx, member, reason)
 
