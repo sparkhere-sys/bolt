@@ -87,9 +87,9 @@ class Timeout(commands.Cog):
         await utils.say(ctx, "You're already unmuted.", is_slash=is_slash, ephemeral=True)
         return
       
-      member.remove_timeout(reason="you're not getting a reason my friend")
+      await member.remove_timeout(reason="you're not getting a reason my friend")
       console.log(f"{user} unmuted {member}.", "LOG")
-      await utils.say(ctx, f"Unmuted {member}.", is_slash=is_slash)
+      await utils.say(ctx, f"Unmuted {member.mention}.", is_slash=is_slash)
     except discord.Forbidden:
       console.log(f"Failed to unmute {member}, permission denied.", "LOG")
       await utils.say(ctx, "I don't have permission to unmute that user.", is_slash=is_slash, ephemeral=True)
