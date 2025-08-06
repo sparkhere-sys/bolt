@@ -9,6 +9,7 @@ join the support server: https://discord.gg/hF6mgCE3gT
 
 ### Prerequisites
 
+* an actually working operating system
 * Python 3.8+
 * `py-cord` (`pip install py-cord`)
 * If using Python 3.13, also install `audioop-lts`
@@ -35,6 +36,7 @@ to start the bot.
 
 ### Optional stuff
 
+* `colorama` for colored logs (for all OSes)
 * Create a virtual environment (for developing)
 * If using VS Code, create a file in `.vscode` named `launch.json` to make it easier to run and debug Bolt.
 

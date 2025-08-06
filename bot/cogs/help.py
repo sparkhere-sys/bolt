@@ -31,6 +31,7 @@ class Help(commands.Cog):
 
 `{prefix}help`: This message
 `{prefix}ping`: Ping the bot.
+`{prefix}echo`: Make the bot say something.
 
 ### Moderation
 
@@ -40,6 +41,8 @@ class Help(commands.Cog):
 ## Support Server
 Join the support server:
 https://discord.gg/hF6mgCE3gT
+
+Bolt is open source! You can find the code at https://github.com/sparkhere-sys/bolt
 """
     await ctx.send(_help)
 
@@ -54,5 +57,6 @@ https://discord.gg/hF6mgCE3gT
     await self.send_message(ctx, is_slash=True)
 
 # FUNCTIONS
+
 def setup(bot):
   bot.add_cog(Help(bot))

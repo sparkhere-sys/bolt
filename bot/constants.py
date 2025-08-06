@@ -1,6 +1,7 @@
 # bot/constants.py
 
 # LIBRARIES AND MODULES
+
 try:
   from colorama import init, Fore, Style
   no_color = False
@@ -14,8 +15,10 @@ prefix = "."
 # EXTENSIONS
 
 extensions = (
+  # TODO: use pathlib and iterdir for this
   "bot.cogs.ping",
   "bot.cogs.help",
+  "bot.cogs.echo",
   "bot.cogs.moderation.ban",
   "bot.cogs.moderation.kick"
 )
