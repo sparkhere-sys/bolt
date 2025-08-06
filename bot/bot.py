@@ -40,7 +40,12 @@ async def on_ready():
 
 def load_cogs():
   for ext in extensions:
-    bot.load_extension(ext)
+    try:
+      bot.load_extension(ext)
+      console.log(f"Loaded extension: {ext}", "DEBUG")
+    except Exception as e:
+      console.log(f"Failed to load extension: {ext}", "DEBUG")
+      raise ValueError("you idiot.")
 
 def run():
   load_cogs()
