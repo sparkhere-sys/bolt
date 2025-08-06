@@ -11,6 +11,7 @@ from discord.ext import commands
 
 from bot.constants import *
 import bot.console as console
+import bot.utils as utils
 
 # CLASSES
 
@@ -20,22 +21,16 @@ class Echo(commands.Cog):
   
   async def echo_message(self, ctx: commands.Context, msg=None, is_slash=False):
     user = ctx.author
+
     console.log(f"{user} requested an echo.", "LOG")
 
     if msg is None:
       console.log("There is nothing to echo, returning.", "INFO")
-      if is_slash:
-        await ctx.respond("There's nothing to echo.")
-      else:
-        await ctx.send("There's nothing to echo.")
+      await utils.say("There's nothing to echo.")
       return
     
     console.log(f"To be echoed: {msg}", "INFO")
-
-    if is_slash:
-      await ctx.respond(msg)
-    else:
-      await ctx.send(msg)
+    await utils.say(ctx, msg, is_slash=is_slash)
   
   # prefix command
   @commands.command()

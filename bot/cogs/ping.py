@@ -11,6 +11,7 @@ from discord.ext import commands
 ## pypkg
 
 import bot.console as console
+import bot.utils as utils
 
 # CLASSES
 
@@ -22,15 +23,11 @@ class Ping(commands.Cog):
     latency = round(self.bot.latency * 1000)
     user = ctx.author
 
-    console.log(f"{'[SLASH] ' if is_slash else ' '}Ping requested by {user} ({user.id})", "LOG")
+    console.log(f"{'[SLASH] ' if is_slash else ''}Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}ms", "INFO")
 
     message = f"Pong! \n{latency}ms"
-
-    if is_slash:
-      await ctx.respond(message)
-    else:
-      await ctx.send(message)
+    await utils.say(ctx, message, is_slash=is_slash)
 
   # prefix command
   @commands.command()

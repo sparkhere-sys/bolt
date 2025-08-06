@@ -11,6 +11,7 @@ from discord.ext import commands
 
 import bot.console as console
 from bot.constants import *
+import bot.utils as utils
 
 # CLASSES
 
@@ -45,10 +46,7 @@ https://discord.gg/hF6mgCE3gT
 Bolt is open source! You can find the code at https://github.com/sparkhere-sys/bolt
 """
     
-    if is_slash:
-      await ctx.respond(_help)
-    else:
-      await ctx.send(_help)
+    await utils.say(ctx, _help, is_slash=is_slash)
 
   # prefix command
   @commands.command()

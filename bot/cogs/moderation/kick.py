@@ -11,6 +11,7 @@ from discord.ext import commands
 
 from bot.constants import *
 import bot.console as console
+import bot.utils as utils
 
 # CLASSES
 
@@ -26,12 +27,9 @@ class Kick(commands.Cog):
     try:
       if user == member:
         console.log(f"{user} was an idiot and tried to kick themselves.", "LOG")
-        if is_slash:
-          await ctx.send("You can't kick yourself! \nThere's a 'leave server' button, you know.")
-        else:
-          await ctx.respond("You can't kick yourself! \nThere's a 'leave server' button, you know.")
+        await utils.say(ctx, "You can't kick yourself!", is_slash=is_slash, ephemeral=True)
       else:
-        console.log(f"{user} Kicked {member} {'for ' + reason if reason else ''}", "LOG")
+        console.log(f"{user} Kicked {member} {('for ' + reason) if reason else ''}", "LOG")
         if reason is None:
           await member.kick(reason="None provided.")
         else:
@@ -39,18 +37,15 @@ class Kick(commands.Cog):
 
     except discord.Forbidden:
       console.log(f"Failed to kick {member}, permission denied.", "ERROR")
-      await ctx.send("I don't have permission to kick that user.")
+      await utils.say(ctx, "I don't have permission to kick that user.", is_slash=is_slash, ephemeral=True)
 
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
-      await ctx.send("Something went wrong, try again later.")
+      await utils.say(ctx, "Something went wrong, try again later.", is_slash=is_slash, ephemeral=True)
 
-    message = f"Kicked {member}. \nReason: {reason if reason else 'None provided.'}"
+    message = f"Kicked {member}. \nReason: {reason or 'None provided.'}"
 
-    if is_slash:
-       await ctx.respond(message)
-    else:
-       await ctx.send(message)
+    await utils.say(ctx, message, is_slash=is_slash)
 
   @commands.command()
   @commands.has_permissions(kick_members=True)
@@ -60,7 +55,7 @@ class Kick(commands.Cog):
   @commands.slash_command(name="kick", description="kick a member.")
   @commands.has_permissions(kick_members=True)
   async def slash_kick(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
-     await self.kick_member(ctx, member, reason)
+     await self.kick_member(ctx, member, reason, is_slash=True)
 
 # FUNCTIONS
 

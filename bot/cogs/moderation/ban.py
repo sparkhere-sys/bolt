@@ -2,8 +2,8 @@
 
 # LIBRARIES AND MODULES
 
-
 ## pycord
+
 import discord
 from discord.ext import commands
 
@@ -11,6 +11,7 @@ from discord.ext import commands
 
 from bot.constants import *
 import bot.console as console
+import bot.utils as utils
 
 # CLASSES
 
@@ -26,12 +27,7 @@ class Ban(commands.Cog):
     try:
       if user == member:
         console.log(f"{user} was an idiot and tried to ban themselves.", "LOG")
-
-        if is_slash:
-          await ctx.respond("You can't ban yourself! \nThere's a 'leave server' button, you know.")
-        else:
-          await ctx.send("You can't ban yourself! \nThere's a 'leave server' button, you know.")
-        
+        await utils.say(ctx, "You can't ban yourself!", is_slash=is_slash, ephemeral=True)
         return
       else:
         console.log(f"{user} banned {member} {'for ' + reason or ''}", "LOG")
@@ -42,24 +38,15 @@ class Ban(commands.Cog):
 
     except discord.Forbidden:
       console.log(f"Failed to ban {member}, permission denied.", "ERROR")
-      if is_slash:
-        await ctx.respond("I don't have permission to ban that user.")
-      else:
-        await ctx.send("I don't have permission to ban that user.")
+      await utils.say(ctx, "I don't have permission to ban that user.", is_slash=is_slash, ephemeral=True)
 
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
-      if is_slash:
-        await ctx.respond("Something went wrong, try again later.")
-      else:
-        await ctx.send("Something went wrong, try again later.")
+      await utils.say(ctx, "Something went wrong, try again later.", is_slash=is_slash, ephemeral=True)
 
     message = f"Banned {member.mention}. \nReason: {reason or 'None provided.'}"
 
-    if is_slash:
-      await ctx.respond(message)
-    else:
-      await ctx.send(message)
+    await utils.say(ctx, message, is_slash=is_slash)
 
   @commands.command()
   @commands.has_permissions(ban_members=True)
@@ -69,7 +56,7 @@ class Ban(commands.Cog):
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
   async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
-    await self.ban_member(ctx, member,reason)
+    await self.ban_member(ctx, member, reason, is_slash=True)
 
 # FUNCTIONS
 
