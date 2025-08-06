@@ -24,6 +24,9 @@ extensions = (
 
 if not no_color:
   init()
+  reset_colors = Style.RESET_ALL
+else:
+  reset_colors = ''
 
 log_colors = {
   "LOG": Fore.WHITE if not no_color else '',
@@ -31,5 +34,3 @@ log_colors = {
   "ERROR": Fore.YELLOW if not no_color else '',
   "FATAL": Fore.RED if not no_color else ''
 }
-
-reset_colors = Style.RESET_ALL
