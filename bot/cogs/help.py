@@ -38,6 +38,8 @@ class Help(commands.Cog):
 
 `{prefix}ban`: Ban a member.
 `{prefix}kick`: Kick a member.
+`{prefix}mute`: Mute a member.
+`{prefix}unmute`: Unmute a member.
 
 ## Support Server
 Join the support server:
