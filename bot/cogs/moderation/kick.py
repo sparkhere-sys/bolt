@@ -40,7 +40,7 @@ class Kick(commands.Cog):
        ctx.send(message)
 
   @commands.command()
-  @commands.has_permissions(ban_member=True)
+  @commands.has_permissions(kick_member=True)
   async def kick(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
     await self.kick_member(ctx, member, reason)
   
