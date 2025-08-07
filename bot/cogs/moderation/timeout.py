@@ -99,7 +99,7 @@ class Timeout(commands.Cog):
 
   @commands.command()
   @commands.has_permissions(moderate_members=True)
-  async def mute(self, ctx: commands.Context, member: discord.Member, duration="30m", reason=None):
+  async def mute(self, ctx: commands.Context, member: discord.Member, duration="30m", *, reason=None):
     await self._mute(ctx, member, duration, reason)
   
   @commands.slash_command(name="mute", description="[moderation] mute a member.")
