@@ -8,9 +8,23 @@ try:
 except ImportError:
   no_color = True
 
+from dotenv import load_dotenv
+import os
+
 # CONSTANTS
 
-prefix = "."
+# usually in a constants file you don't see any function calls
+# but the try-except down there is a necessary evil and exception
+# to that rule.
+
+try:
+  load_dotenv()
+  env_prefix = os.getenv("PREFIX")
+except FileNotFoundError:
+  env_prefix = None
+
+default_prefix = "."
+prefix = default_prefix if env_prefix is None else env_prefix
 
 # EXTENSIONS
 
