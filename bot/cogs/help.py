@@ -5,6 +5,7 @@
 
 ## pycord
 
+import discord
 from discord.ext import commands
 
 ## pypkg
@@ -19,13 +20,13 @@ class Help(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def send_message(self, ctx, is_slash=False):
+  async def _help(self, ctx, is_slash=False):
     user = ctx.author
 
     console.log(f"Help requested by {user} ({user.id})", "LOG")
 
     # use markdown for that
-    _help = f"""
+    message = f"""
 ## Available Commands
 
 ### Uncategorized
@@ -48,16 +49,16 @@ https://discord.gg/hF6mgCE3gT
 Bolt is open source! You can find the code at https://github.com/sparkhere-sys/bolt
 """
     
-    await utils.say(ctx, _help, is_slash=is_slash)
+    await utils.say(ctx, message, is_slash=is_slash)
 
   # prefix command
   @commands.command()
-  async def help(self, ctx):
+  async def help(self, ctx: commands.Context):
     await self.send_message(ctx)
 
   # slash commands
   @commands.slash_command(name="help", description="send the help message.")
-  async def slash_help(self, ctx):
+  async def slash_help(self, ctx: discord.ApplicationContext):
     await self.send_message(ctx, is_slash=True)
 
 # FUNCTIONS

@@ -19,7 +19,7 @@ class Kick(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  async def kick_member(self, ctx, member: discord.Member, reason=None, is_slash=False):
+  async def _kick(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
     assert ctx.guild
@@ -50,12 +50,12 @@ class Kick(commands.Cog):
   @commands.command()
   @commands.has_permissions(kick_members=True)
   async def kick(self, ctx: commands.Context, member: discord.Member, *, reason=None):
-    await self.kick_member(ctx, member, reason)
+    await self._kick(ctx, member, reason)
   
   @commands.slash_command(name="kick", description="kick a member.")
   @commands.has_permissions(kick_members=True)
   async def slash_kick(self, ctx: discord.ApplicationContext, member: discord.Member, reason=None):
-     await self.kick_member(ctx, member, reason, is_slash=True)
+     await self._kick(ctx, member, reason, is_slash=True)
 
 # FUNCTIONS
 

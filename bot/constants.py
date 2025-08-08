@@ -19,6 +19,7 @@ extensions = (
   "bot.cogs.ping",
   "bot.cogs.help",
   "bot.cogs.echo",
+  "bot.cogs.invite",
   "bot.cogs.moderation.ban",
   "bot.cogs.moderation.kick",
   "bot.cogs.moderation.timeout"
