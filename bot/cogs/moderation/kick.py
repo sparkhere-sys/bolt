@@ -31,10 +31,7 @@ class Kick(commands.Cog):
         return
       else:
         console.log(f"{user} Kicked {member} {('for ' + reason) if reason else ''}", "LOG")
-        if reason is None:
-          await member.kick(reason="None provided.")
-        else:
-          await member.kick(reason=reason)
+        await member.kick(reason=reason or 'None provided.')
 
     except discord.Forbidden:
       console.log(f"Failed to kick {member}, permission denied.", "ERROR")
