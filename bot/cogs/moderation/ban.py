@@ -76,16 +76,16 @@ class Ban(commands.Cog):
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx: commands.Context, member: discord.Member, *, reason=None):
     await self._ban(ctx, member, reason)
-
-  @commands.slash_command(name="ban", description="ban a user")
-  @commands.has_permissions(ban_members=True)
-  async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason: str = None):
-    await self.ban_member(ctx, member, reason, is_slash=True)
   
   @commands.command()
   @commands.has_permissions(ban_members=True)
   async def unban(self, ctx: commands.Context, member: discord.User, *, reason=None):
     await self._unban(ctx, member, reason)
+
+  @commands.slash_command(name="ban", description="ban a user")
+  @commands.has_permissions(ban_members=True)
+  async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason: str = None):
+    await self.ban_member(ctx, member, reason, is_slash=True)
   
   @commands.slash_command(name="unban", description="ban a user")
   @commands.has_permissions(ban_members=True)

@@ -19,11 +19,11 @@ class Ping(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def send_message(self, ctx, is_slash=False):
+  async def _ping(self, ctx, is_slash=False):
     latency = round(self.bot.latency * 1000)
     user = ctx.author
 
-    console.log(f"{'[SLASH] ' if is_slash else ''}Ping requested by {user} ({user.id})", "LOG")
+    console.log(f"Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}ms", "INFO")
 
     message = f"Pong! \n{latency}ms"
@@ -31,7 +31,7 @@ class Ping(commands.Cog):
 
   # prefix command
   @commands.command()
-  async def ping(self, ctx):
+  async def ping(self, ctx: commands.Context):
     await self.send_message(ctx)
   
   # slash command

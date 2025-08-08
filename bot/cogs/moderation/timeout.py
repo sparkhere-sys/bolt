@@ -101,16 +101,18 @@ class Timeout(commands.Cog):
   @commands.has_permissions(moderate_members=True)
   async def mute(self, ctx: commands.Context, member: discord.Member, duration="30m", *, reason=None):
     await self._mute(ctx, member, duration, reason)
-  
+
+  @commands.command()
+  @commands.has_permissions(moderate_members=True)
+  async def unmute(self, ctx: commands.Context, member: discord.Member):
+    await self._unmute(ctx, member)
+
   @commands.slash_command(name="mute", description="[moderation] mute a member.")
   @commands.has_permissions(moderate_members=True)
   async def slash_mute(self, ctx: discord.ApplicationContext, member: discord.Member, duration="30m", reason=None):
     await self._mute(ctx, member, duration, reason, is_slash=True)
   
-  @commands.command()
-  @commands.has_permissions(moderate_members=True)
-  async def unmute(self, ctx: commands.Context, member: discord.Member):
-    await self._unmute(ctx, member)
+
 
   @commands.slash_command(name="unmute", description="unmute a member")
   @commands.has_permissions(moderate_members=True)
