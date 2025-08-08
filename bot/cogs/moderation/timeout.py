@@ -110,9 +110,7 @@ class Timeout(commands.Cog):
   @commands.slash_command(name="mute", description="[moderation] mute a member.")
   @commands.has_permissions(moderate_members=True)
   async def slash_mute(self, ctx: discord.ApplicationContext, member: discord.Member, duration="30m", reason=None):
-    await self._mute(ctx, member, duration, reason, is_slash=True)
-  
-
+    await self._mute(ctx, member, duration, reason, is_slash=True)  
 
   @commands.slash_command(name="unmute", description="unmute a member")
   @commands.has_permissions(moderate_members=True)
