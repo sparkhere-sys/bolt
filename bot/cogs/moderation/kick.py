@@ -28,6 +28,7 @@ class Kick(commands.Cog):
       if user == member:
         console.log(f"{user} was an idiot and tried to kick themselves.", "LOG")
         await utils.say(ctx, "You can't kick yourself!", is_slash=is_slash, ephemeral=True)
+        return
       else:
         console.log(f"{user} Kicked {member} {('for ' + reason) if reason else ''}", "LOG")
         if reason is None:
