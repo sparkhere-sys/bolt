@@ -16,6 +16,7 @@ from discord.ext import commands
 
 from bot.constants import *
 import bot.console as console
+import bot.utils as utils
 
 # LOAD .env FILE
 
@@ -45,6 +46,14 @@ bot.remove_command("help") # remove the built-in help command
 @bot.event
 async def on_ready():
   console.log(f"Bolt is online as {bot.user}", "LOG")
+
+@bot.event
+async def on_command_error(ctx, error):
+  if isinstance(error, commands.CommandNotFound):
+    console.log(str(error), "ERROR")
+    await utils.say(ctx, f"Command not found. \nRun {prefix}help to see all available commands.") # is_slash is False by default
+
+## START UP
 
 def load_cogs():
   for ext in extensions:
