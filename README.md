@@ -11,7 +11,8 @@ join the support server: https://discord.gg/hF6mgCE3gT
 
 * an actually working operating system
 * Python 3.8+
-* `py-cord` (`pip install py-cord`)
+* [`py-cord`](https://pypi.org/project/py-cord/) (`pip install py-cord`)
+* [`python-dotenv`](https://pypi.org/project/python-dotenv/) (`pip install python-dotenv`)
 * If using Python 3.13, also install `audioop-lts`
 * A Discord bot (go to https://discord.dev)
 
