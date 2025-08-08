@@ -7,6 +7,10 @@
 import discord
 from discord.ext import commands
 
+## pypkg
+
+import bot.console as console
+
 # FUNCTIONS
 
 async def say(ctx: discord.ApplicationContext | commands.Context, msg: str, is_slash=False, ephemeral=False):
@@ -14,3 +18,12 @@ async def say(ctx: discord.ApplicationContext | commands.Context, msg: str, is_s
     await ctx.respond(msg, ephemeral=ephemeral)
   else:
     await ctx.send(msg)
+
+async def assert_guild(ctx, user, is_slash=False):
+  try:
+    assert ctx.guild
+    return True
+  except AssertionError:
+    console.log(f"{user} tried to run a command where it's not supported.", "LOG")
+    await say(ctx, "You can't run that command here!", is_slash=is_slash, ephemeral=True)
+    return False

@@ -22,7 +22,8 @@ class Kick(commands.Cog):
   async def _kick(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
-    assert ctx.guild
+    if not utils.assert_guild(ctx):
+      return
 
     try:
       if user == member:
