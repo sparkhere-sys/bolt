@@ -36,10 +36,12 @@ class Kick(commands.Cog):
     except discord.Forbidden:
       console.log(f"Failed to kick {member}, permission denied.", "ERROR")
       await utils.say(ctx, "I don't have permission to kick that user.", is_slash=is_slash, ephemeral=True)
+      return
 
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
       await utils.say(ctx, "Something went wrong, try again later.", is_slash=is_slash, ephemeral=True)
+      return
 
     message = f"Kicked {member}. \nReason: {reason or 'None provided.'}"
 
