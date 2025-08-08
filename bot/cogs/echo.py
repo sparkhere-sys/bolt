@@ -19,7 +19,7 @@ class Echo(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def _echo(self, ctx: commands.Context, msg=None, is_slash=False):
+  async def _echo(self, ctx, msg=None, is_slash=False):
     user = ctx.author
 
     console.log(f"{user} requested an echo.", "LOG")
