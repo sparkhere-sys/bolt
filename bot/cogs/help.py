@@ -29,18 +29,20 @@ class Help(commands.Cog):
     message = f"""
 ## Available Commands
 
-### Uncategorized
-
-`{prefix}help`: This message
-`{prefix}ping`: Ping the bot.
-`{prefix}echo`: Make the bot say something.
-
 ### Moderation
 
 `{prefix}ban`: Ban a member.
+`{prefix}unban`: Unban a previously banned member.
 `{prefix}kick`: Kick a member.
 `{prefix}mute`: Mute a member.
 `{prefix}unmute`: Unmute a member.
+
+### Misc
+
+`{prefix}help`: This message
+`{prefix}ping`: Ping Bolt.
+`{prefix}echo`: Make Bolt say something.
+`{prefix}invite`: Invite Bolt to your server.
 
 ## Support Server
 Join the support server:
@@ -54,12 +56,12 @@ Bolt is open source! You can find the code at https://github.com/sparkhere-sys/b
   # prefix command
   @commands.command()
   async def help(self, ctx: commands.Context):
-    await self.send_message(ctx)
+    await self._help(ctx)
 
   # slash commands
   @commands.slash_command(name="help", description="send the help message.")
   async def slash_help(self, ctx: discord.ApplicationContext):
-    await self.send_message(ctx, is_slash=True)
+    await self._help(ctx, is_slash=True)
 
 # FUNCTIONS
 
