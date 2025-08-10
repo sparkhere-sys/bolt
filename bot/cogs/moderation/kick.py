@@ -22,7 +22,7 @@ class Kick(commands.Cog):
   async def _kick(self, ctx, member: discord.Member, reason=None, is_slash=False):
     user = ctx.author
 
-    if not await utils.assert_guild(ctx, user=user):
+    if not await utils.assert_guild(ctx, guild=ctx.guild, user=user, is_slash=is_slash):
       return
 
     try:

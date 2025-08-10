@@ -19,11 +19,10 @@ async def say(ctx: discord.ApplicationContext | commands.Context, msg: str, is_s
   else:
     await ctx.send(msg)
 
-async def assert_guild(ctx, user, is_slash=False):
-  try:
-    assert ctx.guild
-    return True
-  except AssertionError:
+async def assert_guild(ctx, guild, user, is_slash=False):
+  if guild is None:
     console.log(f"{user} tried to run a command where it's not supported.", "LOG")
     await say(ctx, "You can't run that command here!", is_slash=is_slash, ephemeral=True)
     return False
+  
+  return True

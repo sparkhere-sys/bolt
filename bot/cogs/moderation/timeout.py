@@ -53,7 +53,7 @@ class Timeout(commands.Cog):
   async def _mute(self, ctx, member: discord.Member, duration="30m", reason=None, is_slash=False):
     user = ctx.author
 
-    if not await utils.assert_guild(ctx, user=user):
+    if not await utils.assert_guild(ctx, guild=ctx.guild, user=user, is_slash=is_slash):
       return
 
     seconds = self.parse_duration(duration)
@@ -83,7 +83,7 @@ class Timeout(commands.Cog):
   async def _unmute(self, ctx, member: discord.Member, is_slash=False):
     user = ctx.author
 
-    if not await utils.assert_guild(ctx, user=user):
+    if not await utils.assert_guild(ctx, guild=ctx.guild, user=user, is_slash=is_slash):
       return
 
     try:

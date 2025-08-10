@@ -22,7 +22,7 @@ class Ban(commands.Cog):
   async def _ban(self, ctx, member, reason=None, is_slash=False):
     user = ctx.author
 
-    if not await utils.assert_guild(ctx, user=user):
+    if not await utils.assert_guild(ctx, guild=ctx.guild, user=user, is_slash=is_slash):
       return
 
     try:
@@ -49,7 +49,7 @@ class Ban(commands.Cog):
   async def _unban(self, ctx, member, reason=None, is_slash=False):
     user = ctx.author
 
-    if not await utils.assert_guild(ctx, user=user):
+    if not await utils.assert_guild(ctx, guild=ctx.guild, user=user, is_slash=is_slash):
       return
 
     try:
