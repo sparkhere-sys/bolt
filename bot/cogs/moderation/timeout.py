@@ -27,9 +27,10 @@ class Timeout(commands.Cog):
     _duration = duration.lower()
 
     time_units = {
-      "h": 3600, # hours
-      "m": 60,   # minutes
-      "s": 1     # seconds
+      "d": 86400, # days
+      "h": 3600,  # hours
+      "m": 60,    # minutes
+      "s": 1      # seconds
     }
 
     total_seconds = 0
