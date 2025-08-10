@@ -6,6 +6,7 @@
 import os
 from sys import exit
 from dotenv import load_dotenv
+from pathlib import Path
 
 ## pycord
 
@@ -19,7 +20,7 @@ import bot.console as console
 import bot.utils as utils
 
 # LOAD .env FILE
-
+'''
 try:
   load_dotenv()
   token = os.getenv("TOKEN")
@@ -33,6 +34,20 @@ except FileNotFoundError:
 except Exception as e:
   console.log("Something went wrong.", "FATAL")
   exit(1)
+'''
+
+env_path = Path(".env")
+
+if not env_path.exists():
+  console.log("No .env file found.", "FATAL")
+  raise FileNotFoundError("fatal: No .env file found, please create one including your bot's token.")
+
+load_dotenv(dotenv_path=env_path)
+token = os.getenv("TOKEN")
+
+if token is None:
+  console.log("No Discord token found.", "FATAL")
+  raise ValueError("fatal: No Discord token found.")
 
 # INIT
 
