@@ -59,7 +59,7 @@ class Timeout(commands.Cog):
     seconds = self.parse_duration(duration)
 
     if not seconds:
-      await utils.say(ctx, "Invalid duration format. Try `1h`, `30m`, `45s`", is_slash=is_slash, ephemeral=True)
+      await utils.say(ctx, "Invalid duration format. Try `3d`, `1h`, `30m`, `45s`", is_slash=is_slash, ephemeral=True)
       return
     
     try:
