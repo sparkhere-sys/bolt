@@ -9,6 +9,7 @@ except ImportError:
   no_color = True
 
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 
 # CONSTANTS
@@ -17,11 +18,13 @@ import os
 # but the try-except down there is a necessary evil and exception
 # to that rule.
 
-try:
-  load_dotenv()
-  env_prefix = os.getenv("PREFIX")
-except FileNotFoundError:
+env_path = Path(".env")
+
+if not env_path.exists():
   env_prefix = None
+else:
+  load_dotenv(dotenv_path=env_path)
+  env_prefix = os.getenv("PREFIX")
 
 default_prefix = "."
 prefix = default_prefix if env_prefix is None else env_prefix
@@ -29,7 +32,11 @@ prefix = default_prefix if env_prefix is None else env_prefix
 # EXTENSIONS
 
 extensions = (
-  # TODO: use pathlib and iterdir for this
+  # fun fact: i tried to use pathlib for this.
+  #           i immediately had an aneurysm trying to understand
+  #           HOW to implement it.
+  #           so yeah, ig we hardcoding now. deal with it.
+  
   "bot.cogs.ping",
   "bot.cogs.help",
   "bot.cogs.echo",

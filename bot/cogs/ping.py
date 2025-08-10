@@ -32,12 +32,12 @@ class Ping(commands.Cog):
   # prefix command
   @commands.command()
   async def ping(self, ctx: commands.Context):
-    await self.send_message(ctx)
-  
+    await self._ping(ctx)
+
   # slash command
   @commands.slash_command(name="ping", description="ping the bot!")
   async def slash_ping(self, ctx: discord.ApplicationContext):
-    await self.send_message(ctx, is_slash=True)
+    await self._ping(ctx, is_slash=True)
 
 # FUNCTIONS
 

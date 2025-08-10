@@ -20,25 +20,8 @@ import bot.console as console
 import bot.utils as utils
 
 # LOAD .env FILE
-'''
-try:
-  load_dotenv()
-  token = os.getenv("TOKEN")
 
-  if token is None:
-    console.log("No Discord token found.", "FATAL")
-    raise ValueError("fatal: No Discord token found.")
-except FileNotFoundError:
-  console.log("No .env file found.", "FATAL")
-  raise FileNotFoundError("No .env file found, please create one including your bot's token.")
-except Exception as e:
-  console.log("Something went wrong.", "FATAL")
-  exit(1)
-'''
-
-env_path = Path(".env")
-
-if not env_path.exists():
+if not env_path.exists(): # env_path is in constants.py
   console.log("No .env file found.", "FATAL")
   raise FileNotFoundError("fatal: No .env file found, please create one including your bot's token.")
 
