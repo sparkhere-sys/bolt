@@ -3,8 +3,6 @@
 
 # LIBRARIES AND MODULES
 
-import os
-from dotenv import load_dotenv
 from pathlib import Path
 
 ## pycord
@@ -18,25 +16,15 @@ from bot.constants import *
 import bot.console as console
 import bot.utils as utils
 
-# LOAD .env FILE
-
-if not env_path.exists(): # env_path is in constants.py
-  console.log("No .env file found.", "FATAL")
-  raise FileNotFoundError("fatal: No .env file found, please create one including your bot's token.")
-
-load_dotenv(dotenv_path=env_path)
-token = os.getenv("TOKEN")
-
-if token is None:
-  console.log("No Discord token found.", "FATAL")
-  raise ValueError("fatal: No Discord token found.")
-
 # INIT
+
+token = utils.get_env_var("TOKEN", default=None, required=True, from_dot_env=True) # get token
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix=prefix, intents=intents)
-bot.remove_command("help") # remove the built-in help command
+# if reaction roles will be added to the bot, then intents.reactions = True
+
+bot = commands.Bot(command_prefix=prefix, intents=intents, help_command=None) # create bot instance, remove built-in help command
 
 # FUNCTIONS
 
