@@ -10,24 +10,18 @@ except ImportError:
 
 from dotenv import load_dotenv
 from pathlib import Path
-import os
+
+## pypkg
+
+import bot.utils as utils
 
 # CONSTANTS
 
-# usually in a constants file you don't see any function calls
-# but the try-except down there is a necessary evil and exception
-# to that rule.
-
 env_path = Path(".env")
 
-if not env_path.exists():
-  env_prefix = None
-else:
-  load_dotenv(dotenv_path=env_path)
-  env_prefix = os.getenv("PREFIX")
-
 default_prefix = "."
-prefix = default_prefix if env_prefix is None else env_prefix
+
+prefix = utils.get_env_var("PREFIX", default=default_prefix, required=False, from_dot_env=True)
 
 # EXTENSIONS
 
