@@ -27,10 +27,11 @@ git clone https://github.com/sparkhere-sys/bolt.git
 cd bolt
 ```
 
-Then, create a `.env` file containing your bot's token:
+Then, create a `.env` file containing your bot's token and the prefix you want to use:
 
 ```ini
 TOKEN=your_token_here
+PREFIX=.
 ```
 
 Once all of that is done, run:
