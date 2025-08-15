@@ -4,7 +4,6 @@
 # LIBRARIES AND MODULES
 
 import os
-from sys import exit
 from dotenv import load_dotenv
 from pathlib import Path
 
