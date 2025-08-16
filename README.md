@@ -5,6 +5,7 @@
 Bolt is a Discord bot!
 
 join the support (and also testing) server: https://discord.gg/hF6mgCE3gT
+
 invite bolt to your server: https://sparkhere-sys.github.io/bolt
 
 ## Installation
