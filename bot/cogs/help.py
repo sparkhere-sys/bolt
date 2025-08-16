@@ -11,7 +11,7 @@ from discord.ext import commands
 ## pypkg
 
 import bot.console as console
-from bot.constants import *
+from bot.constants.base import prefix
 import bot.utils as utils
 
 # CLASSES
