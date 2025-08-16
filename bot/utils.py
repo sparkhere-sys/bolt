@@ -2,6 +2,7 @@
 
 # LIBRARIES AND MODULES
 
+from typing import Any
 from dotenv import load_dotenv
 import os
 
@@ -13,11 +14,11 @@ from discord.ext import commands
 ## pypkg
 
 import bot.console as console
-from bot.constants import env_path
+from bot.constants.config import env_path
 
 # FUNCTIONS
 
-def get_env_var(var, default, required=True, from_dot_env=True):
+def get_env_var(var: str, default: Any, required=True, from_dot_env=True):
   if from_dot_env:
     if not env_path.exists():
       console.log(f"No .env file found.", "WARN" if not required else "FATAL")
