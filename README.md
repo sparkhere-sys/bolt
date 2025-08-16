@@ -1,20 +1,35 @@
-# bolt
-This is where she writes a description.
+# Bolt
+
+> This is where she writes a description.
 
 Bolt is a Discord bot!
 
-join the support server: https://discord.gg/hF6mgCE3gT
+join the support (and also testing) server: https://discord.gg/hF6mgCE3gT
+invite bolt to your server: https://sparkhere-sys.github.io/bolt
 
-## Setting up the bot
+## Installation
+
+Follow these instructions if you want to self-host the bot.
+
+Or you know, just, add the bot to your server. Feel free.
 
 ### Prerequisites
 
-* an actually working operating system
+* an operating system (duh)
+* A Discord bot (go to https://discord.dev)
+
+#### Python dependencies
+
 * Python 3.8+
 * [`py-cord`](https://pypi.org/project/py-cord/) (`pip install py-cord`)
 * [`python-dotenv`](https://pypi.org/project/python-dotenv/) (`pip install python-dotenv`)
-* If using Python 3.13, also install `audioop-lts`
-* A Discord bot (go to https://discord.dev)
+* If using Python 3.13, also install [`audioop-lts`](https://pypi.org/project/audioop-lts)
+* Optional: [`colorama`](https://pypi.org/project/audioop-lts) so your logs look :sparkles:pretty:sparkles:
+
+if you're feeling lazy, just run:
+```bash
+pip install -r requirements.txt
+```
 
 ___
 
@@ -40,23 +55,17 @@ python -m bot
 ```
 to start the bot.
 
-### Optional stuff
-
-* `colorama` for colored logs (for all OSes)
-* Create a virtual environment (for developing)
-* If using VS Code, create a file in `.vscode` named `launch.json` to make it easier to run and debug Bolt.
-
 # uhhh bye
 
 made with <3 by spark
 
 contact me:
+
 * [my email](mailto:spark-aur@proton.me)
 * my discord: `spark_sys`
-* bolt's support server: https://discord.gg/hF6mgCE3gT
-
-license: Apache 2.0
 
 ___
 
-> im not adding badges to this README yet
+<p align=center>
+  <img alt="License: Apache 2.0" src="https://img.shields.io/github/license/sparkhere-sys/bolt?style=for-the-badge&logo=apache&logoColor=black&label=license&labelColor=white&color=%2374c7ec&link=https%3A%2F%2Fgithub.com%2Fsparkhere-sys%2Fbolt%2Fblob%2Fmain%2FLICENSE">
+</p>
