@@ -3,7 +3,7 @@
 
 # LIBRARIES AND MODULES
 
-from pathlib import Path
+import time
 
 ## pycord
 
@@ -30,6 +30,7 @@ bot = commands.Bot(command_prefix=constants.prefix, intents=intents, help_comman
 
 @bot.event
 async def on_ready():
+  setattr(bot, "start_time", time.time())
   console.log(f"Bolt is online as {bot.user}", "LOG")
 
 @bot.event
