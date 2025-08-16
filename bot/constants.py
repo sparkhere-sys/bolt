@@ -8,7 +8,6 @@ try:
 except ImportError:
   no_color = True
 
-from dotenv import load_dotenv
 from pathlib import Path
 
 ## pypkg

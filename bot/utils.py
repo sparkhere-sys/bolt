@@ -4,6 +4,7 @@
 
 from dotenv import load_dotenv
 import os
+from pathlib import Path
 
 ## pycord
 
@@ -13,12 +14,12 @@ from discord.ext import commands
 ## pypkg
 
 import bot.console as console
-from bot.constants import *
 
 # FUNCTIONS
 
 def get_env_var(var, default, required=True, from_dot_env=True):
   if from_dot_env:
+    env_path = Path(".env") # bugfix because i'm an idiot and used circular imports.
     if not env_path.exists():
       console.log(f"No .env file found.", "WARN" if not required else "FATAL")
       if required:
