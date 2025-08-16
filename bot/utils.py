@@ -2,9 +2,9 @@
 
 # LIBRARIES AND MODULES
 
+from typing import Any
 from dotenv import load_dotenv
 import os
-from pathlib import Path
 
 ## pycord
 
@@ -14,12 +14,12 @@ from discord.ext import commands
 ## pypkg
 
 import bot.console as console
+from bot.constants.config import env_path
 
 # FUNCTIONS
 
-def get_env_var(var, default, required=True, from_dot_env=True):
+def get_env_var(var: str, default: Any, required=True, from_dot_env=True):
   if from_dot_env:
-    env_path = Path(".env") # bugfix because i'm an idiot and used circular imports.
     if not env_path.exists():
       console.log(f"No .env file found.", "WARN" if not required else "FATAL")
       if required:
@@ -38,7 +38,7 @@ def get_env_var(var, default, required=True, from_dot_env=True):
   return val
 
 async def say(ctx: discord.ApplicationContext | commands.Context, msg: str, is_slash=False, ephemeral=False):
-  if is_slash:
+  if is_slash and isinstance(ctx, discord.ApplicationContext): # just in case
     await ctx.respond(msg, ephemeral=ephemeral)
   else:
     await ctx.send(msg)

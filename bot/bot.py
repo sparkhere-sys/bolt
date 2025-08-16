@@ -12,7 +12,7 @@ from discord.ext import commands
 
 ## pypkg
 
-from bot.constants import *
+import bot.constants.base as constants
 import bot.console as console
 import bot.utils as utils
 
@@ -24,7 +24,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 # if reaction roles will be added to the bot, then intents.reactions = True
 
-bot = commands.Bot(command_prefix=prefix, intents=intents, help_command=None) # create bot instance, remove built-in help command
+bot = commands.Bot(command_prefix=constants.prefix, intents=intents, help_command=None) # create bot instance, remove built-in help command
 
 # FUNCTIONS
 
@@ -36,12 +36,12 @@ async def on_ready():
 async def on_command_error(ctx, error):
   if isinstance(error, commands.CommandNotFound):
     console.log(str(error), "ERROR")
-    await utils.say(ctx, f"Command not found. \nRun {prefix}help to see all available commands.") # is_slash is False by default
+    await utils.say(ctx, f"Command not found. \nRun {constants.prefix}help to see all available commands.") # is_slash is False by default
 
 ## START UP
 
 def load_cogs():
-  for ext in extensions:
+  for ext in constants.extensions:
     try:
       bot.load_extension(ext)
       console.log(f"Loaded extension: {ext}", "DEBUG")
@@ -50,6 +50,6 @@ def load_cogs():
       console.log(f"Exception: {e}", "DEBUG")
       raise
 
-def run():
+def start_bot():
   load_cogs()
   bot.run(token)
