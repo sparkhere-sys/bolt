@@ -76,22 +76,22 @@ class Ban(commands.Cog):
 
   @commands.command()
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx: commands.Context, member: discord.Member, *, reason=None):
+  async def ban(self, ctx: commands.Context, member: discord.Member, *, reason: str = "None provided."):
     await self._ban(ctx, member, reason)
   
   @commands.command()
   @commands.has_permissions(ban_members=True)
-  async def unban(self, ctx: commands.Context, member: discord.User, *, reason=None):
+  async def unban(self, ctx: commands.Context, member: discord.User, *, reason: str = "None provided."):
     await self._unban(ctx, member, reason)
 
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
-  async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason: str = None):
+  async def slash_ban(self, ctx: discord.ApplicationContext, member: discord.Member, reason: str = "None provided."):
     await self._ban(ctx, member, reason, is_slash=True)
   
   @commands.slash_command(name="unban", description="unban a previously banned user")
   @commands.has_permissions(ban_members=True)
-  async def slash_unban(self, ctx: discord.ApplicationContext, member: discord.User, *, reason: str = None):
+  async def slash_unban(self, ctx: discord.ApplicationContext, member: discord.User, reason: str = "None provided."):
     await self._unban(ctx, member, reason, is_slash=True)
 
 # FUNCTIONS
