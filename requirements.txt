@@ -1,6 +1,7 @@
 # required:
 py-cord
 python-dotenv
+peewee
 
 # 3.13+
 audioop-lts; python_version >= '3.13'
