@@ -29,6 +29,9 @@ def get_env_var(var: str, default: Any, required=True, from_dot_env=True):
   '''
   literally does what it says on the tin
   why does this need a docstring
+  NOTE: we are soon to be moving to a TOML config system.
+        the .env file however will remain for the token and other secrets,
+        so this function will be rewritten to be extremely simple.
   '''
   
   if from_dot_env:
@@ -81,12 +84,12 @@ async def say(ctx: discord.ApplicationContext | commands.Context, msg: str, ephe
   a wrapper around ctx.send() and ctx.respond().
   '''
 
-  is_slash = isinstance(ctx, discord.ApplicationContext)
-
-  if is_slash:
+  if isinstance(ctx, discord.ApplicationContext):
     await ctx.respond(msg, ephemeral=ephemeral)
   else:
     await ctx.send(msg)
 
 async def assert_guild(ctx):
+  # spark: i despise this function
+
   return ctx.guild is not None

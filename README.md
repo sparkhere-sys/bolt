@@ -46,7 +46,7 @@ First, clone the repo:
 git clone https://github.com/sparkhere-sys/bolt.git && cd bolt
 ```
 
-Next, set up a virtual environment. The instructions will vary depending on your OS of choice.
+Next, set up a virtual environment. (no, not a virtual machine.) The instructions will vary depending on your OS of choice.
 
 * Linux/macOS:
 
@@ -57,7 +57,8 @@ python3 -m venv venv && source ./venv/bin/activate
 * Windows (PowerShell):
 
 ```powershell
-python3 -m venv venv && .\venv\Scripts\Activate.ps1
+python3 -m venv venv
+.\venv\Scripts\Activate.ps1
 ```
 
 Now install all the dependencies:

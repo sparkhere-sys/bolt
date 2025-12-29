@@ -57,24 +57,23 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     self.use_duration = self.timeout and not self.is_un # temporary bans haven't been added yet and will be pretty hard to add
 
-    # TODO: refactor below to use dict mapping instead of if stacks or match-case
-
-    if self.timeout:
-      self.verb = "mute"
-      self.verb_past = "muted" if not self.is_un else "unmuted"
-      return
+    dict_map = {
+      "ban": (("ban", "banned"), ("unban", "unbanned")),
+      "kick": (("kick", "kicked"), ("unkick", "unkicked")), # unkicking is not a real thing, i know. just to avoid any bugs with is_un
+      "timeout": (("timeout", "timed out"), ("untimeout", "untimeout")),
+    }
 
     if self.ban:
-      self.verb = "ban"
-      self.verb_past = "banned" if not self.is_un else "unbanned"
-      return
-    
-    if self.kick:
-      self.verb = "kick"
-      self.verb_past = "kicked" if not self.is_un else "unkicked" # i know that unkicking is impossible, but my point still stands.
-      return
+      mapping_key = "ban" if not self.is_un else "unban"
+    elif self.kick:
+      mapping_key = "kick" if not self.is_un else "unkick"
+    elif self.timeout:
+      mapping_key = "timeout" if not self.is_un else "untimeout"
+
+    self.verb, self.verb_past = dict_map[mapping_key][0] if not self.is_un else dict_map[mapping_key][1]
+
   
-  def check_for_permissions(self, perm, user, _perm_map):
+  def check_for_permissions(self, perm, user, map):
     '''
     <method>
     
@@ -87,15 +86,15 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     if not perm:
       return False # early return
     
-    if not perm in _perm_map:
+    if not perm in map:
       return False # ditto
     
-    if getattr(user.guild_permissions, _perm_map[perm], False):
+    if getattr(user.guild_permissions, map[perm], False):
       return True # ditto
     
     return False
 
-  async def action(self, ctx, target, action_type, reason=None, duration="30m"):
+  async def action(self, ctx, target, reason: str | None = None, duration="30m"):
     '''
     <method>
     
@@ -106,10 +105,17 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     * "kick"
     * "timeout"/"untimeout"
     '''
-    # TODO: make action_type smarter (probably inferred from config() settings instead of being manually passed in)
 
     user = ctx.author
     reason = reason or "None provided."
+    
+    # get action type
+    if self.ban:
+      action_type = "ban" if not self.is_un else "unban"
+    elif self.kick:
+      action_type = "kick"
+    elif self.timeout:
+      action_type = "timeout" if not self.is_un else "untimeout"
 
     # that's a lot of console.log() calls
     console.log(f"An action has been requested.", "LOG")
@@ -126,12 +132,12 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     
     if target == user:
       await utils.say(ctx, f"You can't {self.verb} yourself!", ephemeral=True)
-      console.log(f"{user} tried to {self.verb} themselves.", "LOG")
+      console.log(f"{user} tried to {self.verb} themselves.", "INFO")
       return
     
-    if not self.check_for_permissions(action_type, user, _perm_map=perm_map if not self.is_un else un_perm_map):
+    if not self.check_for_permissions(action_type, user, map=perm_map if not self.is_un else un_perm_map):
       await utils.say(ctx, f"You don't have permission to {self.verb} members.", ephemeral=True)
-      console.log(f"{user} tried to {self.verb} {target} but doesn't have permission.", "LOG")
+      console.log(f"{user} tried to {self.verb} {target} but doesn't have permission.", "INFO")
       return
     
     ## duration parsing
@@ -174,6 +180,8 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
           await target.remove_timeout(reason=reason)
 
         # literally anything else
+        # NOTE: this case should never be reached if the code is working properly.
+        #       remove?
         case _:
           raise ValueError("that action_type doesn't exist dude.")
     
@@ -189,10 +197,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     
     except Exception as e:
       console.log(f"Exception raised: {e}", "ERROR")
-      await utils.say(ctx, "Something went wrong in the bot's code. Try again later.", ephemeral=True)
+      await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
       return
     
-    console.log(f"{user} {self.verb_past} {target}{(' for ' + duration) if self.use_duration else ''} for: {reason}", "LOG")
+    console.log(f"{user} {self.verb_past} {target}{(' for ' + duration) if self.use_duration else ''} for: {reason}", "INFO")
 
     success_message = f"{self.verb_past.capitalize()} {target.mention}{(' for ' + duration) if self.use_duration else ''}. \nReason: {reason}"
     await utils.say(ctx, success_message)

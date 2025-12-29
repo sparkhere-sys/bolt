@@ -17,17 +17,19 @@ from bot.constants.config import default_prefix
 
 # CONSTANTS
 
-prefix = get_env_var("PREFIX", default=default_prefix, required=False, from_dot_env=True)
+prefix = get_env_var("PREFIX", default=default_prefix, required=False, from_dot_env=True) 
+# NOTE: the above line will be removed soon and replaced by toml config system
 
 # ad: this feels very cursed
 # spark: it 100% is.
 
 _cogs = list(Path('bot/cogs').iterdir())
 extensions = []
-_regex = lambda i : re.sub('[/\\\\]','.',re.sub('.py$','',str(i.relative_to('bot/cogs'))))
+_regex = lambda i : re.sub('[/\\\\]', '.', re.sub('.py$','',str(i.relative_to('bot/cogs'))))
+_ignored_files = ('__pycache__', '__init__.py', 'base.py')
 
 for i in _cogs:
-  if i.name in ('__pycache__', '__init__.py', 'base.py'):
+  if i.name in _ignored_files:
     continue
 
   if i.is_file():
@@ -35,5 +37,3 @@ for i in _cogs:
   else:
     for j in i.iterdir():
       _cogs.append(j)
-
-extensions = tuple(extensions) # this looks extremely cursed. leaving it as a list would be fine. -spark

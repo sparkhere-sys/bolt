@@ -1,0 +1,20 @@
+[preferences]
+
+prefix = "."
+bot_name = "Bolt"
+
+[logging]
+
+levels_to_ignore = ["INFO", "DEBUG"]
+
+[cogs]
+
+disabled = []
+
+[markdown]
+
+support_server = "https://discord.gg/yourserver"
+github_repo = "https://github.com/your/repo"
+invite_link = "https://example.com/invite"
+
+help_repo_message = "" # if your bot is not open source, leave this blank. make sure to leave a space at the end.

@@ -22,24 +22,24 @@ class Timeout(Base):
   @commands.command()
   @commands.has_permissions(moderate_members=True)
   async def mute(self, ctx: commands.Context, target: discord.Member, duration="30m", *, reason=None):
-    await self.action(ctx, target, "timeout", reason, duration)
+    await self.action(ctx, target, reason, duration)
   
   @commands.command()
   @commands.has_permissions(moderate_members=True)
   async def unmute(self, ctx: commands.Context, target: discord.Member, *, reason=None):
-    self.config(timeout=True, is_un=True) # reconfiguring for an unmute
-    await self.action(ctx, target, "untimeout", reason)
+    self.config(timeout=True, is_un=True)
+    await self.action(ctx, target, reason)
   
   @commands.slash_command(name="mute", description="mute a user")
   @commands.has_permissions(moderate_members=True)
   async def slash_mute(self, ctx: discord.ApplicationContext, target: discord.Member, duration: str = "30m", reason: str | None = None):
-    await self.action(ctx, target, "timeout", reason, duration) # no need for is_slash=True, that is determined automatically
+    await self.action(ctx, target, reason, duration)
   
   @commands.slash_command(name="unmute", description="unmute a previously muted user")
   @commands.has_permissions(moderate_members=True)
   async def slash_unmute(self, ctx: discord.ApplicationContext, target: discord.Member, reason: str | None = None):
-    self.config(timeout=True, is_un=True) # ditto (see unmute())
-    await self.action(ctx, target, "untimeout", reason) # ditto (see slash_unmute())
+    self.config(timeout=True, is_un=True)
+    await self.action(ctx, target, reason)
 
 # FUNCTIONS
 

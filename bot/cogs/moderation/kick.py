@@ -22,12 +22,12 @@ class Kick(Base):
   @commands.command()
   @commands.has_permissions(kick_members=True)
   async def kick(self, ctx: commands.Context, target: discord.Member, *, reason=None):
-    await self.action(ctx, target, "kick", reason)
+    await self.action(ctx, target, reason)
   
   @commands.slash_command(name="kick", description="kick a member")
   @commands.has_permissions(kick_members=True)
   async def slash_kick(self, ctx: discord.ApplicationContext, target: discord.Member, reason: str | None = None):
-    await self.action(ctx, target, "kick", reason)
+    await self.action(ctx, target, reason)
 
 # FUNCTIONS
 

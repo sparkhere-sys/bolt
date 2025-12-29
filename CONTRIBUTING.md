@@ -37,7 +37,7 @@ class PlaceholderClass:
 
 # FUNCTIONS
 
-def placeholder_function:
+def placeholder_function():
   pass
 ```
 

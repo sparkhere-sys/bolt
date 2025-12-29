@@ -18,11 +18,11 @@ import time # TODO: replace with datetime
 # NOTE: yes we are not using logging
 #       we are literally just printing to stdout
 #       there is no need to make things more complicated
-#       as PEP 20 says, "Simple is better than complex."
 
 ## pypkg
 
 import bot.constants.colors as colors
+from bot.constants.toml import logging
 
 # FUNCTIONS
 
@@ -32,6 +32,9 @@ def log(msg, level="LOG"):
   '''
 
   level = level.upper()
+
+  if level in logging["levels_to_ignore"]:
+    return
 
   level_str = f"{colors.log_colors.get(level, '')}[{level}]{colors.reset_colors}"
   time_str = f"[{time.asctime(time.gmtime())}]" # not local time because timezones are annoying

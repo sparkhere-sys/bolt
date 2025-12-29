@@ -42,8 +42,7 @@ class Ping(commands.Cog):
     console.log(f"Ping requested by {user} ({user.id})", "LOG")
     console.log(f"Latency: {latency}ms", "INFO")
 
-    message = f"Pong! \n{latency}ms"
-    await utils.say(ctx, message)
+    await utils.say(ctx, f"Pong! \n{latency}ms")
   
   async def _uptime(self, ctx):
     '''
@@ -56,23 +55,15 @@ class Ping(commands.Cog):
     user = ctx.author
 
     console.log(f"Uptime requested by {user} ({user.id})", "LOG")
-
-    # NOTE: this never happens. like quite literally never. the if statement here will be removed soon.
-    if not hasattr(self.bot, "start_time"):
-      console.log(f"Somehow, the bot doesn't have a start time.", "DEBUG")
-      await utils.say(ctx, "Dude. The bot doesn't even have uptime yet.", ephemeral=True)
-      return
     
     delta = int(time.time() - self.bot.start_time)
 
     days, remainder = divmod(delta, 86400)
     hours, remainder = divmod(remainder, 3600)
     minutes, seconds = divmod(remainder, 60)
-    
-    message = f"Uptime: {days}d {hours}h {minutes}m {seconds}s"
 
-    console.log(message, "INFO")
-    await utils.say(ctx, message)
+    console.log(f"Uptime: {days}d {hours}h {minutes}m {seconds}s", "INFO")
+    await utils.say(ctx, f"Uptime: {days}d {hours}h {minutes}m {seconds}s")
 
   # COMMANDS
 
