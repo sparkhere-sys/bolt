@@ -40,7 +40,7 @@ class Bunny(commands.Cog):
     image = BytesIO(response.content)
     image.seek(0)
 
-    console.log(f"bnuy image requested by {user} ({user.id})", "LOG")
+    console.log(f"Bunny image requested by {user} ({user.id})", "LOG")
 
     await utils.say(ctx, file=discord.File(image, filename="image.png"))
 
