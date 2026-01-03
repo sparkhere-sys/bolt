@@ -194,7 +194,9 @@ class Fox(commands.Cog):
   async def slash_fox(self, ctx):
     await self._fox(ctx)
 
-  def setup(bot):
+
+
+def setup(bot):
     '''
     adds all the commands to the bot
     '''
