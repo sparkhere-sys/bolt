@@ -8,6 +8,7 @@ Contains the Ban cog.
 
 ## pycord
 
+from operator import is_
 import discord
 from discord.ext import commands
 
@@ -24,11 +25,11 @@ class Ban(Base):
 
   def __init__(self, bot):
     super().__init__(bot)
-    self.config(ban=True)
   
   @commands.command()
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx: commands.Context, target: discord.Member, *, reason=None):
+    self.config(ban=True, is_un=False)
     await self.action(ctx, target, reason)
   
   @commands.command()
@@ -40,6 +41,7 @@ class Ban(Base):
   @commands.slash_command(name="ban", description="ban a user")
   @commands.has_permissions(ban_members=True)
   async def slash_ban(self, ctx: discord.ApplicationContext, target: discord.Member, reason: str | None = None):
+    self.config(ban=True, is_un=False)
     await self.action(ctx, target, reason)
 
   @commands.slash_command(name="unban", description="unban a previously banned user")
