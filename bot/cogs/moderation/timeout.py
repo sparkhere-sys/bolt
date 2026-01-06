@@ -24,11 +24,11 @@ class Timeout(Base):
 
   def __init__(self, bot):
     super().__init__(bot)
-    self.config(timeout=True)
   
   @commands.command()
   @commands.has_permissions(moderate_members=True)
   async def mute(self, ctx: commands.Context, target: discord.Member, duration="30m", *, reason=None):
+    self.config(timeout=True, is_un=False)
     await self.action(ctx, target, reason, duration)
   
   @commands.command()
@@ -40,6 +40,7 @@ class Timeout(Base):
   @commands.slash_command(name="mute", description="mute a user")
   @commands.has_permissions(moderate_members=True)
   async def slash_mute(self, ctx: discord.ApplicationContext, target: discord.Member, duration: str = "30m", reason: str | None = None):
+    self.config(timeout=True, is_un=False)
     await self.action(ctx, target, reason, duration)
   
   @commands.slash_command(name="unmute", description="unmute a previously muted user")
