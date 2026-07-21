@@ -83,7 +83,7 @@ to start the bot.
 
 # uhhh bye
 
-made with <3 by spark and the bolt dev team (currently only 4 people lol)
+made with <3 by spark and the bolt dev team (literally no one as of right now)
 
 contact me:
 

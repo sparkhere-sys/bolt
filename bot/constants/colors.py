@@ -39,7 +39,7 @@ def fg(hex: str) -> str:
   return rgb_fg(r, g, b)
 
 def bg(hex: str) -> str:
-  r, g, b, = hex_to_rgb(hex)
+  r, g, b = hex_to_rgb(hex)
   return rgb_bg(r, g, b)
 
 # ENUMS
@@ -64,5 +64,5 @@ class LogLevel(Enum):
 
 # CONSTANTS
 
-reset = "\033[0m"
+reset = "\033[0m" if allow_colors else ""
 dim = fg("#313244")

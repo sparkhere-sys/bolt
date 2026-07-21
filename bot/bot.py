@@ -102,7 +102,7 @@ def load_cogs(reload=False, reraise=True):
       if reload:
         bot.reload_extension(ext)
         console.debug(f"Reloaded extension: {ext}")
-        return
+        continue
 
       bot.load_extension(ext)
       console.debug(f"Loaded extension: {ext}")
