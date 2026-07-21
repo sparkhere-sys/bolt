@@ -34,7 +34,7 @@ class Cat(commands.Cog):
     image = BytesIO(response.content)
     image.seek(0)
 
-    console.log(f"Cat image requested by {user} ({user.id})", "LOG")
+    console.log(f"Cat image requested by {user} ({user.id})")
 
     await utils.say(ctx, file=discord.File(image, filename="image.png")) # type: ignore
 

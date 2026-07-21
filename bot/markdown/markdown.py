@@ -24,7 +24,6 @@ format:
 # also this isn't a docstring ^^^
 # thats just a multi-line comment.
 
-
 # this can be cleaner, but eh.
 
 @dataclass(frozen=False)

@@ -31,18 +31,18 @@ def main():
   '''
   
   try:
-    console.log("Starting Bolt...", "LOG")
+    console.log("Starting Bolt...")
 
     if not allow_colors:
-      console.log("You don't have `colorama` installed. If you want colored logs, run `pip install colorama`.", "WARN")
+      console.log("You don't have `colorama` installed. If you want colored logs, run `pip install colorama`.")
 
     bot.start_bot()
 
   except Exception as e:
-    console.log(f"Something happened. exception: {e}", "FATAL")
+    console.log(f"Something happened. exception: {e}")
 
   except KeyboardInterrupt:
-    console.log(f"Bolt shutting down...", "LOG")
+    console.log(f"Bolt shutting down...")
 
 # START UP
 

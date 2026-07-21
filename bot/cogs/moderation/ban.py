@@ -8,7 +8,6 @@ Contains the Ban cog.
 
 ## pycord
 
-from operator import is_
 import discord
 from discord.ext import commands
 

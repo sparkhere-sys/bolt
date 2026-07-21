@@ -45,14 +45,14 @@ class Echo(commands.Cog):
 
     user = ctx.author
 
-    console.log(f"{user} requested an echo.", "LOG")
+    console.log(f"{user} requested an echo.")
 
     if msg is None:
-      console.log("There is nothing to echo, returning.", "INFO")
+      console.log("There is nothing to echo, returning.")
       await utils.say(ctx, "There's nothing to echo.", ephemeral=True)
       return
     
-    console.log(f"To be echoed: {msg}", "INFO")
+    console.log(f"To be echoed: {msg}")
     await utils.say(ctx, msg)
   
   # COMMANDS

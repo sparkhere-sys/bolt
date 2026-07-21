@@ -134,29 +134,30 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     elif self.timeout:
       action_type = "timeout" if not self.is_un else "untimeout"
 
-    # that's a lot of console.log() calls
-    console.log(f"An action has been requested.", "LOG")
-    console.log(f"Action type: {action_type}", "INFO")
-    console.log(f"Target: {target} ({target.id})", "INFO")
-    console.log(f"Requested by: {user} ({user.id})", "INFO")
-    console.log(f"Reason: {reason}", "INFO")
-    console.log(f"Duration: {duration}", "INFO")
-    console.log(f"In guild: {ctx.guild} ({ctx.guild.id})", "INFO")
-
     ## checks
 
-    if not await utils.assert_guild(ctx):
+    if ctx.guild is None:
+      await utils.say(ctx, "This command can only be ran in a server.")
       return
     
     if target == user:
       await utils.say(ctx, f"You can't {self.verb} yourself!", ephemeral=True)
-      console.log(f"{user} tried to {self.verb} themselves.", "INFO")
+      console.info(f"{user} tried to {self.verb} themselves.")
       return
     
     if not self.check_for_permissions(action_type, user, perm_map=perm_map if not self.is_un else un_perm_map):
       await utils.say(ctx, f"You don't have permission to {self.verb} members.", ephemeral=True)
-      console.log(f"{user} tried to {self.verb} {target} but doesn't have permission.", "INFO")
+      console.info(f"{user} tried to {self.verb} {target} but doesn't have permission.")
       return
+
+    # that's a lot of console.log() calls
+    console.log(f"An action has been requested.")
+    console.info(f"Action type: {action_type}")
+    console.info(f"Target: {target} ({target.id})")
+    console.info(f"Requested by: {user} ({user.id})")
+    console.info(f"Reason: {reason}")
+    console.info(f"Duration: {duration}")
+    console.info(f"In guild: {ctx.guild} ({ctx.guild.id})")
     
     ## duration parsing
     
@@ -167,7 +168,8 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
         await utils.say(ctx, "Invalid duration format. Try `3d`, `1h`, `30m`, `45s`", ephemeral=True)
         return
       
-      # if seconds < 0 check is not required. parse_duration() will just kill itself if it sees a negative number anyway
+      # if seconds < 0 check is not required. 
+      # parse_duration() will just kill itself if it sees a negative number anyway
 
       if seconds >= 2419200: # as in, 28 days.
         if self.ban:
@@ -204,21 +206,21 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
           raise ValueError("that action_type doesn't exist dude.")
     
     except discord.Forbidden:
-      console.log(f"Failed to {self.verb} {target}, permission denied.", "ERROR")
+      console.error(f"Failed to {self.verb} {target}, permission denied.")
       await utils.say(ctx, f"I don't have permission to {self.verb} that user.", ephemeral=True)
       return
     
     except discord.HTTPException:
-      console.log(f"Failed to {self.verb} {target}, HTTPException raised.", "ERROR")
+      console.error(f"Failed to {self.verb} {target}, HTTPException raised.")
       await utils.say(ctx, f"Something went wrong while trying to {self.verb} that user.", ephemeral=True)
       return
     
     except Exception as e:
-      console.log(f"Exception raised: {e}", "ERROR")
+      console.error(f"Exception raised: {e}")
       await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
       return
     
-    console.log(f"{user} {self.verb_past} {target}{(' for ' + duration) if self.use_duration else ''} for: {reason}", "INFO")
+    console.info(f"{user} {self.verb_past} {target}{(' for ' + duration) if self.use_duration else ''} for: {reason}")
 
     success_message = f"{self.verb_past.capitalize()} {target.mention}{(' for ' + duration) if self.use_duration else ''}. \nReason: {reason}"
     await utils.say(ctx, success_message)

@@ -70,7 +70,7 @@ class MarkdownCommands(commands.Cog):
     '''
 
     user = ctx.author
-    console.log(f"Help requested by {user} ({user.id})", "LOG")
+    console.log(f"Help requested by {user} ({user.id})")
 
     message = self.fetch_markdown_file("help")
     await utils.say(ctx, message)
@@ -83,7 +83,7 @@ class MarkdownCommands(commands.Cog):
     '''
 
     user = ctx.author
-    console.log(f"Invite requested by {user} ({user.id})", "LOG")
+    console.log(f"Invite requested by {user} ({user.id})")
 
     message = self.fetch_markdown_file("invite")
     await utils.say(ctx, message)

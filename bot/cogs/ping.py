@@ -48,8 +48,8 @@ class Ping(commands.Cog):
 
     latency = round(self.bot.latency * 1000)
 
-    console.log(f"Ping requested by {user} ({user.id})", "LOG")
-    console.log(f"Latency: {latency}ms", "INFO")
+    console.log(f"Ping requested by {user} ({user.id})")
+    console.log(f"Latency: {latency}ms")
 
     await utils.say(ctx, f"Pong! \n{latency}ms")
   
@@ -72,7 +72,7 @@ class Ping(commands.Cog):
 
     user = ctx.author
 
-    console.log(f"Uptime requested by {user} ({user.id})", "LOG")
+    console.log(f"Uptime requested by {user} ({user.id})")
     
     delta = int(time.time() - self.bot.start_time)
 
@@ -80,7 +80,7 @@ class Ping(commands.Cog):
     hours, remainder = divmod(remainder, 3600)
     minutes, seconds = divmod(remainder, 60)
 
-    console.log(f"Uptime: {days}d {hours}h {minutes}m {seconds}s", "INFO")
+    console.log(f"Uptime: {days}d {hours}h {minutes}m {seconds}s")
     await utils.say(ctx, f"Uptime: {days}d {hours}h {minutes}m {seconds}s")
 
   # COMMANDS
