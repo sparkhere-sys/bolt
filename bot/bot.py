@@ -21,6 +21,7 @@ import bot.constants.base as constants
 import bot.constants.toml as toml_config
 import bot.console as console
 import bot.utils as utils
+from bot.constants.colors import LogLevel
 
 # INIT
 
@@ -53,7 +54,7 @@ async def on_ready():
   '''
 
   setattr(bot, "start_time", time.time())
-  console.log(f"Bolt is online as {bot.user}")
+  console.translate(f"Bolt is online as {bot.user}", LogLevel.READY)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):

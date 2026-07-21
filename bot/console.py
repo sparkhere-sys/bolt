@@ -7,7 +7,7 @@ from typing import Any
 
 ## pypkg
 
-from bot.constants.colors import LogLevel
+from bot.constants.colors import LogLevel, dim, reset
 import bot.constants.toml as toml_config
 
 # FUNCTIONS
@@ -17,26 +17,26 @@ def translate(msg: Any, level: LogLevel) -> None:
     return
 
   level_str = level.badge
-  time_str = time.asctime(time.localtime())
+  time_str = f"{dim}{time.asctime(time.localtime())}{reset}"
 
   full = f"{level_str} {time_str} {msg}"
 
   print(full)
 
-def log(msg: Any, _backwards_compatibility=None) -> None:
+def log(msg: Any) -> None:
   translate(msg, LogLevel.LOG)
 
-def debug(msg: Any, _backwards_compatibility=None) -> None:
+def debug(msg: Any) -> None:
   translate(msg, LogLevel.DEBUG)
 
-def error(msg: Any, _backwards_compatibility=None) -> None:
+def error(msg: Any) -> None:
   translate(msg, LogLevel.ERROR)
 
-def fatal(msg: Any, _backwards_compatibility=None) -> None:
+def fatal(msg: Any) -> None:
   translate(msg, LogLevel.FATAL)
 
-def warn(msg: Any, _backwards_compatibility=None) -> None:
+def warn(msg: Any) -> None:
   translate(msg, LogLevel.WARN)
 
-def info(msg: Any, _backwards_compatibility=None) -> None:
+def info(msg: Any) -> None:
   translate(msg, LogLevel.INFO)

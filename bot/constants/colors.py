@@ -48,9 +48,10 @@ class LogLevel(Enum):
   LOG   = ("#cdd6f4", "#313244")
   DEBUG = ("#89dceb", "#11111b")
   INFO  = ("#89b4fa", "#11111b")
-  WARN  = ("#a6e3a1", "#11111b")
+  WARN  = ("#f9e2af", "#11111b")
   ERROR = ("#f38ba8", "#11111b")
   FATAL = ("#cba6f7", "#11111b")
+  READY = ("#a6e3a1", "#11111b")
 
   @property
   def color(self) -> str:
@@ -59,8 +60,9 @@ class LogLevel(Enum):
   
   @property
   def badge(self) -> str:
-    return f"{self.color} {self.name:<5} {reset}"
+    return f"{self.color} {self.name:^7} {reset}"
 
 # CONSTANTS
 
 reset = "\033[0m"
+dim = fg("#313244")

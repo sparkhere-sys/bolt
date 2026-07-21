@@ -36,6 +36,7 @@ logging = data.get("logging", {})
 database = data.get("database", {})
 cogs = data.get("cogs", {})
 markdown = data.get("markdown", {})
+log_colors = data.get("log_colors", {})
 
 ## preferences
 
