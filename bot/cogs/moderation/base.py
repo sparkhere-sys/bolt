@@ -58,9 +58,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       pass
 
     perm_map_used = un_perm_map if action_name in ("unban", "untimeout") else perm_map
-    perm_name = "ban" if "ban" in action_name else ("kick" if "kick" in action_name else "timeout")
 
-    if not self.check_for_permissions(perm_name, user, perm_map=perm_map_used):
+    # use the action_name (eg. 'ban' or 'unban') as the permission key so
+    # it matches the keys present in perm_map / un_perm_map
+    if not self.check_for_permissions(action_name, user, perm_map=perm_map_used):
       await utils.say(ctx, f"You don't have permission to {verb} members.", ephemeral=True)
       console.info(f"{user} tried to {verb} {target} but doesn't have permission.")
       return False, uses_duration, verb, verb_past
