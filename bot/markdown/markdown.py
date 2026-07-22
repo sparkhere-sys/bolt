@@ -4,7 +4,7 @@
 # IMPORTS
 
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 # bolt
 
@@ -24,7 +24,7 @@ class Help:
     return {
       "{prefix}": toml_config.prefix,
       "{support}": f"<{self.support_server_link}>",
-      "{repo}": f"{self.help_repo_message}<{self.support_server_link}>"
+      "{repo}": f"{self.help_repo_message}<{self.repo_link}>"
     }
 
 @dataclass(frozen=True)
@@ -37,5 +37,5 @@ class Invite:
   def find_and_replace(self) -> dict[str, str]:
     return {
       "{invite}": f"<{self.invite_link}>",
-      "{support}": f"<{self.support_server_link}"
+      "{support}": f"<{self.support_server_link}>"
     }

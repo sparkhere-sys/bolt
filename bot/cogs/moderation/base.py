@@ -5,7 +5,9 @@
 
 from datetime import timedelta # for use with timeout
 from enum import Enum
-from typing import Union
+from dataclasses import dataclass
+from typing import Union, Any
+from collections.abc import Awaitable # why can't we just put this in typing
 
 ## pycord
 
@@ -14,7 +16,6 @@ from discord.ext import commands
 
 ## bolt
 
-from bot.constants.moderation import *
 import bot.console as console
 import bot.utils as utils
 
@@ -23,75 +24,84 @@ import bot.utils as utils
 MAX_TIMEOUT_SECONDS = 28 * 24 * 60 * 60  # 28 days
 
 ContextType = Union[commands.Context, discord.ApplicationContext]
+TargetType = Union[discord.User, discord.Member]
 
-# ENUMS
+# ENUMS AND DATACLASSES
+
+@dataclass(frozen=True)
+class ActionInfo:
+  name: str
+  verb: str
+  verb_past: str
+  permission: str
 
 class Actions(Enum):
-  BAN = "ban"
-  UNBAN = "unban"
-  KICK = "kick"
-  TIMEOUT = "timeout"
-  UNTIMEOUT = "untimeout"
+  BAN       = ActionInfo(name="ban",
+                         verb="ban",
+                         verb_past="banned", 
+                         permission="ban_members")
+  
+  UNBAN     = ActionInfo(name="unban",
+                         verb="unban", 
+                         verb_past="unbanned", 
+                         permission="ban_members")
+  
+  KICK      = ActionInfo(name="kick", 
+                         verb="kick", 
+                         verb_past="kicked",  
+                         permission="kick_members")
+  
+  TIMEOUT   = ActionInfo(name="timeout", 
+                         verb="mute", 
+                         verb_past="muted", 
+                         permission="moderate_members")
+
+  UNTIMEOUT = ActionInfo(name="untimeout", 
+                         verb="unmute", 
+                         verb_past="unmuted", 
+                         permission="moderate_members")
 
 # CLASSES
 
 class Base(commands.Cog): # not actually a cog. it just inherits from commands.Cog
-  def __init__(self, bot):
+  def __init__(self, bot: commands.Bot):
     self.bot = bot
 
-  async def _can_act(self, ctx, target, action_name: str, allow_user_target: bool = False):
-    user = ctx.author
-
-    mapping = {
-      "ban": {"verb": "ban", "verb_past": "banned", "uses_duration": False},
-      "unban": {"verb": "unban", "verb_past": "unbanned", "uses_duration": False},
-      "kick": {"verb": "kick", "verb_past": "kicked", "uses_duration": False},
-      "timeout": {"verb": "mute", "verb_past": "muted", "uses_duration": True},
-      "untimeout": {"verb": "unmute", "verb_past": "unmuted", "uses_duration": False},
-    }
-
-    if action_name not in mapping:
-      return False, False, "action", "acted"
-
-    info = mapping[action_name]
-    verb = info["verb"]
-    verb_past = info["verb_past"]
-    uses_duration = info["uses_duration"]
+  async def _can_act(self, 
+                     ctx: ContextType, 
+                     target: TargetType, 
+                     action: Actions) -> tuple[bool, str, str]:
+    verb = action.value.verb
+    verb_past = action.value.verb_past
+    permission = action.value.permission
 
     if ctx.guild is None:
       await utils.say(ctx, "This command can only be ran in a server.")
-      return False, uses_duration, verb, verb_past
+      return False, verb, verb_past
 
-    try:
-      if not allow_user_target and target == user:
-        await utils.say(ctx, f"You can't {verb} yourself!", ephemeral=True)
-        console.info(f"{user} tried to {verb} themselves.")
-        return False, uses_duration, verb, verb_past
-    except Exception:
-      pass
+    assert isinstance(ctx.author, discord.Member)
+    user = ctx.author # pylance stop yelling at me i beg
 
-    perm_map_used = un_perm_map if action_name in ("unban", "untimeout") else perm_map
+    if target == user:
+      await utils.say(ctx, f"You can't {verb} yourself!", ephemeral=True)
+      console.info(f"{user} tried to {verb} themselves.")
+      return False, verb, verb_past
 
-    if not self.check_for_permissions(action_name, user, perm_map=perm_map_used):
+    if not self.check_for_permissions(permission, user):
       await utils.say(ctx, f"You don't have permission to {verb} members.", ephemeral=True)
       console.info(f"{user} tried to {verb} {target} but doesn't have permission.")
-      return False, uses_duration, verb, verb_past
+      return False, verb, verb_past
 
-    return True, uses_duration, verb, verb_past
+    return True, verb, verb_past
   
-  def check_for_permissions(self, perm: str, user, perm_map: dict) -> bool:
-    if not perm:
-      return False # early return
-    
-    if not perm in perm_map:
-      return False # ditto
-    
-    if getattr(user.guild_permissions, perm_map[perm], False):
-      return True # ditto
-    
-    return False
+  def check_for_permissions(self, permission: str, user: discord.Member) -> bool:    
+    return getattr(user.guild_permissions, permission, False)
 
-  async def _handle_action_call(self, ctx: ContextType, verb: str, target, coro) -> bool:
+  async def _handle_action_call(self, 
+                                ctx: ContextType, 
+                                verb: str, 
+                                target: TargetType, 
+                                coro: Awaitable[Any]) -> bool:
     try:
       await coro
 
@@ -115,31 +125,35 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
   async def action(self, 
                    ctx: ContextType, 
                    action: Actions, 
-                   target, 
+                   target: TargetType, 
                    reason: str | None = None, 
-                   duration: str | None = None):
+                   duration: str | None = None) -> None:
     user = ctx.author
-    action_name = action.value
-    ok, _uses_duration, verb, verb_past = await self._can_act(ctx, target, action_name, allow_user_target=action_name in ("unban",))
-    if not ok:
+    can_act, verb, verb_past = await self._can_act(ctx, target, action)
+    if not can_act:
       return
 
     reason = reason or "None provided."
 
-    console.log(f"{user} requested action {action_name} on {target} in guild {ctx.guild}.")
+    console.log(f"{user} requested action {action.value.name} on {target} in guild {ctx.guild}.")
 
     match action:
       case Actions.BAN:
-        coro = target.ban(reason=reason)
+        coro = target.ban(reason=reason) # type: ignore[attr-defined]
+        # shut the hell up pylance
 
       case Actions.UNBAN:
         if ctx.guild is None:
           await utils.say(ctx, "You can't run that command here!")
           return
+        
         coro = ctx.guild.unban(target, reason=reason)
+        # NOTE: we're not using type: ignore here
+        #       since we're operating on the guild, and not the user.
+        #       so this is the only one that works if target is discord.User
 
       case Actions.KICK:
-        coro = target.kick(reason=reason)
+        coro = target.kick(reason=reason) # type: ignore[attr-defined]
 
       case Actions.TIMEOUT:
         duration = duration or "30m"
@@ -153,10 +167,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
           await utils.say(ctx, "Dude you can't even mute someone for that long.", ephemeral=True)
           return
 
-        coro = target.timeout_for(timedelta(seconds=seconds), reason=reason)
+        coro = target.timeout_for(timedelta(seconds=seconds), reason=reason) # type: ignore[attr-defined]
 
       case Actions.UNTIMEOUT:
-        coro = target.remove_timeout(reason=reason)
+        coro = target.remove_timeout(reason=reason) # type: ignore[attr-defined]
 
       case _:
         raise ValueError("Invalid action type")
@@ -177,17 +191,17 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
   # HELPERS
 
-  async def _ban(self, ctx: ContextType, target: discord.Member, reason: str | None = None):
+  async def _ban(self, ctx: ContextType, target: discord.Member, reason: str | None = None) -> None:
     await self.action(ctx, Actions.BAN, target, reason)
 
-  async def _unban(self, ctx: ContextType, target: discord.User, reason: str | None = None):
+  async def _unban(self, ctx: ContextType, target: discord.User, reason: str | None = None) -> None:
     await self.action(ctx, Actions.UNBAN, target, reason)
 
-  async def _kick(self, ctx: ContextType, target: discord.Member, reason: str | None = None):
+  async def _kick(self, ctx: ContextType, target: discord.Member, reason: str | None = None) -> None:
     await self.action(ctx, Actions.KICK, target, reason)
 
-  async def _mute(self, ctx: ContextType, target: discord.Member, duration: str = "30m", reason: str | None = None):
+  async def _mute(self, ctx: ContextType, target: discord.Member, duration: str = "30m", reason: str | None = None) -> None:
     await self.action(ctx, Actions.TIMEOUT, target, reason, duration=duration)
 
-  async def _unmute(self, ctx: ContextType, target: discord.Member, reason: str | None = None):
+  async def _unmute(self, ctx: ContextType, target: discord.Member, reason: str | None = None) -> None:
     await self.action(ctx, Actions.UNTIMEOUT, target, reason)
