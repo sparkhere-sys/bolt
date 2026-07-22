@@ -2,3 +2,10 @@
 - changed-files:
   - any-glob-to-any-file:
     - .github/*
+
+"pr: documentation":
+- changed-files:
+  - any-glob-to-any-file:
+    - .docs/**
+    - README.md
+    - CONTRIBUTING.md
