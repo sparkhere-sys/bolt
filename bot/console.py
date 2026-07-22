@@ -40,3 +40,6 @@ def warn(msg: Any) -> None:
 
 def info(msg: Any) -> None:
   translate(msg, LogLevel.INFO)
+
+def success(msg: Any) -> None:
+  translate(msg, LogLevel.SUCCESS)
