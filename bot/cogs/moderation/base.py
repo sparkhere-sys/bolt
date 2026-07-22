@@ -17,7 +17,7 @@ from discord.ext import commands
 import bot.console as console
 import bot.utils as utils
 from bot.constants.types import ContextType, TargetType
-from bot.cogs.moderation.types import ActionInfo, Actions, MAX_TIMEOUT_SECONDS
+from bot.cogs.moderation.types import Actions, MAX_TIMEOUT_SECONDS
 
 # CLASSES
 
