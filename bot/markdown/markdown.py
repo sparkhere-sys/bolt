@@ -4,16 +4,24 @@
 # IMPORTS
 
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 # bolt
 
 import bot.constants.toml as toml_config
 
-# DATA CLASSES
+# DATACLASSES
 
 @dataclass(frozen=True)
-class Help:
+class MarkdownFile:
+  path: Path
+
+  @property
+  def find_and_replace(self) -> dict[str, str]:
+    return {}
+
+@dataclass(frozen=True)
+class Help(MarkdownFile):
   path: Path = Path("bot/markdown/help.md")
   repo_link: str = toml_config.github_repo
   support_server_link: str = toml_config.support_server
@@ -24,11 +32,11 @@ class Help:
     return {
       "{prefix}": toml_config.prefix,
       "{support}": f"<{self.support_server_link}>",
-      "{repo}": f"{self.help_repo_message}<{self.support_server_link}>"
+      "{repo}": f"{self.help_repo_message}<{self.repo_link}>"
     }
 
 @dataclass(frozen=True)
-class Invite:
+class Invite(MarkdownFile):
   path: Path = Path("bot/markdown/invite.md")
   invite_link: str = toml_config.invite_link
   support_server_link: str = toml_config.support_server
@@ -37,5 +45,5 @@ class Invite:
   def find_and_replace(self) -> dict[str, str]:
     return {
       "{invite}": f"<{self.invite_link}>",
-      "{support}": f"<{self.support_server_link}"
+      "{support}": f"<{self.support_server_link}>"
     }

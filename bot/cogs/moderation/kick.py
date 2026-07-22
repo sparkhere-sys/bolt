@@ -15,11 +15,11 @@ from bot.cogs.moderation.base import Base
 # CLASSES
 
 class Kick(Base):
-  def __init__(self, bot):
+  def __init__(self, bot: commands.Bot):
     super().__init__(bot)
   
   @commands.command()
-  @commands.has_permissions(kick_members=True)
+  ## @commands.has_permissions(kick_members=True)
   async def kick(self, ctx: commands.Context, target: discord.Member, *, reason=None):
     await self._kick(ctx, target, reason)
   

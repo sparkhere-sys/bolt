@@ -15,19 +15,19 @@ import discord
 
 import bot.utils as utils
 import bot.console as console
+from bot.constants.types import ContextType
 
 # CLASSES
 
 class Cat(commands.Cog):
-    
-  def __init__(self, bot):
+  def __init__(self, bot: commands.Bot):
     self.bot = bot
 
-  async def _cat(self, ctx):
+  async def _cat(self, ctx: ContextType):
     user = ctx.author
 
     catapi = "https://cataas.com/cat"
-    response = requests.get(catapi)
+    response = requests.get(catapi) # NOTE: since http is synchronous, this bites us in the back. move to aiohttp is a TODO
     image = BytesIO(response.content)
     image.seek(0)
 

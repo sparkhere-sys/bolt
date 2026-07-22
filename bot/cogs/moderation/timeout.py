@@ -19,12 +19,12 @@ class Timeout(Base):
     super().__init__(bot)
   
   @commands.command()
-  @commands.has_permissions(moderate_members=True)
+  ## @commands.has_permissions(moderate_members=True)
   async def mute(self, ctx: commands.Context, target: discord.Member, duration="30m", *, reason=None):
     await self._mute(ctx, target, duration, reason)
   
   @commands.command()
-  @commands.has_permissions(moderate_members=True)
+  ## @commands.has_permissions(moderate_members=True)
   async def unmute(self, ctx: commands.Context, target: discord.Member, *, reason=None):
     await self._unmute(ctx, target, reason)
   

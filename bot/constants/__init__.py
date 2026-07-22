@@ -5,4 +5,4 @@
 from .base import *
 from .colors import *
 from .config import *
-from .moderation import *
+from .types import *

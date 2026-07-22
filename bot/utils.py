@@ -56,7 +56,7 @@ def parse_duration(duration: str) -> int | bool | None:
 
   return total_seconds if total_seconds > 0 else False
 
-async def say(ctx: commands.Context | discord.ApplicationContext, msg: str = "", ephemeral=False, file = discord.File | None):
+async def say(ctx: commands.Context | discord.ApplicationContext, msg: str = "", ephemeral=False, file:  discord.File | None = None):
   if isinstance(ctx, discord.ApplicationContext):
     if isinstance(file, discord.File):
       await ctx.respond(msg, ephemeral=ephemeral, file=file)
@@ -70,5 +70,6 @@ async def say(ctx: commands.Context | discord.ApplicationContext, msg: str = "",
 
 async def assert_guild(ctx: commands.Context | discord.ApplicationContext) -> bool:
   # spark: i despise this function
+  # it is basically never used
 
   return ctx.guild is not None
