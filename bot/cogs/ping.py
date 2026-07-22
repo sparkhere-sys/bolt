@@ -14,6 +14,7 @@ from discord.ext import commands
 
 import bot.console as console
 import bot.utils as utils
+from bot.constants.types import ContextType
 
 # CLASSES
 
@@ -21,7 +22,7 @@ class Ping(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   
-  async def _ping(self, ctx: discord.ApplicationContext | commands.Context):
+  async def _ping(self, ctx: ContextType):
     user = ctx.author
 
     latency = round(self.bot.latency * 1000)
@@ -31,7 +32,7 @@ class Ping(commands.Cog):
 
     await utils.say(ctx, f"Pong! \n{latency}ms")
   
-  async def _uptime(self, ctx: discord.ApplicationContext | commands.Context):
+  async def _uptime(self, ctx: ContextType):
     user = ctx.author
 
     console.log(f"Uptime requested by {user} ({user.id})")

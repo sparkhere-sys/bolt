@@ -28,7 +28,7 @@ class MarkdownFiles(Enum):
 # CLASSES
 
 class MarkdownCommands(commands.Cog):
-  def __init__(self, bot):
+  def __init__(self, bot: commands.Bot):
     self.bot = bot
   
   @functools.cache
@@ -60,24 +60,24 @@ class MarkdownCommands(commands.Cog):
   ## help
 
   @commands.command()
-  async def help(self, ctx: commands.Context):
+  async def help(self, ctx: commands.Context) -> None:
     await self._help(ctx)
   
   @commands.slash_command(name="help", description="show the help message.")
-  async def slash_help(self, ctx: discord.ApplicationContext):
+  async def slash_help(self, ctx: discord.ApplicationContext) -> None:
     await self._help(ctx)
   
   ## invite
 
   @commands.command()
-  async def invite(self, ctx: commands.Context):
+  async def invite(self, ctx: commands.Context) -> None:
     await self._invite(ctx)
   
   @commands.slash_command(name="invite", description="invite the bot to your server!")
-  async def slash_invite(self, ctx: discord.ApplicationContext):
+  async def slash_invite(self, ctx: discord.ApplicationContext) -> None:
     await self._invite(ctx)
 
 # FUNCTIONS
 
-def setup(bot):
+def setup(bot) -> None:
   bot.add_cog(MarkdownCommands(bot))

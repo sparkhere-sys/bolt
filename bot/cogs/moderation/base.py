@@ -77,8 +77,8 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       await utils.say(ctx, "This command can only be ran in a server.")
       return False, verb, verb_past
 
-    assert isinstance(ctx.author, discord.Member)
-    user = ctx.author # pylance stop yelling at me i beg
+    assert isinstance(ctx.author, discord.Member) # pylance stop yelling at me i beg
+    user = ctx.author
 
     if target == user:
       await utils.say(ctx, f"You can't {verb} yourself!", ephemeral=True)
