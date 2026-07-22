@@ -19,27 +19,35 @@ class ActionInfo:
   permission: str
 
 class Actions(Enum):
-  BAN       = ActionInfo(name="ban",
-                         verb="ban",
-                         verb_past="banned",
-                         permission="ban_members")
+  BAN = ActionInfo(
+    name="ban",
+    verb="ban",
+    verb_past="banned",
+    permission="ban_members")
 
-  UNBAN     = ActionInfo(name="unban",
-                         verb="unban",
-                         verb_past="unbanned",
-                         permission="ban_members")
+  UNBAN = ActionInfo(
+    name="unban",
+    verb="unban",
+    verb_past="unbanned",
+    permission="ban_members")
 
-  KICK      = ActionInfo(name="kick",
-                         verb="kick",
-                         verb_past="kicked",
-                         permission="kick_members")
+  KICK = ActionInfo(
+    name="kick",
+    verb="kick",
+    verb_past="kicked",
+    permission="kick_members"
+  )
 
-  TIMEOUT   = ActionInfo(name="timeout",
-                         verb="mute",
-                         verb_past="muted",
-                         permission="moderate_members")
+  TIMEOUT = ActionInfo(
+    name="timeout",
+    verb="mute",
+    verb_past="muted",
+    permission="moderate_members"
+  )
 
-  UNTIMEOUT = ActionInfo(name="untimeout",
-                         verb="unmute",
-                         verb_past="unmuted",
-                         permission="moderate_members")
+  UNTIMEOUT = ActionInfo(
+    name="untimeout",
+    verb="unmute",
+    verb_past="unmuted",
+    permission="moderate_members"
+  )
