@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 # bot/cogs/echo.py
-'''
-Contains the Echo cog.
-'''
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 ## pycord
 
 import discord
 from discord.ext import commands
 
-## pypkg
+## bolt
 
 import bot.console as console
 import bot.utils as utils
@@ -19,29 +16,11 @@ import bot.utils as utils
 # CLASSES
 
 class Echo(commands.Cog):
-  '''
-  Handles the echo commands.
-  '''
 
   def __init__(self, bot):
     self.bot = bot
   
   async def _echo(self, ctx, msg=None):
-    '''
-    This function is a bot command.
-
-    Says a message provided by the user in the channel the command was invoked in.
-
-    ### Parameters
-    * ctx: discord.ApplicationContext | commands.Context: The context of the command.
-    * msg: str | None: The message to echo. If None, informs the user that there's nothing to echo.
-
-    ### Returns
-    nothing.
-
-    ### Raises
-    nothing.
-    '''
 
     user = ctx.author
 
@@ -71,8 +50,5 @@ class Echo(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-  '''
-  Adds the Echo cog to the bot.
-  '''
 
   bot.add_cog(Echo(bot))

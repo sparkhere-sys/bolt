@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # bot/cogs/cat.py
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 from io import BytesIO
 import requests
@@ -11,7 +11,7 @@ import requests
 from discord.ext import commands
 import discord
 
-# pypkg
+# bolt
 
 import bot.utils as utils
 import bot.console as console
@@ -19,9 +19,6 @@ import bot.console as console
 # CLASSES
 
 class Cat(commands.Cog):
-  '''
-  handles the cat command(s)
-  '''
     
   def __init__(self, bot):
     self.bot = bot
@@ -51,8 +48,5 @@ class Cat(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-  '''
-  adds cat cog to the bot
-  '''
 
   bot.add_cog(Cat(bot))

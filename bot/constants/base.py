@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 # bot/constants/base.py
-'''
-Base constant file required for the bot to boot.
-'''
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 from pathlib import Path
 
-## pypkg
+## bolt
 
 import bot.constants.toml as toml_config
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 import time # TODO: replace with datetime maybe
 from typing import Any
 
-## pypkg
+## bolt
 
 from bot.constants.colors import LogLevel, dim, reset
 import bot.constants.toml as toml_config
@@ -40,3 +40,6 @@ def warn(msg: Any) -> None:
 
 def info(msg: Any) -> None:
   translate(msg, LogLevel.INFO)
+
+def success(msg: Any) -> None:
+  translate(msg, LogLevel.SUCCESS)

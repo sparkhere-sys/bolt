@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
 # bot/__main__.py
-'''
-Main entry point for the bot.
 
-Runs when executing `python -m bot`.
-'''
+# IMPORTS
 
-# LIBRARIES AND MODULES
-
-## pypkg
+## bolt
 
 from bot.constants.colors import allow_colors
 import bot.bot as bot
@@ -17,19 +12,6 @@ import bot.console as console
 # FUNCTIONS
 
 def main():
-  '''
-  The bootstrapper.
-
-  ### Parameters
-  none.
-
-  ### Returns
-  nothing.
-
-  ### Raises
-  nothing.
-  '''
-  
   try:
     console.log("Starting Bolt...")
 

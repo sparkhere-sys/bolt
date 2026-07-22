@@ -7,10 +7,9 @@
 * Use 2 spaces for indentation
 * Class names are in `PascalCase`
 * Variable names and function names are in `snake_case`
-* All variable names should be lowercase, including constants.
 * Section headers should be in all caps.
 
-If you don't like the styling of Bolt, no problem! You can code in your own style and a contributor can restyle your code to fit Bolt.
+If your code doesn't follow this style, no problem. A maintainer can help clean it up before merging.
 
 ### Section headers
 
@@ -18,15 +17,16 @@ If you don't like the styling of Bolt, no problem! You can code in your own styl
 #!/usr/bin/python3
 # path/to/file.py
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 import smth_from_stdlib
+from external_package import spameggs
 
 ## pycord
 
 import discord
 
-## pypkg
+## bolt
 
 import bot.module.inside.bolt
 
@@ -43,7 +43,7 @@ def placeholder_function():
 
 ## Etiquette
 
-* When working on Bolt, create your own branch and name it `yourname-pr`.
+* Fork the repo.
 * Don't commit directly to `main`, use pull requests instead.
 * Don't mess with other people's branches, leave them be.
 * Don't be a dick.
