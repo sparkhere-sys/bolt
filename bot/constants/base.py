@@ -11,7 +11,7 @@ import bot.constants.toml as toml_config
 
 # CONSTANTS
 
-_ignored_files: set[str] = {"__pycache__", "__init__.py", "base.py"}
+_ignored_files: set[str] = {"__pycache__", "__init__.py", "base.py", "types.py", "case.py"}
 
 extensions = []
 

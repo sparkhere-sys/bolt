@@ -17,7 +17,8 @@ from discord.ext import commands
 import bot.console as console
 import bot.utils as utils
 from bot.constants.types import ContextType, TargetType
-from bot.cogs.moderation.types import Actions, MAX_TIMEOUT_SECONDS
+from bot.cogs.moderation.types import Actions, MAX_TIMEOUT_SECONDS, Case
+from bot.cogs.moderation.case import CaseModel
 
 # CLASSES
 
@@ -136,7 +137,21 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     if not await self._handle_action_call(ctx, verb, target, coro):
       return
 
-    ## console.info(f"{ctx.author} {verb_past} {target} for: {reason}")
+    # say it with me now
+    # SHUT UP PYLANCE.
+    case = Case(
+      action=action,
+      target=target,
+      moderator=ctx.author,
+      reason=reason,
+      guild=ctx.guild, # type: ignore[attr-defined]
+      duration=duration
+    )
+
+    model = CaseModel.from_case(case)
+    model.save()
+
+    console.info(f"Saved case #{model.case_id}")
 
     if action == Actions.TIMEOUT:
       success_message = f"{verb_past.capitalize()} {target.mention} for {duration}. \nReason: {reason}"
