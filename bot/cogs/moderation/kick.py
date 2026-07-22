@@ -1,24 +1,22 @@
 #!/usr/bin/env python3
 # bot/cogs/moderation/kick.py
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 ## pycord
 
 import discord
 from discord.ext import commands
 
-## pypkg
+## bolt
 
 from bot.cogs.moderation.base import Base
 
 # CLASSES
 
 class Kick(Base):
-
   def __init__(self, bot):
     super().__init__(bot)
-    # Kick behaviour handled by Base.kick_user
   
   @commands.command()
   @commands.has_permissions(kick_members=True)

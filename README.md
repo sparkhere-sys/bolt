@@ -85,10 +85,7 @@ to start the bot.
 
 made with <3 by spark and the bolt dev team (literally no one as of right now)
 
-contact me:
-
-* [my email](mailto:spark-aur@proton.me)
-* my discord: `spark_sys`
+[contact me](https://sparkhere-sys.github.io/contact/)
 
 ---
 

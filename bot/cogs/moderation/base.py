@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 # bot/cogs/moderation/base.py
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 from datetime import timedelta # for use with timeout
-
-# constants
-MAX_TIMEOUT_SECONDS = 28 * 24 * 60 * 60  # 28 days
 
 ## pycord
 
 import discord
 from discord.ext import commands
 
-## pypkg
+## bolt
 
 from bot.constants.moderation import *
 import bot.console as console
 import bot.utils as utils
+
+# CONSTANTS AND VARIABLES
+
+MAX_TIMEOUT_SECONDS = 28 * 24 * 60 * 60  # 28 days
 
 # CLASSES
 

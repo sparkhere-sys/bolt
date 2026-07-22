@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 # bot/cogs/moderation/ban.py
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 ## pycord
 
 import discord
 from discord.ext import commands
 
-## pypkg
+## bolt
 
 from bot.cogs.moderation.base import Base
 
 # CLASSES
 
 class Ban(Base):
-
   def __init__(self, bot):
     super().__init__(bot)
   

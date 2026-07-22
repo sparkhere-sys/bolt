@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 # bot/constants/toml.py
-'''
-Handles loading the config.toml file and loading constants from it.
-'''
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 from pathlib import Path
 import tomllib as toml
 
-## pypkg
+## bolt
 
 from bot.constants.config import default_prefix
 
@@ -29,7 +26,7 @@ except FileNotFoundError:
 
 # could this be cleaner? absolutely. is this the easiest way? also yes.
 # ideally this file could use a for-loop structure like constants/base.py but laziness.
-# ad if you're reading this please help -spark
+# please help -spark
 
 preferences = data.get("preferences", {})
 logging = data.get("logging", {})

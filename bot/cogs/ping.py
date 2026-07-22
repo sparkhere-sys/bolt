@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # bot/cogs/ping.py
-'''
-Contains the Ping cog.
-'''
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 import time
 
@@ -13,7 +10,7 @@ import time
 import discord
 from discord.ext import commands
 
-## pypkg
+## bolt
 
 import bot.console as console
 import bot.utils as utils
@@ -21,29 +18,10 @@ import bot.utils as utils
 # CLASSES
 
 class Ping(commands.Cog):
-  '''
-  Handles the ping and uptime commands.
-  '''
-
   def __init__(self, bot):
     self.bot = bot
   
   async def _ping(self, ctx: discord.ApplicationContext | commands.Context):
-    '''
-    This function is a bot command.
-
-    Pings the bot and says the latency in ms in the channel the command was run in.
-
-    ### Parameters
-    * ctx: discord.ApplicationContext | commands.Context: The context of the command.
-
-    ### Returns
-    nothing.
-
-    ### Raises
-    nothing.
-    '''
-
     user = ctx.author
 
     latency = round(self.bot.latency * 1000)
@@ -54,22 +32,6 @@ class Ping(commands.Cog):
     await utils.say(ctx, f"Pong! \n{latency}ms")
   
   async def _uptime(self, ctx: discord.ApplicationContext | commands.Context):
-    '''
-    This function is a bot command.
-
-    Gets the bot's start_time attribute and calculates the uptime,
-    then sends it in the channel the command was invoked in.
-
-    ### Parameters
-    * ctx: discord.ApplicationContext | commands.Context: The context of the command.
-
-    ### Returns
-    nothing.
-
-    ### Raises
-    nothing.
-    '''
-
     user = ctx.author
 
     console.log(f"Uptime requested by {user} ({user.id})")
@@ -104,8 +66,4 @@ class Ping(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-  '''
-  Adds the Ping cog to the bot
-  '''
-
   bot.add_cog(Ping(bot))

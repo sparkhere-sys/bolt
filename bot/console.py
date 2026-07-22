@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-# LIBRARIES AND MODULES
+# IMPORTS
 
 import time # TODO: replace with datetime maybe
 from typing import Any
 
-## pypkg
+## bolt
 
 from bot.constants.colors import LogLevel, dim, reset
 import bot.constants.toml as toml_config
