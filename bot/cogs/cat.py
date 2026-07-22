@@ -40,7 +40,7 @@ class Cat(commands.Cog):
   @commands.command()
   async def cat(self, ctx):
     await self._cat(ctx)
-  
+
   @commands.slash_command(name="cat", description="sends a random cat image")
   async def slash_cat(self, ctx):
     await self._cat(ctx)

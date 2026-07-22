@@ -6,7 +6,7 @@ jobs:
   label:
     permissions:
       pull-requests: write
-      contents: read 
+      contents: read
     runs-on: ubuntu-latest
 
     steps:

@@ -21,7 +21,7 @@ from bot.constants.types import ContextType
 class Ping(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-  
+
   async def _ping(self, ctx: ContextType):
     user = ctx.author
 
@@ -31,12 +31,12 @@ class Ping(commands.Cog):
     console.log(f"Latency: {latency}ms")
 
     await utils.say(ctx, f"Pong! \n{latency}ms")
-  
+
   async def _uptime(self, ctx: ContextType):
     user = ctx.author
 
     console.log(f"Uptime requested by {user} ({user.id})")
-    
+
     delta = int(time.time() - self.bot.start_time)
 
     days, remainder = divmod(delta, 86400)
@@ -55,11 +55,11 @@ class Ping(commands.Cog):
   @commands.slash_command(name="ping", description="ping the bot!")
   async def slash_ping(self, ctx: discord.ApplicationContext):
     await self._ping(ctx)
-  
+
   @commands.command()
   async def uptime(self, ctx: commands.Context):
     await self._uptime(ctx)
-  
+
   @commands.slash_command(name="uptime", description="see how long the bot has been running for!")
   async def slash_uptime(self, ctx: discord.ApplicationContext):
     await self._uptime(ctx)

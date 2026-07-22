@@ -31,7 +31,7 @@ def rgb_fg(r: int, g: int, b: int) -> str:
 def rgb_bg(r: int, g: int, b: int) -> str:
   if not allow_colors:
     return ""
-  
+
   return f"\033[48;2;{r};{g};{b}m"
 
 def fg(hex: str) -> str:
@@ -57,7 +57,7 @@ class LogLevel(Enum):
   def color(self) -> str:
     bg_hex, fg_hex = self.value
     return bg(bg_hex) + fg(fg_hex)
-  
+
   @property
   def badge(self) -> str:
     return f"{self.color} {self.name:^7} {reset}"
