@@ -16,6 +16,7 @@ import bot.constants.base as constants
 import bot.constants.toml as toml_config
 import bot.console as console
 import bot.utils as utils
+from bot.cogs.moderation.case import init_database
 
 # INIT
 
@@ -62,3 +63,4 @@ def load_cogs(reload=False, reraise=True):
 def start_bot():
   load_cogs()
   bot.run(token)
+  init_database()
