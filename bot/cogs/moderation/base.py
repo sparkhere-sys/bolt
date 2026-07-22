@@ -4,8 +4,6 @@
 # IMPORTS
 
 from datetime import timedelta # for use with timeout
-from enum import Enum
-from dataclasses import dataclass
 from typing import Any
 from collections.abc import Awaitable # why can't we just put this in typing
 
@@ -19,45 +17,7 @@ from discord.ext import commands
 import bot.console as console
 import bot.utils as utils
 from bot.constants.types import ContextType, TargetType
-
-# CONSTANTS AND VARIABLES
-
-MAX_TIMEOUT_SECONDS = 28 * 24 * 60 * 60  # 28 days
-
-# ENUMS AND DATACLASSES
-
-@dataclass(frozen=True)
-class ActionInfo:
-  name: str
-  verb: str
-  verb_past: str
-  permission: str
-
-class Actions(Enum):
-  BAN       = ActionInfo(name="ban",
-                         verb="ban",
-                         verb_past="banned", 
-                         permission="ban_members")
-  
-  UNBAN     = ActionInfo(name="unban",
-                         verb="unban", 
-                         verb_past="unbanned", 
-                         permission="ban_members")
-  
-  KICK      = ActionInfo(name="kick", 
-                         verb="kick", 
-                         verb_past="kicked",  
-                         permission="kick_members")
-  
-  TIMEOUT   = ActionInfo(name="timeout", 
-                         verb="mute", 
-                         verb_past="muted", 
-                         permission="moderate_members")
-
-  UNTIMEOUT = ActionInfo(name="untimeout", 
-                         verb="unmute", 
-                         verb_past="unmuted", 
-                         permission="moderate_members")
+from bot.cogs.moderation.types import Actions, MAX_TIMEOUT_SECONDS
 
 # CLASSES
 
@@ -65,9 +25,9 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
   def __init__(self, bot: commands.Bot):
     self.bot = bot
 
-  async def _can_act(self, 
-                     ctx: ContextType, 
-                     target: TargetType, 
+  async def _can_act(self,
+                     ctx: ContextType,
+                     target: TargetType,
                      action: Actions) -> tuple[bool, str, str]:
     verb = action.value.verb
     verb_past = action.value.verb_past
@@ -91,14 +51,14 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       return False, verb, verb_past
 
     return True, verb, verb_past
-  
-  def check_for_permissions(self, permission: str, user: discord.Member) -> bool:    
+
+  def check_for_permissions(self, permission: str, user: discord.Member) -> bool:
     return getattr(user.guild_permissions, permission, False)
 
-  async def _handle_action_call(self, 
-                                ctx: ContextType, 
-                                verb: str, 
-                                target: TargetType, 
+  async def _handle_action_call(self,
+                                ctx: ContextType,
+                                verb: str,
+                                target: TargetType,
                                 coro: Awaitable[Any]) -> bool:
     try:
       await coro
@@ -107,12 +67,12 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       console.error(f"Failed to {verb} {target}, permission denied.")
       await utils.say(ctx, f"I don't have permission to {verb} that user.", ephemeral=True)
       return False
-    
+
     except discord.HTTPException:
       console.error(f"Failed to {verb} {target}, HTTPException raised.")
       await utils.say(ctx, f"Something went wrong while trying to {verb} that user.", ephemeral=True)
       return False
-    
+
     except Exception as e:
       console.error(f"Exception raised: {e}")
       await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
@@ -120,11 +80,11 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     return True
 
-  async def action(self, 
-                   ctx: ContextType, 
-                   action: Actions, 
-                   target: TargetType, 
-                   reason: str | None = None, 
+  async def action(self,
+                   ctx: ContextType,
+                   action: Actions,
+                   target: TargetType,
+                   reason: str | None = None,
                    duration: str | None = None) -> None:
     user = ctx.author
     can_act, verb, verb_past = await self._can_act(ctx, target, action)
@@ -144,7 +104,7 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
         if ctx.guild is None:
           await utils.say(ctx, "You can't run that command here!")
           return
-        
+
         coro = ctx.guild.unban(target, reason=reason)
         # NOTE: we're not using type: ignore here
         #       since we're operating on the guild, and not the user.
@@ -184,7 +144,7 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       success_message = f"{verb_past.capitalize()} {getattr(target, 'mention', str(target))}. \nReason: {reason}"
     else:
       success_message = f"{verb_past.capitalize()} {target.mention}. \nReason: {reason}"
-    
+
     await utils.say(ctx, success_message)
 
   # HELPERS

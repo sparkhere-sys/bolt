@@ -25,13 +25,13 @@ def get_env_var(var: str, default: Any, required=True, from_dot_env=True) -> Any
         raise FileNotFoundError(f"fatal: No .env file found, please create one including {var}")
       else:
         return default
-    
+
     load_dotenv(dotenv_path=env_path)
 
   val = os.getenv(var, default)
   if val is None and required:
     raise ValueError(f"fatal: Required variable ({var}) not found in .env file.")
-    
+
   return val
 
 def parse_duration(duration: str) -> int | bool | None:
@@ -40,7 +40,7 @@ def parse_duration(duration: str) -> int | bool | None:
 
   if not duration:
     return None
-  
+
   total_seconds = 0
   num = ''
 
@@ -50,7 +50,7 @@ def parse_duration(duration: str) -> int | bool | None:
     elif char in units:
       if not num:
         return False # meaning invalid
-      
+
       total_seconds += int(num) * units[char]
       num = ''
 

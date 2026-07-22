@@ -30,16 +30,16 @@ class MarkdownFiles(Enum):
 class MarkdownCommands(commands.Cog):
   def __init__(self, bot: commands.Bot):
     self.bot = bot
-  
+
   @functools.cache
   def fetch_markdown_file(self, cmd_type: MarkdownFiles) -> str:
-    md_class = cmd_type.value      
+    md_class = cmd_type.value
     with open(md_class.path, "r", encoding="utf-8") as f:
       md_data = f.read()
-    
+
     for find, replace in md_class.find_and_replace.items():
       md_data = md_data.replace(find, replace)
-    
+
     return md_data
 
   async def _help(self, ctx: ContextType) -> None:
@@ -48,31 +48,31 @@ class MarkdownCommands(commands.Cog):
 
     message = self.fetch_markdown_file(MarkdownFiles.HELP)
     await utils.say(ctx, message)
-  
+
   async def _invite(self, ctx: ContextType) -> None:
     user = ctx.author
     console.log(f"Invite requested by {user} ({user.id})")
 
     message = self.fetch_markdown_file(MarkdownFiles.INVITE)
     await utils.say(ctx, message)
-  
+
   # COMMANDS
   ## help
 
   @commands.command()
   async def help(self, ctx: commands.Context) -> None:
     await self._help(ctx)
-  
+
   @commands.slash_command(name="help", description="show the help message.")
   async def slash_help(self, ctx: discord.ApplicationContext) -> None:
     await self._help(ctx)
-  
+
   ## invite
 
   @commands.command()
   async def invite(self, ctx: commands.Context) -> None:
     await self._invite(ctx)
-  
+
   @commands.slash_command(name="invite", description="invite the bot to your server!")
   async def slash_invite(self, ctx: discord.ApplicationContext) -> None:
     await self._invite(ctx)
