@@ -30,7 +30,8 @@ Before starting, you'll need:
 3. Go to the **Bot** tab.
 4. Copy the token. You'll need it later.
 
-> [!CAUTION]
+> **IMPORTANT**
+>
 > Do **NOT** share your token with **anyone**.
 > 
 > Anyone with your bot's token can control your bot.
@@ -107,9 +108,7 @@ python -m bot
 
 to start the bot.
 
-> [!NOTE]
->
-> To stop Bolt, press Ctrl+C in your console/terminal, or use your service manager if you're running Bolt as a service.
+To stop Bolt, press Ctrl+C in your console/terminal, or use your service manager if you're running Bolt as a service.
 
 ## Updating your Bot
 
@@ -148,4 +147,6 @@ Make sure:
 
 ### My bot is reconnecting to Discord.
 
-This is relatively harmless, as you could be running two instances of Bolt at the same time. Close one of them.
+This usually means you have multiple instances of Bolt running with the same token.
+
+Close any extra instances of Bolt. Only one instance should run per bot.
