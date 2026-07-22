@@ -33,7 +33,8 @@ import bot.module.inside.bolt
 # CLASSES
 
 class PlaceholderClass:
-  pass
+  def some_method(self, args):
+    pass
 
 # FUNCTIONS
 
