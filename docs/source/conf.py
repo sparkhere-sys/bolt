@@ -1,5 +1,9 @@
+project = "Bolt"
+copyright = "2026, Spark"
+author = "Spark"
+
 extensions = [
     "myst_parser",
 ]
 
-html_theme = "sphinx_rtd_theme" 
+html_theme = "furo" 
