@@ -14,7 +14,7 @@ New to Bolt?
 
 ## Development
 
-Bolt is currently under active development.
+Bolt is currently under active development. Features and APIs might change.
 
 Want to contribute?
 

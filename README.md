@@ -23,7 +23,7 @@ Want to run Bolt yourself, or add some spice to your server?
 
 See the full self-hosting guide here to get started!
 
-[click me](https://bolt-bot.readthedocs.io/en/latest/selfhosting/)
+[click me](https://bolt-bot.readthedocs.io/en/latest/selfhosting.html)
 
 [read the source](docs/source/selfhosting.md)
 
