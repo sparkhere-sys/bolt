@@ -4,15 +4,26 @@
 
 # IMPORTS
 
+from enum import Enum
+import functools
+
+## pycord
+
 import discord
 from discord.ext import commands
 
-# bolt
+## bolt
 
 import bot.console as console
 import bot.utils as utils
 import bot.markdown.markdown as markdown
-import functools
+from bot.constants.types import ContextType
+
+# ENUMS AND DATACLASSES
+
+class MarkdownFiles(Enum):
+  HELP   = markdown.Help()
+  INVITE = markdown.Invite()
 
 # CLASSES
 
@@ -21,16 +32,8 @@ class MarkdownCommands(commands.Cog):
     self.bot = bot
   
   @functools.cache
-  def fetch_markdown_file(self, cmd_type: str) -> str: # cmd_type is a string because i dont know how to use enums.
-    # TODO: use enums for cmd_type
-    match cmd_type:
-      case "help":
-        md_class = markdown.Help()
-      case "invite":
-        md_class = markdown.Invite()
-      case _:
-        raise ValueError("that cmd_type doesn't exist dude.")
-      
+  def fetch_markdown_file(self, cmd_type: MarkdownFiles) -> str:
+    md_class = cmd_type.value      
     with open(md_class.path, "r", encoding="utf-8") as f:
       md_data = f.read()
     
@@ -39,18 +42,18 @@ class MarkdownCommands(commands.Cog):
     
     return md_data
 
-  async def _help(self, ctx):
+  async def _help(self, ctx: ContextType) -> None:
     user = ctx.author
     console.log(f"Help requested by {user} ({user.id})")
 
-    message = self.fetch_markdown_file("help")
+    message = self.fetch_markdown_file(MarkdownFiles.HELP)
     await utils.say(ctx, message)
   
-  async def _invite(self, ctx):
+  async def _invite(self, ctx: ContextType) -> None:
     user = ctx.author
     console.log(f"Invite requested by {user} ({user.id})")
 
-    message = self.fetch_markdown_file("invite")
+    message = self.fetch_markdown_file(MarkdownFiles.INVITE)
     await utils.say(ctx, message)
   
   # COMMANDS

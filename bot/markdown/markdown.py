@@ -10,10 +10,18 @@ from dataclasses import dataclass
 
 import bot.constants.toml as toml_config
 
-# DATA CLASSES
+# DATACLASSES
 
 @dataclass(frozen=True)
-class Help:
+class MarkdownFile:
+  path: Path
+
+  @property
+  def find_and_replace(self) -> dict[str, str]:
+    return {}
+
+@dataclass(frozen=True)
+class Help(MarkdownFile):
   path: Path = Path("bot/markdown/help.md")
   repo_link: str = toml_config.github_repo
   support_server_link: str = toml_config.support_server
@@ -28,7 +36,7 @@ class Help:
     }
 
 @dataclass(frozen=True)
-class Invite:
+class Invite(MarkdownFile):
   path: Path = Path("bot/markdown/invite.md")
   invite_link: str = toml_config.invite_link
   support_server_link: str = toml_config.support_server

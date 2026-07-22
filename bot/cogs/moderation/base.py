@@ -6,7 +6,7 @@
 from datetime import timedelta # for use with timeout
 from enum import Enum
 from dataclasses import dataclass
-from typing import Union, Any
+from typing import Any
 from collections.abc import Awaitable # why can't we just put this in typing
 
 ## pycord
@@ -18,13 +18,11 @@ from discord.ext import commands
 
 import bot.console as console
 import bot.utils as utils
+from bot.constants.types import ContextType, TargetType
 
 # CONSTANTS AND VARIABLES
 
 MAX_TIMEOUT_SECONDS = 28 * 24 * 60 * 60  # 28 days
-
-ContextType = Union[commands.Context, discord.ApplicationContext]
-TargetType = Union[discord.User, discord.Member]
 
 # ENUMS AND DATACLASSES
 
