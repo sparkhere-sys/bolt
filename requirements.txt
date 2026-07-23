@@ -1,7 +1,7 @@
 # required:
 py-cord
 python-dotenv
-requests
+aiohttp
 peewee
 
 # 3.13+

@@ -67,9 +67,3 @@ async def say(ctx: commands.Context | discord.ApplicationContext, msg: str = "",
       await ctx.send(msg, file=file)
     else:
       await ctx.send(msg)
-
-async def assert_guild(ctx: commands.Context | discord.ApplicationContext) -> bool:
-  # spark: i despise this function
-  # it is basically never used
-
-  return ctx.guild is not None

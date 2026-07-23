@@ -4,7 +4,7 @@
 # IMPORTS
 
 from io import BytesIO
-import requests
+import aiohttp
 
 ## pycord
 
@@ -22,18 +22,32 @@ from bot.constants.types import ContextType
 class Cat(commands.Cog):
   def __init__(self, bot: commands.Bot):
     self.bot = bot
+    self.session: aiohttp.ClientSession
+
+  async def cog_load(self):
+    self.session = aiohttp.ClientSession()
+
+  async def cog_unload(self):
+    if self.session:
+      await self.session.close()
 
   async def _cat(self, ctx: ContextType):
     user = ctx.author
 
     catapi = "https://cataas.com/cat"
-    response = requests.get(catapi) # NOTE: since http is synchronous, this bites us in the back. move to aiohttp is a TODO
-    image = BytesIO(response.content)
+
+    async with self.session.get(catapi) as response:
+      response.raise_for_status()
+      image = BytesIO(await response.read())
+    
     image.seek(0)
 
     console.log(f"Cat image requested by {user} ({user.id})")
 
-    await utils.say(ctx, file=discord.File(image, filename="image.png")) # type: ignore
+    await utils.say(
+      ctx, 
+      file=discord.File(image, filename="image.png")
+    )
 
   # COMMANDS
 
@@ -48,5 +62,4 @@ class Cat(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-
   bot.add_cog(Cat(bot))

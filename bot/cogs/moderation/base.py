@@ -94,7 +94,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     reason = reason or "None provided."
 
-    console.log(f"{user} requested action {action.value.name} on {target} in guild {ctx.guild}.")
+    console.log(
+      f"{user} requested action {action.value.name} ({duration or "no duration"}) on {target} in guild {ctx.guild} with reason {reason}"
+    )
+    # long ass log bro
 
     match action:
       case Actions.BAN:
