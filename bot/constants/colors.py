@@ -45,6 +45,7 @@ def bg(hex: str) -> str:
 # ENUMS
 
 class LogLevel(Enum):
+  # these colors are catppuccin mocha btw
   LOG     = ("#cdd6f4", "#313244")
   DEBUG   = ("#89dceb", "#11111b")
   INFO    = ("#89b4fa", "#11111b")

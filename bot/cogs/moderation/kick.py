@@ -19,7 +19,6 @@ class Kick(Base):
     super().__init__(bot)
 
   @commands.command()
-  ## @commands.has_permissions(kick_members=True)
   async def kick(self, ctx: commands.Context, target: discord.Member, *, reason=None):
     await self._kick(ctx, target, reason)
 

@@ -16,7 +16,7 @@ Before starting, you'll need:
 * Python 3.10+
 * [`py-cord`](https://pypi.org/project/py-cord/) (`pip install py-cord`)
 * [`python-dotenv`](https://pypi.org/project/python-dotenv/) (`pip install python-dotenv`)
-* [`requests`](https://pypi.org/project/requests/) (`pip install requests`)
+* [`aiohttp`](https://pypi.org/project/aiohttp/) (`pip install aiohttp`)
 * [`peewee`](https://pypi.org/project/peewee) (`pip install peewee`)
 * If using Python 3.13+, also install [`audioop-lts`](https://pypi.org/project/audioop-lts)
   > pycord apparently insists on using it even without using audio features. thanks, pycord.
@@ -79,14 +79,17 @@ The instructions will vary depending on your OS of choice.
 * Linux/macOS:
 
 ```bash
-python3 -m venv .venv && source ./.venv/bin/activate
+python3 -m venv .venv # to create the venv
+# activating the venv
+source ./.venv/bin/activate # bash/zsh
+source ./.venv/bin/activate.fish # fish
 ```
 
 * Windows (PowerShell):
 
 ```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
+py -m venv .venv # to create the venv
+.\.venv\Scripts\Activate.ps1 # to activate the venv
 ```
 
 Now install all the dependencies:
@@ -129,9 +132,11 @@ And then restart Bolt.
 
 ## Troubleshooting
 
-### My bot doesn't start.
+Pay attention to the console output. Bolt will usually tell you what went wrong.
 
-Check the console output. Bolt will usually tell you what went wrong.
+Report any bugs on [Bolt's GitHub Issues](https://github.com/sparkhere-sys/bolt/issues).
+
+### My bot doesn't start.
 
 Common issues:
 - Invalid bot token

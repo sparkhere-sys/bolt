@@ -19,12 +19,10 @@ class Ban(Base):
     super().__init__(bot)
 
   @commands.command()
-  ## @commands.has_permissions(ban_members=True)
   async def ban(self, ctx: commands.Context, target: discord.Member, *, reason=None):
     await self._ban(ctx, target, reason)
 
   @commands.command()
-  ## @commands.has_permissions(ban_members=True)
   async def unban(self, ctx: commands.Context, target: discord.User, *, reason=None):
     await self._unban(ctx, target, reason)
 
