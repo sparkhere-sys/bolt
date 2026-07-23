@@ -28,7 +28,7 @@ class Ping(commands.Cog):
     latency = round(self.bot.latency * 1000)
 
     console.log(f"Ping requested by {user} ({user.id})")
-    console.log(f"Latency: {latency}ms")
+    console.info(f"Latency: {latency}ms")
 
     await utils.say(ctx, f"Pong! \n{latency}ms")
 
@@ -43,8 +43,10 @@ class Ping(commands.Cog):
     hours, remainder = divmod(remainder, 3600)
     minutes, seconds = divmod(remainder, 60)
 
-    console.log(f"Uptime: {days}d {hours}h {minutes}m {seconds}s")
-    await utils.say(ctx, f"Uptime: {days}d {hours}h {minutes}m {seconds}s")
+    formatted = f"Uptime: {days}d {hours}h {minutes}m {seconds}s"
+
+    console.info(formatted)
+    await utils.say(ctx, formatted)
 
   # COMMANDS
 

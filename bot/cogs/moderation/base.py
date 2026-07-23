@@ -29,7 +29,7 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
   async def _can_act(self,
                      ctx: ContextType,
                      target: TargetType,
-                     action: Actions) -> tuple[bool, str, str]:
+                     action: Actions) -> tuple[bool, str, str]: # i would rather return a dataclass bro
     verb = action.value.verb
     verb_past = action.value.verb_past
     permission = action.value.permission

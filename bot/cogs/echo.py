@@ -17,12 +17,10 @@ from bot.constants.types import ContextType
 # CLASSES
 
 class Echo(commands.Cog):
-
   def __init__(self, bot: commands.Bot):
     self.bot = bot
 
   async def _echo(self, ctx: ContextType, msg: str | None = None) -> None:
-
     user = ctx.author
 
     console.log(f"{user} requested an echo.")
@@ -51,5 +49,4 @@ class Echo(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-
   bot.add_cog(Echo(bot))

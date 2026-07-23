@@ -61,6 +61,6 @@ def load_cogs(reload=False, reraise=True):
         raise
 
 def start_bot(reraise=False):
-  load_cogs(reraise=reraise)
   init_database()
+  load_cogs(reraise=reraise)
   bot.run(token)

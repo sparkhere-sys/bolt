@@ -34,6 +34,7 @@ class MarkdownCommands(commands.Cog):
   @functools.cache
   def fetch_markdown_file(self, cmd_type: MarkdownFiles) -> str:
     md_class = cmd_type.value
+    
     with open(md_class.path, "r", encoding="utf-8") as f:
       md_data = f.read()
 
