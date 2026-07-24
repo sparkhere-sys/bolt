@@ -74,3 +74,6 @@ class Case:
   case_id: int | None = None # we don't want shadowing, so instead of id, it's case_id
   created_at: datetime | None = field(default_factory=datetime.now)
   expires_at: datetime | None = None # not used for timeouts because we record duration
+                                     # and discord automatically untimeouts after
+                                     # the duration ends, unlike with bans which are
+                                     # permanent only on the discord side.

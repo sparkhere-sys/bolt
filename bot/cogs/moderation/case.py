@@ -12,7 +12,7 @@ from bot.cogs.moderation.types import Case
 # CONSTANTS
 
 db_path = Path("data/cases.db")
-db_path.parent.mkdir(exist_ok=True)
+db_path.parent.mkdir(parents=True, exist_ok=True)
 
 db = peewee.SqliteDatabase(str(db_path)) # pylance stop torturing me
 
