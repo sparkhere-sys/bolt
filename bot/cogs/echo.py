@@ -17,12 +17,10 @@ from bot.constants.types import ContextType
 # CLASSES
 
 class Echo(commands.Cog):
-
   def __init__(self, bot: commands.Bot):
     self.bot = bot
 
   async def _echo(self, ctx: ContextType, msg: str | None = None) -> None:
-
     user = ctx.author
 
     console.log(f"{user} requested an echo.")
@@ -37,12 +35,10 @@ class Echo(commands.Cog):
 
   # COMMANDS
 
-  # prefix command
   @commands.command()
   async def echo(self, ctx: commands.Context, *, msg=None) -> None: # the * is for msg to be longer than just one word.
     await self._echo(ctx, msg)
 
-  # slash command
   @commands.slash_command(name="echo", description="make the bot say something!")
   @discord.option("message", description="what to say", type=str)
   async def slash_echo(self, ctx: discord.ApplicationContext, msg=None) -> None:
@@ -51,5 +47,4 @@ class Echo(commands.Cog):
 # FUNCTIONS
 
 def setup(bot):
-
   bot.add_cog(Echo(bot))

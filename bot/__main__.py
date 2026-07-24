@@ -3,6 +3,8 @@
 
 # IMPORTS
 
+import sys
+
 ## bolt
 
 from bot.constants.colors import allow_colors
@@ -18,10 +20,16 @@ def main():
     if not allow_colors:
       console.warn("You don't have `colorama` installed. If you want colored logs, run `pip install colorama`.")
 
-    bot.start_bot()
+    reraise = False
+
+    if "--ignore-startup-errors" in sys.argv:
+      reraise = True
+
+    bot.start_bot(reraise)
 
   except Exception as e:
     console.error(f"Something happened. exception: {e}")
+    raise # the traceback is probably the more useful part
 
 # START UP
 

@@ -60,7 +60,7 @@ def load_cogs(reload=False, reraise=True):
       if reraise:
         raise
 
-def start_bot():
-  load_cogs()
-  bot.run(token)
+def start_bot(reraise=False):
   init_database()
+  load_cogs(reraise=reraise)
+  bot.run(token)
