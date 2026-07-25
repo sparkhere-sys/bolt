@@ -81,6 +81,25 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     return True
 
+  def _get_success_message(self,
+                           verb_past: str, 
+                           action: Actions, 
+                           target: TargetType, 
+                           reason: str, 
+                           duration: str) -> str:
+    match action:
+      case Actions.TIMEOUT:
+        return f"{verb_past.capitalize()} {target.mention} for {duration}. \nReason: {reason}"
+
+      case Actions.UNBAN:
+        mention = getattr(target, 'mention', str(target)) # we do this because sometimes discord won't let us
+                                                          # ping a user who isn't in the server
+        return f"{verb_past.capitalize()} {mention}. \nReason: {reason}"
+
+
+      case _:
+        return f"{verb_past.capitalize()} {target.mention}. \nReason: {reason}"
+
   async def action(self,
                    ctx: ContextType,
                    action: Actions,
@@ -99,6 +118,9 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     )
     # long ass log bro
 
+    # i sincerely apologize for the amount of `type: ignore`s you are about to see
+    # but i refuse to give in to the type checker
+    # -spark
     match action:
       case Actions.BAN:
         coro = target.ban(reason=reason) # type: ignore[attr-defined]
@@ -132,6 +154,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
         coro = target.timeout_for(timedelta(seconds=seconds), reason=reason) # type: ignore[attr-defined]
 
       case Actions.UNTIMEOUT:
+        if not target.timed_out: # type: ignore[attr-defined]
+          await utils.say(ctx, "That user isn't muted.", ephemeral=True)
+          return
+
         coro = target.remove_timeout(reason=reason) # type: ignore[attr-defined]
 
       case _:
@@ -156,12 +182,11 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     console.info(f"Saved case #{model.case_id}")
 
-    if action == Actions.TIMEOUT:
-      success_message = f"{verb_past.capitalize()} {target.mention} for {duration}. \nReason: {reason}"
-    elif action == Actions.UNBAN:
-      success_message = f"{verb_past.capitalize()} {getattr(target, 'mention', str(target))}. \nReason: {reason}"
-    else:
-      success_message = f"{verb_past.capitalize()} {target.mention}. \nReason: {reason}"
+    success_message = self._get_success_message(verb_past=verb_past, 
+                                                target=target,
+                                                action=action,
+                                                reason=reason,
+                                                duration=duration) # type: ignore
 
     await utils.say(ctx, success_message)
 
