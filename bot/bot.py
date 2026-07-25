@@ -37,6 +37,14 @@ async def on_ready():
   console.success(f"Bolt is online as {bot.user}")
 
 @bot.event
+async def on_disconnect():
+  console.warn("Disconnected from Discord.")
+
+@bot.event
+async def on_resumed():
+  console.log("Resumed connection to Discord.")
+
+@bot.event
 async def on_command_error(ctx: commands.Context, error: commands.CommandError):
   if isinstance(error, commands.CommandNotFound):
     console.error(str(error))

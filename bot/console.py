@@ -12,7 +12,7 @@ import bot.constants.toml as toml_config
 
 # FUNCTIONS
 
-def translate(msg: Any, level: LogLevel) -> None:
+def format_msg(msg: Any, level: LogLevel) -> None:
   if level.name in toml_config.levels_to_ignore:
     return
 
@@ -24,22 +24,22 @@ def translate(msg: Any, level: LogLevel) -> None:
   print(full)
 
 def log(msg: Any) -> None:
-  translate(msg, LogLevel.LOG)
+  format_msg(msg, LogLevel.LOG)
 
 def debug(msg: Any) -> None:
-  translate(msg, LogLevel.DEBUG)
+  format_msg(msg, LogLevel.DEBUG)
 
 def error(msg: Any) -> None:
-  translate(msg, LogLevel.ERROR)
+  format_msg(msg, LogLevel.ERROR)
 
 def fatal(msg: Any) -> None:
-  translate(msg, LogLevel.FATAL)
+  format_msg(msg, LogLevel.FATAL)
 
 def warn(msg: Any) -> None:
-  translate(msg, LogLevel.WARN)
+  format_msg(msg, LogLevel.WARN)
 
 def info(msg: Any) -> None:
-  translate(msg, LogLevel.INFO)
+  format_msg(msg, LogLevel.INFO)
 
 def success(msg: Any) -> None:
-  translate(msg, LogLevel.SUCCESS)
+  format_msg(msg, LogLevel.SUCCESS)

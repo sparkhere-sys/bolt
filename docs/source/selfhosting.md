@@ -7,13 +7,14 @@ This nifty little guide will run you through setting up your own instance of Bol
 Before starting, you'll need:
 
 * Any OS that can run Python
-* Python itself (duh)
-  * recommended to use CPython, however PyPy works too.
+* Python 3.10+ (duh)
 * A Discord bot and a token
 
-### Python dependencies
+### Packages
 
-* Python 3.10+
+Bolt's dependencies are listed in the `requirements.txt`.
+
+You can find some of them here:
 * [`py-cord`](https://pypi.org/project/py-cord/) (`pip install py-cord`)
 * [`python-dotenv`](https://pypi.org/project/python-dotenv/) (`pip install python-dotenv`)
 * [`aiohttp`](https://pypi.org/project/aiohttp/) (`pip install aiohttp`)
@@ -57,8 +58,8 @@ Then, go to the **Installation** tab and:
 - select **Discord Provided Link** in **Install Link**
 - in **Default Install Settings**, select the **`applications.commands`** and **`bot`** scopes,
 - and the **Administrator** permission.
-> Bolt requires admin because a lot of moderation actions need broad access to your server.
-> This could change in the future.
+> Bolt uses admin because a lot of moderation actions require broad access to the server.
+> Alternatively, you could only enable the permissions you want Bolt to use.
 
 ![Bolt's installation settings](images/installation-settings.png)
 
@@ -138,10 +139,14 @@ git pull
 
 Update the dependencies:
 ```sh
-pip install -r requirements.txt
+pip install --upgrade -r requirements.txt
 ```
 
 And then restart Bolt.
+
+If you've made your own changes to Bolt's code, you'll probably face merge conflicts.
+We recommend rebasing onto the main branch and re-implementing your changes.
+It may be annoying, but it is what it is.
 
 ---
 
@@ -160,6 +165,8 @@ Common issues:
 - Missing dependencies
 - Python is too old
 - Your internet is just not working
+
+Make sure your `.env` file exists and has a proper token, and make sure your `config.toml` isn't broken.
 
 ### My bot is online, but its commands don't work.
 
