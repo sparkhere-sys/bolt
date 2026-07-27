@@ -25,6 +25,7 @@ class Cat(commands.Cog):
     self.session: aiohttp.ClientSession
 
   async def cog_load(self):
+    console.debug("Creating session")
     self.session = aiohttp.ClientSession()
 
   async def cog_unload(self):
@@ -32,20 +33,40 @@ class Cat(commands.Cog):
       await self.session.close()
 
   async def _cat(self, ctx: ContextType):
+    if not hasattr(self, "session"): # sometimes cog_load() just NEVER runs for some unknown reason
+      self.session = aiohttp.ClientSession()
+
     user = ctx.author
-
-    catapi = "https://cataas.com/cat"
-
-    async with self.session.get(catapi) as response:
-      response.raise_for_status()
-      image = BytesIO(await response.read())
-    
-    image.seek(0)
 
     console.log(f"Cat image requested by {user} ({user.id})")
 
+    catapi = "https://cataas.com/cat"
+
+    timeout = aiohttp.ClientTimeout(30)
+
+    try:
+      async with self.session.get(catapi, timeout=timeout) as response:
+        response.raise_for_status()
+        image = BytesIO(await response.read())
+    except aiohttp.ServerTimeoutError:
+      console.error_traceback()
+      await utils.say(ctx, "Your request timed out.", ephemeral=True)
+      return
+    except aiohttp.ClientError:
+      console.error_traceback()
+      await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
+      return
+    except Exception:
+      console.error_traceback()
+      await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
+      return
+
+    image.seek(0)
+
+    console.info("Cat sent.")
+
     await utils.say(
-      ctx, 
+      ctx,
       file=discord.File(image, filename="image.png")
     )
 

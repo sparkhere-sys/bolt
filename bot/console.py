@@ -4,6 +4,7 @@
 
 import time # TODO: replace with datetime maybe
 from typing import Any
+from traceback import format_exc
 
 ## bolt
 
@@ -34,6 +35,9 @@ def error(msg: Any) -> None:
 
 def fatal(msg: Any) -> None:
   format_msg(msg, LogLevel.FATAL)
+
+def error_traceback() -> None:
+  format_msg(format_exc(), LogLevel.ERROR) # your eyes do not deceive you.
 
 def warn(msg: Any) -> None:
   format_msg(msg, LogLevel.WARN)

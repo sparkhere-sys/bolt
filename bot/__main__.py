@@ -20,16 +20,15 @@ def main():
     if not allow_colors:
       console.warn("You don't have `colorama` installed. If you want colored logs, run `pip install colorama`.")
 
-    reraise = False
+    reraise = True
 
     if "--ignore-startup-errors" in sys.argv:
-      reraise = True
+      reraise = False
 
     bot.start_bot(reraise)
 
   except Exception as e:
-    console.error(f"Something happened. exception: {e}")
-    raise # the traceback is probably the more useful part
+    console.error(f"Something went wrong. exception: {e}")
 
 # START UP
 
