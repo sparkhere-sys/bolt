@@ -41,6 +41,11 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     assert isinstance(ctx.author, discord.Member) # pylance stop yelling at me i beg
     user = ctx.author
 
+    if target == self.bot.user:
+      await utils.say(ctx, f"Nice try.", ephemeral=True)
+      console.info(f"{user} tried to {verb} the bot.")
+      return False, verb, verb_past
+
     if target == user:
       await utils.say(ctx, f"You can't {verb} yourself!", ephemeral=True)
       console.info(f"{user} tried to {verb} themselves.")
@@ -74,8 +79,8 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       await utils.say(ctx, f"Something went wrong while trying to {verb} that user.", ephemeral=True)
       return False
 
-    except Exception as e:
-      console.error(f"Exception raised: {e}")
+    except Exception:
+      console.error_traceback()
       await utils.say(ctx, "Something went wrong. Try again later.", ephemeral=True)
       return False
 
