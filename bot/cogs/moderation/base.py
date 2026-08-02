@@ -147,7 +147,12 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       case Actions.TIMEOUT:
         duration = duration or "30m"
 
+        if duration.startswith("-"): # we can assume that duration is negative
+          await utils.say(ctx, "Nice try.", ephemeral=True)
+          return
+
         seconds = utils.parse_duration(duration)
+
         if not seconds:
           await utils.say(ctx, "Invalid duration format. Try `3d`, `1h`, `30m`, `45s`", ephemeral=True)
           return
