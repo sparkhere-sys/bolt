@@ -62,10 +62,13 @@ def load_cogs(reload=False, reraise=True):
 
       bot.load_extension(ext)
       console.debug(f"Loaded extension: {ext}")
-    except Exception as e:
+    except Exception:
       console.error(f"Failed to load extension: {ext}")
-      if reraise:
-        console.error_traceback()
+      console.error_traceback()
+      if reraise: # in this case, we're printing the traceback
+                  # without needing to reraise, so technically
+                  # this just means abort if any extension 
+                  # fails to load
         return
 
 def start_bot(reraise=False):
