@@ -1,4 +1,4 @@
-Add Bolt to your server!
+Add {name} to your server!
 {invite}
 
 Support server:

@@ -16,5 +16,6 @@ disabled = []
 support_server = "https://discord.gg/yourserver"
 github_repo = "https://github.com/your/repo"
 invite_link = "https://example.com/invite"
+help_documentation_link = "https://example.docs/help"
 
 help_repo_message = "" # if your bot is not open source, leave this blank. make sure to leave a space at the end.

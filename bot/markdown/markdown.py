@@ -15,6 +15,7 @@ import bot.constants.toml as toml_config
 @dataclass(frozen=True)
 class MarkdownFile:
   path: Path
+  bot_name: str = toml_config.bot_name
 
   @property
   def find_and_replace(self) -> dict[str, str]:
@@ -30,7 +31,8 @@ class Help(MarkdownFile):
   @property
   def find_and_replace(self) -> dict[str, str]:
     return {
-      "{prefix}": toml_config.prefix,
+      "{name}": self.bot_name,
+      "{doc}": toml_config.help_documentation_link,
       "{support}": f"<{self.support_server_link}>",
       "{repo}": f"{self.help_repo_message}<{self.repo_link}>"
     }
@@ -44,6 +46,7 @@ class Invite(MarkdownFile):
   @property
   def find_and_replace(self) -> dict[str, str]:
     return {
+      "{name}": self.bot_name,
       "{invite}": f"<{self.invite_link}>",
       "{support}": f"<{self.support_server_link}>"
     }
