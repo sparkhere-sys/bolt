@@ -1,6 +1,6 @@
-You can find the full list of {bot}'s commands here:
+You can find the full list of {name}'s commands here:
 {doc}
 
-Join {bot}'s support server: {support}
+Join {name}'s support server: {support}
 
 {repo}
