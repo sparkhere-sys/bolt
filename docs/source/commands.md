@@ -2,18 +2,30 @@
 
 ## Moderation
 
-* `.ban`/`.unban`: Ban or unban a member. 
-* `.mute`/`.unmute`: Timeout or untimeout a member.
-* `.kick`: Kick a member. 
+### Core
+
+* `.ban <target> <reason>`: Ban a member. 
+* `.unban <target> <reason>`: Unban a user.
+* `.mute <target> <duration> <reason>`: Timeout a member.
+* `.unmute <target> <reason>`: Untimeout a member.
+* `.kick <target> <reason>`: Kick a member. 
+
+### Case Handling
+
+* `.case view <id>`: View a case.
+* `.case revoke <id>`: Revoke an active case.
+* `.cases <user>`: View any user's case history.
+* `.activecases <user>`: View any user's active cases.
+* `.inactivecases <user>`: View any user's inactive cases.
 
 ## Fun
 
-* `.echo`: Make Bolt say something!
+* `.echo <message>`: Make Bolt say something!
 * `.cat`: Get a random cat picture!
 
 ## Misc.
 
 * `.invite`: Invite Bolt to your server.
-* `.help`: ...You're already here.
+* `.help`: This page.
 * `.ping`: Ping Bolt.
 * `.uptime`: See how long Bolt has been running for.

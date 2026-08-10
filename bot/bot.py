@@ -70,6 +70,6 @@ def load_cogs(reload=False, reraise=True):
                   # fails to load
         return
 
-def start_bot(reraise=False):
+def start_bot(reraise=True):
   load_cogs(reraise=reraise)
   bot.run(token)
