@@ -10,6 +10,7 @@ from discord.ext import commands
 
 ## bolt
 
+from bot.cogs.moderation.types import Actions
 from bot.constants.types import ContextType, TargetType
 import bot.cogs.moderation.case as case
 import bot.utils as utils
@@ -19,6 +20,27 @@ import bot.utils as utils
 class CaseCommands(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
+
+  def _has_moderation_perm(self, ctx: ContextType) -> bool:
+    if not isinstance(ctx.author, discord.Member):
+      return False
+
+    permissions = ctx.author.guild_permissions
+
+    return any((
+      permissions.moderate_members,
+      permissions.kick_members,
+      permissions.ban_members,
+    ))
+
+  def _has_case_perm(self, ctx: ContextType, model: case.CaseModel) -> bool:
+    if not isinstance(ctx.author, discord.Member):
+      return False
+
+    action = Actions[model.action.upper()] # thank you python for letting us do this
+    permission = action.value.permission
+
+    return getattr(ctx.author.guild_permissions, permission)
 
   async def _case(self, ctx: ContextType, case_id: int | None = None) -> None:
     if case_id is None:
@@ -34,6 +56,10 @@ class CaseCommands(commands.Cog):
 
     if model is None:
       await utils.say(ctx, "That case doesn't exist.")
+      return
+
+    if not self._has_moderation_perm(ctx):
+      await utils.say(ctx, "You don't have permission.")
       return
 
     message = ( # implicit string concatenation from python
@@ -58,6 +84,16 @@ class CaseCommands(commands.Cog):
       return
 
     database = case.get_database(ctx.guild.id)
+    model = case.get_case(database, case_id)
+
+    if model is None:
+      await utils.say(ctx, "That case doesn't exist.")
+      return
+
+    if not self._has_case_perm(ctx, model):
+      await utils.say(ctx, "You don't have permission.")
+      return
+
     result = case.revoke_case(database, case_id)
 
     if result is None:
@@ -75,11 +111,19 @@ class CaseCommands(commands.Cog):
       await utils.say(ctx, "You can't run that command here!")
       return
 
+    if target.id == self.bot.id:
+      await utils.say(ctx, "Nice try.")
+      return
+
     database = case.get_database(ctx.guild.id)
     models = case.get_cases_for_user(database, target.id, active=active)
 
     if not models:
       await utils.say(ctx, "That user has no cases.")
+      return
+
+    if not self._has_moderation_perm(ctx):
+      await utils.say(ctx, "You don't have permission.")
       return
 
     message = (
