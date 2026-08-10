@@ -61,6 +61,13 @@ class Actions(Enum):
     permission="moderate_members"
   )
 
+  WARN = ActionInfo(
+    name="warn",
+    verb="warn",
+    verb_past="warned",
+    permission="moderate_members"
+  )
+
 @dataclass
 class Case:
   action: Actions

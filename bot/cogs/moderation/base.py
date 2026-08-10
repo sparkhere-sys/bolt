@@ -87,10 +87,10 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     return True
 
   def _get_success_message(self,
-                           verb_past: str, 
-                           action: Actions, 
-                           target: TargetType, 
-                           reason: str, 
+                           verb_past: str,
+                           action: Actions,
+                           target: TargetType,
+                           reason: str,
                            duration: str) -> str:
     match action:
       case Actions.TIMEOUT:
@@ -187,12 +187,18 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       duration=duration
     )
 
-    model = CaseModel.from_case(case)
-    model.save()
+    try:
+      model = CaseModel.from_case(case)
+      model.save()
 
-    console.info(f"Saved case #{model.case_id}")
+      console.info(f"Saved case #{model.case_id}")
+    except Exception as e:
+      console.error_traceback()
+      console.error(e) # in case we cant get the traceback
 
-    success_message = self._get_success_message(verb_past=verb_past, 
+      await utils.say(ctx, "Something went wrong while trying to create the case.")
+
+    success_message = self._get_success_message(verb_past=verb_past,
                                                 target=target,
                                                 action=action,
                                                 reason=reason,

@@ -16,7 +16,6 @@ import bot.constants.base as constants
 import bot.constants.toml as toml_config
 import bot.console as console
 import bot.utils as utils
-from bot.cogs.moderation.case import init_database
 
 # INIT
 
@@ -57,11 +56,11 @@ def load_cogs(reload=False, reraise=True):
     try:
       if reload:
         bot.reload_extension(ext)
-        console.debug(f"Reloaded extension: {ext}")
+        console.info(f"Reloaded extension: {ext}")
         continue
 
       bot.load_extension(ext)
-      console.debug(f"Loaded extension: {ext}")
+      console.info(f"Loaded extension: {ext}")
     except Exception:
       console.error(f"Failed to load extension: {ext}")
       console.error_traceback()
@@ -72,6 +71,5 @@ def load_cogs(reload=False, reraise=True):
         return
 
 def start_bot(reraise=False):
-  init_database()
   load_cogs(reraise=reraise)
   bot.run(token)

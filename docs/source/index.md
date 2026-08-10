@@ -11,6 +11,7 @@ Whether you want to run your own instance, contribute to Bolt, or just learn how
 New to Bolt?
 
 - [Self-hosting guide](selfhosting.md)
+- [List of commands](commands.md)
 
 ## Development
 
