@@ -63,6 +63,10 @@ class LogLevel(Enum):
   def badge(self) -> str:
     return f"{self.color} {self.name:^7} {reset}"
 
+  @property
+  def plain_badge(self) -> str:
+    return f"{self.name:^7}"
+
 # CONSTANTS
 
 reset = "\033[0m" if allow_colors else ""
