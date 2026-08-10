@@ -18,6 +18,7 @@ def get_database(guild_id: int) -> peewee.SqliteDatabase:
   db_path = Path("data") / str(guild_id) / "cases.db"
   db_path.parent.mkdir(parents=True, exist_ok=True)
 
+  console.debug(f"Using database: {db_path}")
   return peewee.SqliteDatabase(str(db_path))
 
 def init_database(database: peewee.SqliteDatabase):
@@ -32,37 +33,52 @@ def init_database(database: peewee.SqliteDatabase):
   console.debug("Done!")
 
 def get_case(database: peewee.SqliteDatabase, case_id: int) -> CaseModel | None:
+  console.debug(f"Looking up case #{case_id}")
+
   with CaseModel.bind_ctx(database):
+    console.debug("Bound")
     try:
-      return CaseModel.get_by_id(case_id)
+      console.debug("Getting by ID")
+      model = CaseModel.get_by_id(case_id)
+      console.debug("Got by ID")
     except peewee.DoesNotExist:
+      console.debug(f"Case #{case_id} does not exist")
       return None
 
-def get_cases_for_user(
-  database: peewee.SqliteDatabase,
-  user_id: int,
-  active: bool | None = None
-) -> list[CaseModel]:
+    console.debug(f"Found case #{case_id}")
+    return model
+
+def get_cases_for_user(database: peewee.SqliteDatabase, user_id: int, active: bool | None = None) -> list[CaseModel]:
+  console.debug(f"Finding active={active} cases for user ID {user_id}")
   with CaseModel.bind_ctx(database):
+    console.debug("Bound")
     query = CaseModel.select().where(CaseModel.target == user_id)
 
     if active is not None:
       query = query.where(CaseModel.active == active)
 
-    return list(query)
+    cases = list(query)
+
+    console.debug(f"Found {len(cases)} cases")
+    return cases
 
 def revoke_case(database: peewee.SqliteDatabase, case_id: int) -> bool | None:
+  console.debug(f"Revoking case #{case_id}...")
   with CaseModel.bind_ctx(database):
     try:
       case = CaseModel.get_by_id(case_id)
     except peewee.DoesNotExist:
+      console.debug(f"Case #{case_id} does not exist")
       return None
 
     if not case.active:
+      console.debug(f"Case #{case_id} is already inactive")
       return False
 
     case.active = False
     case.save()
+
+    console.debug(f"Case #{case_id} revoked")
     return True
 
 # CLASSES
@@ -87,11 +103,15 @@ class CaseModel(peewee.Model):
 
   # FUNCTIONS
 
-  def __init__(self, database: peewee.SqliteDatabase, *args, **kwargs):
+  def __init__(self, database: peewee.SqliteDatabase | None = None, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self.database = database
 
   def save(self, *args, **kwargs):
+    if self.database is None:
+      console.debug("No database bound")
+      return super().save(*args, **kwargs)
+
     console.debug("Binding...")
 
     with self.bind_ctx(self.database):

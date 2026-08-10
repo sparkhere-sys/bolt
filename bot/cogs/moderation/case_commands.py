@@ -12,8 +12,10 @@ from discord.ext import commands
 
 from bot.cogs.moderation.types import Actions
 from bot.constants.types import ContextType, TargetType
+from bot.constants.toml import prefix
 import bot.cogs.moderation.case as case
 import bot.utils as utils
+import bot.console as console
 
 # CLASSES
 
@@ -109,16 +111,22 @@ class CaseCommands(commands.Cog):
     await utils.say(ctx, f"Revoked case #{case_id}")
 
   async def _user_cases(self, ctx: ContextType, target: TargetType, active: bool | None) -> None:
+    console.debug("john")
     if ctx.guild is None:
+      console.debug("No guild")
       await utils.say(ctx, "You can't run that command here!")
       return
 
-    if target.id == self.bot.id:
+    if target == self.bot.user:
+      console.debug("Target is bot")
       await utils.say(ctx, "Nice try.")
       return
 
+    console.debug("getting database")
     database = case.get_database(ctx.guild.id)
+    console.debug("getting cases")
     models = case.get_cases_for_user(database, target.id, active=active)
+    console.debug("done")
 
     if not models:
       await utils.say(ctx, "That user has no cases.")
@@ -132,7 +140,7 @@ class CaseCommands(commands.Cog):
       f"Cases for <@{target.id}>:\n"
       + "\n".join(
         f"#{model.case_id} - {model.action.capitalize()}: "
-        f"({'active' if model.active else 'inactive'})"
+        f"{'active' if model.active else 'inactive'}"
         for model in models
       )
     )
@@ -143,12 +151,9 @@ class CaseCommands(commands.Cog):
 
   @commands.command()
   async def case(self, ctx: commands.Context, action: str, case_id: int | None = None) -> None:
-    # i know what you're thinking.
-    # "why can action be either a string or an integer?"
-    # because pycord doesn't know that `.case` and `.case revoke` are 
-    # different commands.
-    # and the function name is what defines the command name.
-    # in other words, we're effectively handling 2 commands in 1 function.
+    # we're effectively handling 2 commands in 1 function
+    # because pycord doesn't know that `.case view` and `.case revoke` are separate
+    # commands.
 
     if action == "revoke":
       await self._revoke(ctx, case_id)
@@ -156,11 +161,11 @@ class CaseCommands(commands.Cog):
       await self._case(ctx, case_id)
     else:
       await utils.say(
-        ctx, 
-        f"If you want to view a case, try running case view {case_id} instead."
-        f"If you want to revoke a case, try running case revoke {case_id} instead."
+        ctx,
+        f"View a case: `{prefix}case view <id>`\n"
+        f"Revoke a case: `{prefix}case revoke <id>`"
       )
-      
+
       return
 
   @case_group.command(name="view")
@@ -173,6 +178,7 @@ class CaseCommands(commands.Cog):
 
   @commands.command()
   async def cases(self, ctx: commands.Context, target: TargetType) -> None:
+    console.debug("nhoj")
     # luckily, we don't need to do anything stupid here.
     await self._user_cases(ctx, target, active=None)
 
