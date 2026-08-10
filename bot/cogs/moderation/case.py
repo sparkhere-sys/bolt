@@ -2,8 +2,10 @@
 
 # IMPORTS
 
-import peewee
+from __future__ import annotations
 from pathlib import Path
+
+import peewee
 
 ## bolt
 
@@ -26,8 +28,42 @@ def init_database(database: peewee.SqliteDatabase):
   console.debug("Creating tables...")
   with database.bind_ctx([CaseModel]):
     database.create_tables([CaseModel])
-    
+
   console.debug("Done!")
+
+def get_case(database: peewee.SqliteDatabase, case_id: int) -> CaseModel | None:
+  with CaseModel.bind_ctx(database):
+    try:
+      return CaseModel.get_by_id(case_id)
+    except peewee.DoesNotExist:
+      return None
+
+def get_cases_for_user(
+  database: peewee.SqliteDatabase,
+  user_id: int,
+  active: bool | None = None
+) -> list[CaseModel]:
+  with CaseModel.bind_ctx(database):
+    query = CaseModel.select().where(CaseModel.target == user_id)
+
+    if active is not None:
+      query = query.where(CaseModel.active == active)
+
+    return list(query)
+
+def revoke_case(database: peewee.SqliteDatabase, case_id: int) -> bool | None:
+  with CaseModel.bind_ctx(database):
+    try:
+      case = CaseModel.get_by_id(case_id)
+    except peewee.DoesNotExist:
+      return None
+
+    if not case.active:
+      return False
+
+    case.active = False
+    case.save()
+    return True
 
 # CLASSES
 
@@ -45,11 +81,11 @@ class CaseModel(peewee.Model):
   moderator = peewee.BigIntegerField()
   reason = peewee.TextField()
   duration = peewee.CharField(null=True)
-  guild = peewee.BigIntegerField() # NOTE: we should probably remove this
-                                   #       but im too lazy to do that
 
   created_at = peewee.DateTimeField()
   expires_at = peewee.DateTimeField(null=True)
+
+  # FUNCTIONS
 
   def __init__(self, database: peewee.SqliteDatabase, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -66,7 +102,7 @@ class CaseModel(peewee.Model):
       return result
 
   @classmethod
-  def from_case(cls, case: Case) -> "CaseModel": # type annotations are weird
+  def from_case(cls, case: Case) -> CaseModel:
     console.debug("Getting database...")
     database = get_database(case.guild.id)
     console.debug("Initializing database...")
@@ -77,7 +113,6 @@ class CaseModel(peewee.Model):
       database=database,
       active=case.active,
       action=case.action.value.name,
-      guild=case.guild.id,
       target=case.target.id,
       moderator=case.moderator.id,
       reason=case.reason,
