@@ -24,13 +24,12 @@ def format_msg(msg: Any, level: LogLevel) -> None:
     return
 
   level_str = level.badge
-  time_str = f"{dim}{time.asctime(time.localtime())}{reset}"
+  time_str = time.asctime(time.localtime())
 
   level_str_plain = level.plain_badge
-  time_str_plain = f"{time.asctime(time.localtime())}"
 
-  full = f"{level_str} {time_str} {msg}"
-  full_plain = f"{level_str_plain} {time_str_plain} {msg}"
+  full = f"{level_str} {dim}{time_str}{reset} {msg}"
+  full_plain = f"{level_str_plain} {time_str} {msg}"
 
   print(full)
 
