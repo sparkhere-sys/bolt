@@ -18,6 +18,8 @@ import bot.utils as utils
 # CLASSES
 
 class CaseCommands(commands.Cog):
+  case_group = discord.SlashCommandGroup("case", "View and manage cases.")
+
   def __init__(self, bot):
     self.bot = bot
 
@@ -140,7 +142,7 @@ class CaseCommands(commands.Cog):
   # COMMANDS
 
   @commands.command()
-  async def case(self, ctx: commands.Context, action: str | int, case_id: int | None = None) -> None:
+  async def case(self, ctx: commands.Context, action: str, case_id: int | None = None) -> None:
     # i know what you're thinking.
     # "why can action be either a string or an integer?"
     # because pycord doesn't know that `.case` and `.case revoke` are 
@@ -150,14 +152,22 @@ class CaseCommands(commands.Cog):
 
     if action == "revoke":
       await self._revoke(ctx, case_id)
+    elif action == "view":
+      await self._case(ctx, case_id)
     else:
-      await self._case(ctx, int(action))
+      await utils.say(
+        ctx, 
+        f"If you want to view a case, try running case view {case_id} instead."
+        f"If you want to revoke a case, try running case revoke {case_id} instead."
+      )
+      
+      return
 
-  @discord.application_command(name="case")
+  @case_group.command(name="view")
   async def slash_case(self, ctx: discord.ApplicationContext, case_id: int | None = None) -> None:
     await self._case(ctx, case_id)
 
-  @discord.application_command(name="case revoke")
+  @case_group.command(name="revoke")
   async def slash_revoke(self, ctx: discord.ApplicationContext, case_id: int | None = None) -> None:
     await self._revoke(ctx, case_id)
 
@@ -178,11 +188,11 @@ class CaseCommands(commands.Cog):
   async def slash_cases(self, ctx: discord.ApplicationContext, target: TargetType) -> None:
     await self._user_cases(ctx, target, active=None)
 
-  @discord.application_command(name="active cases")
+  @discord.application_command(name="activecases")
   async def slash_active_cases(self, ctx: discord.ApplicationContext, target: TargetType) -> None:
     await self._user_cases(ctx, target, active=True)
 
-  @discord.application_command(name="inactive cases")
+  @discord.application_command(name="inactivecases")
   async def slash_inactive_cases(self, ctx: discord.ApplicationContext, target: TargetType) -> None:
     await self._user_cases(ctx, target, active=False)
 

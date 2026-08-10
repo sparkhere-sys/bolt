@@ -12,7 +12,7 @@
 
 ### Case Handling
 
-* `.case <id>`: View a case.
+* `.case view <id>`: View a case.
 * `.case revoke <id>`: Revoke an active case.
 * `.cases <user>`: View any user's case history.
 * `.activecases <user>`: View any user's active cases.
