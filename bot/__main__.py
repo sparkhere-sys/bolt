@@ -7,6 +7,7 @@ import sys
 
 ## bolt
 
+from bot.constants.toml import data
 from bot.constants.colors import allow_colors
 import bot.bot as bot
 import bot.console as console
@@ -18,7 +19,10 @@ def main():
     console.log("Starting Bolt...")
 
     if not allow_colors:
-      console.warn("You don't have `colorama` installed. If you want colored logs, run `pip install colorama`.")
+      console.warn("You don't have colorama installed. If you want colored logs, run pip install colorama")
+
+    if data == {}:
+      console.warn("TOML Config missing. Copy the example_config.toml file to config.toml")
 
     reraise = True
 
