@@ -19,7 +19,7 @@ from bot.constants.types import ContextType
 # FUNCTIONS
 
 def get_env_var(var: str, default: Any, required=True, from_dot_env=True) -> Any:
-  # NOTE: this function is only ever ran once, in bot.py
+  # NOTE: this function is only ever called once, in bot.py
   #       not sure if this should be deleted since its basically
   #       a vestigial structure of old bolt, but its useful
   
@@ -63,10 +63,12 @@ def parse_duration(duration: str, strict=False) -> Union[int, bool, None]:
 
   return total_seconds if total_seconds > 0 else False
 
-async def say(ctx: ContextType, 
-              msg: str = "", 
-              ephemeral=False, 
-              file: discord.File | None = None) -> None:
+async def say(
+  ctx: ContextType, 
+  msg: str = "", 
+  ephemeral=False, 
+  file: discord.File | None = None
+) -> None:
   if isinstance(ctx, discord.ApplicationContext):
     if isinstance(file, discord.File): # in plain english, if file is not None
       await ctx.respond(msg, ephemeral=ephemeral, file=file)

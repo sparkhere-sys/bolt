@@ -111,22 +111,16 @@ class CaseCommands(commands.Cog):
     await utils.say(ctx, f"Revoked case #{case_id}")
 
   async def _user_cases(self, ctx: ContextType, target: TargetType, active: bool | None) -> None:
-    console.debug("john")
     if ctx.guild is None:
-      console.debug("No guild")
       await utils.say(ctx, "You can't run that command here!")
       return
 
     if target == self.bot.user:
-      console.debug("Target is bot")
       await utils.say(ctx, "Nice try.")
       return
 
-    console.debug("getting database")
     database = case.get_database(ctx.guild.id)
-    console.debug("getting cases")
     models = case.get_cases_for_user(database, target.id, active=active)
-    console.debug("done")
 
     if not models:
       await utils.say(ctx, "That user has no cases.")
@@ -151,9 +145,11 @@ class CaseCommands(commands.Cog):
 
   @commands.command()
   async def case(self, ctx: commands.Context, action: str, case_id: int | None = None) -> None:
-    # we're effectively handling 2 commands in 1 function
-    # because pycord doesn't know that `.case view` and `.case revoke` are separate
-    # commands.
+    # we're effectively handling 
+    # 2 commands in 1 function
+    # because pycord doesn't know that 
+    # `.case view` and `.case revoke` 
+    # are separate commands.
 
     if action == "revoke":
       await self._revoke(ctx, case_id)
@@ -178,7 +174,6 @@ class CaseCommands(commands.Cog):
 
   @commands.command()
   async def cases(self, ctx: commands.Context, target: TargetType) -> None:
-    console.debug("nhoj")
     # luckily, we don't need to do anything stupid here.
     await self._user_cases(ctx, target, active=None)
 

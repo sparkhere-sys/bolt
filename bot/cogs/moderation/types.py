@@ -32,13 +32,15 @@ class Actions(Enum):
     name="ban",
     verb="ban",
     verb_past="banned",
-    permission="ban_members")
+    permission="ban_members"
+  )
 
   UNBAN = ActionInfo(
     name="unban",
     verb="unban",
     verb_past="unbanned",
-    permission="ban_members")
+    permission="ban_members"
+  )
 
   KICK = ActionInfo(
     name="kick",
@@ -72,15 +74,20 @@ class Actions(Enum):
 class Case:
   action: Actions
   target: TargetType
-  moderator: TargetType # if a moderator leaves the server, we'll only have a discord.User rather than a discord.Member.
+  moderator: TargetType # if a moderator leaves the server, we'll only have a discord.User 
+                        # rather than a discord.Member.
   reason: str
   guild: discord.Guild
 
   active: bool = True
   duration: str | None = None
-  case_id: int | None = None # we don't want shadowing, so instead of id, it's case_id
+  case_id: int | None = None # we don't want shadowing
   created_at: datetime | None = field(default_factory=datetime.now)
   expires_at: datetime | None = None # not used for timeouts because we record duration
                                      # and discord automatically untimeouts after
                                      # the duration ends, unlike with bans which are
                                      # permanent only on the discord side.
+  
+  # NOTE: there is *some* confusion regarding timeout cases being active even after their duration
+  #       has ended. for all intents and purposes, this is fully intentional, but for the sake of
+  #       user-friendliness, we may or may not schedule closing timeout cases.

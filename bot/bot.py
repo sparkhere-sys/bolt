@@ -33,7 +33,7 @@ bot = commands.Bot(command_prefix=toml_config.prefix, intents=intents, help_comm
 @bot.event
 async def on_ready():
   setattr(bot, "start_time", time.time()) # mind your own damn business, pylance
-  console.success(f"Bolt is online as {bot.user}")
+  console.success(f"Bot is online as {bot.user}")
 
 @bot.event
 async def on_disconnect():

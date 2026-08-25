@@ -48,6 +48,8 @@ levels_to_ignore = logging.get("levels_to_ignore", [])
 
 # NOTE: not implemented yet
 
+# sure it is buddy
+
 ## cogs
 
 disabled_cogs = cogs.get("disabled", [])

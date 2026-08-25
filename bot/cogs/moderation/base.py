@@ -3,9 +3,9 @@
 
 # IMPORTS
 
-from datetime import timedelta # for use with timeout
+from datetime import timedelta
 from typing import Any
-from collections.abc import Awaitable # why can't we just put this in typing
+from collections.abc import Awaitable
 
 ## pycord
 
@@ -22,14 +22,16 @@ from bot.cogs.moderation.case import CaseModel
 
 # CLASSES
 
-class Base(commands.Cog): # not actually a cog. it just inherits from commands.Cog
+class Base(commands.Cog):
   def __init__(self, bot: commands.Bot):
     self.bot = bot
 
-  async def _can_act(self,
-                     ctx: ContextType,
-                     target: TargetType,
-                     action: Actions) -> tuple[bool, str, str]: # i would rather return a dataclass bro
+  async def _can_act(
+    self,
+    ctx: ContextType,
+    target: TargetType,
+    action: Actions
+  ) -> tuple[bool, str, str]: # TODO: make this return a dataclass or NamedTuple instead
     verb = action.value.verb
     verb_past = action.value.verb_past
     permission = action.value.permission
@@ -61,11 +63,13 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
   def check_for_permissions(self, permission: str, user: discord.Member) -> bool:
     return getattr(user.guild_permissions, permission, False)
 
-  async def _handle_action_call(self,
-                                ctx: ContextType,
-                                verb: str,
-                                target: TargetType,
-                                coro: Awaitable[Any]) -> bool:
+  async def _handle_action_call(
+    self,
+    ctx: ContextType,
+    verb: str,
+    target: TargetType,
+    coro: Awaitable[Any] # TODO: better type annotation
+  ) -> bool:
     try:
       await coro
 
@@ -86,31 +90,38 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
 
     return True
 
-  def _get_success_message(self,
-                           verb_past: str,
-                           action: Actions,
-                           target: TargetType,
-                           reason: str,
-                           duration: str) -> str:
+  def _get_success_message(
+    self,
+    verb_past: str,
+    action: Actions,
+    target: TargetType,
+    reason: str,
+    duration: str,
+    case_id: int
+  ) -> str:
     match action:
       case Actions.TIMEOUT:
-        return f"{verb_past.capitalize()} {target.mention} for {duration}. \nReason: {reason}"
+        message = f"{verb_past.capitalize()} {target.mention} for {duration}. \nReason: {reason}"
 
       case Actions.UNBAN:
-        mention = getattr(target, 'mention', str(target)) # we do this because sometimes discord won't let us
-                                                          # ping a user who isn't in the server
-        return f"{verb_past.capitalize()} {mention}. \nReason: {reason}"
+        mention = f"<@{target.id}>" # we do this because sometimes discord won't let us
+                                    # ping a user who isn't in the server
 
+        message = f"{verb_past.capitalize()} {mention}. \nReason: {reason}"
 
       case _:
-        return f"{verb_past.capitalize()} {target.mention}. \nReason: {reason}"
+        message = f"{verb_past.capitalize()} {target.mention}. \nReason: {reason}"
 
-  async def action(self,
-                   ctx: ContextType,
-                   action: Actions,
-                   target: TargetType,
-                   reason: str | None = None,
-                   duration: str | None = None) -> None:
+    return message + f"\nSaved case #{case_id}"
+
+  async def action(
+    self,
+    ctx: ContextType,
+    action: Actions,
+    target: TargetType,
+    reason: str | None = None,
+    duration: str | None = None
+  ) -> None:
     user = ctx.author
     can_act, verb, verb_past = await self._can_act(ctx, target, action)
     if not can_act:
@@ -119,17 +130,18 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     reason = reason or "None provided."
 
     console.log(
-      f"{user} requested action {action.value.name} ({duration or "no duration"}) on {target} in guild {ctx.guild} with reason {reason}"
+      f"{user} requested action {action.value.name} ({duration or 'no duration'})"
+      f" on {target} in guild {ctx.guild} with reason {reason}"
     )
     # long ass log bro
 
-    # i sincerely apologize for the amount of `type: ignore`s you are about to see
+    # i sincerely apologize for the amount of type: ignores you are about to see
     # but i refuse to give in to the type checker
     # -spark
+
     match action:
       case Actions.BAN:
         coro = target.ban(reason=reason) # type: ignore[attr-defined]
-        # shut the hell up pylance
 
       case Actions.UNBAN:
         if ctx.guild is None:
@@ -176,8 +188,6 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
     if not await self._handle_action_call(ctx, verb, target, coro):
       return
 
-    # say it with me now
-    # SHUT UP PYLANCE.
     case = Case(
       action=action,
       target=target,
@@ -192,17 +202,19 @@ class Base(commands.Cog): # not actually a cog. it just inherits from commands.C
       model.save()
 
       console.info(f"Saved case #{model.case_id}")
-    except Exception as e:
+    except:
       console.error_traceback()
-      console.error(e) # in case we cant get the traceback
 
       await utils.say(ctx, "Something went wrong while trying to create the case.")
 
-    success_message = self._get_success_message(verb_past=verb_past,
-                                                target=target,
-                                                action=action,
-                                                reason=reason,
-                                                duration=duration) # type: ignore
+    success_message = self._get_success_message(
+      verb_past=verb_past,
+      target=target,
+      action=action,
+      reason=reason,
+      duration=duration, # type: ignore
+      case_id=model.case_id
+    )
 
     await utils.say(ctx, success_message)
 

@@ -25,13 +25,17 @@ class Cat(commands.Cog):
     self.session: aiohttp.ClientSession
 
   async def cog_load(self):
-    # IMPORTANT
+    # IMPORTANT NOTE
     # i have genuinely checked pycord's source code,
     # this function literally NEVER runs
     # but for some reason, cog_unload() DOES.
     # i have no idea why.
     # if i were that dedicated i could open a PR in pycord's repo.
-    # -spark
+
+    # update: cog_unload() ALSO never runs
+    # so now there's a memory leak if the cat command is used
+    # because the session is never closed
+    # yeah thanks aiohttp. very cool.
     
     console.debug("Creating session")
     self.session = aiohttp.ClientSession()

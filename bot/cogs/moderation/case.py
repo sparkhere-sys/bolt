@@ -33,14 +33,9 @@ def init_database(database: peewee.SqliteDatabase):
   console.debug("Done!")
 
 def get_case(database: peewee.SqliteDatabase, case_id: int) -> CaseModel | None:
-  console.debug(f"Looking up case #{case_id}")
-
   with CaseModel.bind_ctx(database):
-    console.debug("Bound")
     try:
-      console.debug("Getting by ID")
       model = CaseModel.get_by_id(case_id)
-      console.debug("Got by ID")
     except peewee.DoesNotExist:
       console.debug(f"Case #{case_id} does not exist")
       return None
@@ -51,7 +46,6 @@ def get_case(database: peewee.SqliteDatabase, case_id: int) -> CaseModel | None:
 def get_cases_for_user(database: peewee.SqliteDatabase, user_id: int, active: bool | None = None) -> list[CaseModel]:
   console.debug(f"Finding active={active} cases for user ID {user_id}")
   with CaseModel.bind_ctx(database):
-    console.debug("Bound")
     query = CaseModel.select().where(CaseModel.target == user_id)
 
     if active is not None:
@@ -112,10 +106,7 @@ class CaseModel(peewee.Model):
       console.debug("No database bound")
       return super().save(*args, **kwargs)
 
-    console.debug("Binding...")
-
     with self.bind_ctx(self.database):
-      console.debug("After bind")
       result = super().save(*args, **kwargs)
 
       console.debug(f"save() returned {result}")
@@ -123,12 +114,9 @@ class CaseModel(peewee.Model):
 
   @classmethod
   def from_case(cls, case: Case) -> CaseModel:
-    console.debug("Getting database...")
     database = get_database(case.guild.id)
-    console.debug("Initializing database...")
     init_database(database)
 
-    console.debug("Creating model...")
     return cls(
       database=database,
       active=case.active,

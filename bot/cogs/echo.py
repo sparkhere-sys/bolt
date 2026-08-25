@@ -36,7 +36,7 @@ class Echo(commands.Cog):
   # COMMANDS
 
   @commands.command()
-  async def echo(self, ctx: commands.Context, *, msg=None) -> None: # the * is for msg to be longer than just one word.
+  async def echo(self, ctx: commands.Context, *, msg=None) -> None:
     await self._echo(ctx, msg)
 
   @commands.slash_command(name="echo", description="make the bot say something!")
